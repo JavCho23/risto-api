@@ -1,13 +1,13 @@
 class RawString {
   constructor(value) {
-    this.value = value;
+    this._value = value;
   }
 
   get value() {
-    return this.value;
+    return this._value;
   }
   toString() {
-    this.value.toString();
+    this._value.toString();
   }
 }
 

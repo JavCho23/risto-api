@@ -1,7 +1,9 @@
 const RawString = require("../../../../../shared/domain/value/raw_string");
 
-class ItemName extends RawString {
+class MealImage extends RawString {
   constructor(value) {
     super(value);
   }
 }
+
+module.exports = MealImage;
