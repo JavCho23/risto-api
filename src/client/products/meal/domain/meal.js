@@ -3,7 +3,7 @@ const MealName = require("./value/meal_name");
 const MealPrice = require("./value/meal_price");
 const MealImage = require("./value/meal_image");
 const MealDescription = require("./value/meal_description");
-const MenuName = require("../../shared/domain/value/local_name");
+const LocalName = require("../../../shared/domain/local/value/local_name");
 
 class Meal {
   constructor(id_meal, name, local, price, image, description) {
