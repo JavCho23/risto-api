@@ -14,6 +14,7 @@ class Meal {
     image,
     description,
     category,
+    score,
     favourite
   ) {
     this._id = id_meal;
@@ -23,6 +24,7 @@ class Meal {
     this._image = image;
     this._description = description;
     this._category = category;
+    this._score = score;
     this._favorite = favourite;
   }
   /**
@@ -38,7 +40,21 @@ class Meal {
       image: this._image.value,
       local: this._local.value,
       price: this._price.value,
-      //score: this._score.value,
+      score: this._score.value,
+      category: this._category.value,
+      isfavourite: this._favorite.value
+    };
+  }
+  toJson() {
+    return {
+      id: this._id.value,
+      name: this._name.value,
+      image: this._image.value,
+      local: this._local.value,
+      price: this._price.value,
+      score: this._score.value,
+      description: this._description,
+      ingredients: this._ingredients,
       category: this._category.value,
       isfavourite: this._favorite.value
     };

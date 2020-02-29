@@ -16,7 +16,7 @@ exports.itemFindHandler = async event => {
       new State(true)
     );
     response.body = JSON.stringify({
-      result: result,
+      result: result.toJson(),
       status: true
     });
   } catch (error) {
