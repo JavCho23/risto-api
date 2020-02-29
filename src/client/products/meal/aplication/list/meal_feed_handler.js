@@ -10,7 +10,7 @@ exports.feedItemsHandler = async event => {
   try {
     const mealListFeed = new MealListFeed(new MysqlItemRepository());
     const data = await mealListFeed.call(new State(true));
-    let result = data.map(item => item.toJson());
+    let result = data.map(item => item.toJsonFeed());
     response.body = JSON.stringify({
       result: result,
       status: true
@@ -21,5 +21,7 @@ exports.feedItemsHandler = async event => {
       status: false
     });
   }
+  console.log(response.body);
+
   return response;
 };
