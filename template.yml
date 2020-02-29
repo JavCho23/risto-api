@@ -48,7 +48,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ./
-      Handler: src/client/products/item/aplication/list/meal_feed_handler.feedItemsHandler
+      Handler: src/client/products/meal/aplication/list/meal_feed_handler.feedItemsHandler
       Runtime: nodejs10.x
       MemorySize: 128
       Timeout: 60
