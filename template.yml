@@ -52,7 +52,7 @@ Resources:
       Runtime: nodejs10.x
       MemorySize: 128
       Timeout: 60
-      Description: A Lambda function that returns all items of risto.
+      Description: A Lambda function that returns all meals of risto.
       Policies:
         # Give Lambda basic execution Permission to the helloFromLambda
         - AWSLambdaBasicExecutionRole
@@ -60,11 +60,11 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ./
-      Handler: src/client/products/item/aplication/find/item_finder_handler.itemFindHandler
+      Handler: src/client/products/item/aplication/find/meal_finder_handler.mealFindHandler
       Runtime: nodejs10.x
       MemorySize: 128
       Timeout: 60
-      Description: A Lambda function that returns one item of risto.
+      Description: A Lambda function that returns one meal of risto.
       Policies:
         # Give Lambda basic execution Permission to the helloFromLambda
         - AWSLambdaBasicExecutionRole
