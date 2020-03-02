@@ -1,6 +1,4 @@
 const db = require("../../../shared/domain/db");
-const Tag = require("../domain/tag/tag");
-const TagId = require("../domain/tag/value/tag_id");
 const TagName = require("../domain/tag/value/tag_name");
 
 class MySqlTagRepository {

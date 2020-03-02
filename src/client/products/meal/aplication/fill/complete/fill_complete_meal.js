@@ -6,14 +6,15 @@ const MealPrice = require("../../../domain/value/meal_price");
 const MealImage = require("../../../domain/value/meal_image");
 const MealDescription = require("../../../domain/value/meal_description");
 const MealFavorite = require("../../../domain/value/meal_favorite");
-const MySqlTagRepository = require("../../../../../shared/infrastructure/mysql_tag_repository");
-const TagGetCatagory = require("../../../../../shared/aplication/get_category/tag_get_category");
-const TagListIngredients = require("../../../../../shared/aplication/list_ingredients/tag_list_ingredients");
+
 const GetScore = require("../../../aplication/get_score/get_score");
 
 class FillCompleteMeal {
-    constructor(dataMeal) {
+    constructor(dataMeal, tagGetCatagory, tagListIngredients) {
         this._dataMeal = dataMeal;
+        this._tagGetCategory = tagGetCatagory;
+        this._tagListIngredients = tagListIngredients;
+        this._mealId = new MealId(this._dataMeal.id_meal);
     }
     async call() {
         await this.getValues();
@@ -31,14 +32,10 @@ class FillCompleteMeal {
         );
     }
     async getValues() {
-
-        const tagGetCatagory = new TagGetCatagory(new MySqlTagRepository());
-        const tagListIngredients = new TagListIngredients(new MySqlTagRepository());
-        this._mealId = new MealId(this._dataMeal.id_meal);
         const getScore = new GetScore(this._mealId);
         this._score = getScore.call();
-        this._ingredients = await tagListIngredients.call(this._mealId);
-        this._category = await tagGetCatagory.call(this._mealId);
+        this._ingredients = await this._tagListIngredients.call(this._mealId);
+        this._category = await this._tagGetCategory.call(this._mealId);
     }
 
 }

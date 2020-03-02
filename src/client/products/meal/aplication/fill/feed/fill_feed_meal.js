@@ -10,8 +10,10 @@ const TagGetCatagory = require("../../../../../shared/aplication/get_category/ta
 const GetScore = require("../../../aplication/get_score/get_score");
 
 class FillFeedMeal {
-    constructor(dataMeal) {
+    constructor(dataMeal, tagGetCatagory) {
         this._dataMeal = dataMeal;
+        this._tagGetCategory = tagGetCatagory;
+        this._mealId = new MealId(this._dataMeal.id_meal);
     }
     async call() {
         await this.getValues();
@@ -29,14 +31,10 @@ class FillFeedMeal {
         );
     }
     async getValues() {
-
-        const tagGetCatagory = new TagGetCatagory(new MySqlTagRepository());
-        this._mealId = new MealId(this._dataMeal.id_meal);
         const getScore = new GetScore(this._mealId);
         this._score = getScore.call();
-        this._category = await tagGetCatagory.call(this._mealId);
+        this._category = await this._tagGetCategory.call(this._mealId);
     }
-
 }
 
 module.exports = FillFeedMeal;

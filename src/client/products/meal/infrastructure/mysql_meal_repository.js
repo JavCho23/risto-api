@@ -2,6 +2,9 @@ const db = require("../../../../shared/domain/db");
 const MealNotExist = require("../domain/meal_not_exist");
 const FillCompleteMeal = require("../aplication/fill/complete/fill_complete_meal");
 const FillFeedMeal = require("../aplication/fill/feed/fill_feed_meal");
+const MySqlTagRepository = require("../../../shared/infrastructure/mysql_tag_repository");
+const TagGetCategory = require("../../../shared/aplication/get_category/tag_get_category");
+const TagListIngredients = require("../../../shared/aplication/list_ingredients/tag_list_ingredients");
 class MySqlMealRepository {
     async find(itemId, state) {
         const data = await db.doQuery(
@@ -9,7 +12,11 @@ class MySqlMealRepository {
             [itemId.value, state.value]
         );
         if (data.length == 0) throw new MealNotExist();
-        const fillCompleteMeal = new FillCompleteMeal(data[0]);
+        const fillCompleteMeal = new FillCompleteMeal(
+            data[0],
+            new TagGetCategory(new MySqlTagRepository()),
+            new TagListIngredients(new MySqlTagRepository())
+        );
 
         return await fillCompleteMeal.call();
     }
@@ -21,7 +28,7 @@ class MySqlMealRepository {
         if (data.length == 0) throw new MealNotExist();
         const meals = await Promise.all(
             data.map(async meal => {
-                const fillFeedMeal = new FillFeedMeal(meal);
+                const fillFeedMeal = new FillFeedMeal(meal, new TagGetCatagory(new MySqlTagRepository()));
                 return await fillFeedMeal.call();
             })
         );
