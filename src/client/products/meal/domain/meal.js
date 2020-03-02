@@ -49,8 +49,8 @@ class Meal {
             local: this._local.value,
             price: this._price.value,
             score: this._score.value,
-            description: this._description,
-            ingredients: this._ingredients,
+            description: this._description.value,
+            ingredients: this._ingredients.map(ingredient => ingredient.value),
             category: this._category.value,
             isfavourite: this._favorite.value
         };
