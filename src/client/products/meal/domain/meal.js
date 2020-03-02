@@ -15,7 +15,7 @@ class Meal {
     description,
     category,
     score,
-    favourite
+    favourite, ingredients
   ) {
     this._id = id_meal;
     this._name = name;
@@ -26,13 +26,9 @@ class Meal {
     this._category = category;
     this._score = score;
     this._favorite = favourite;
-  }
-  /**
-   * @param {Tag} ingredients
-   */
-  set ingredients(ingredients) {
     this._ingredients = ingredients;
   }
+
   toJsonFeed() {
     return {
       id: this._id.value,

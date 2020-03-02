@@ -2,7 +2,7 @@ const MealFinder = require("./meal_finder");
 const MysqlMealRepository = require("../../infrastructure/mysql_meal_repository");
 const MealId = require("../../domain/value/meal_id");
 const State = require("../../../../../shared/domain/state");
-exports.itemFindHandler = async event => {
+exports.mealFindHandler = async event => {
   const { pathParameters } = event;
   const response = {
     statusCode: 200,
