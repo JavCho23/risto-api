@@ -4,17 +4,17 @@ var AWS = require("aws-sdk");
 AWS.config.update({ region: "us-east-2" });
 
 // Create S3 service object
-s3 = new AWS.S3({ apiVersion: "2006-03-01" });
+const s3 = new AWS.S3({ apiVersion: "2006-03-01" });
 
 var params = {
-  Bucket: "node-sdk-sample-dc0fd46f-a494-4f33-9e12-d1563666b460", 
-  Key: "hello-from-lambda.js"
- };
- s3.getObject(params, function(err, data) {
-   if (err) console.log(err, err.stack); // an error occurred
-   else     console.log(data);           // successful response
-   
- });
+    Bucket: "node-sdk-sample-dc0fd46f-a494-4f33-9e12-d1563666b460",
+    Key: "hello-from-lambda.js"
+};
+s3.getObject(params, function (err, data) {
+    if (err) console.log(err, err.stack); // an error occurred
+    else console.log(data);           // successful response
+
+});
 
 // call S3 to retrieve upload file to specified bucket
 // var uploadParams = { Bucket: process.argv[2], Key: "", Body: "" };
