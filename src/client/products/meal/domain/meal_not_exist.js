@@ -3,3 +3,5 @@ class MealNotExist extends Error {
         super("Ups!.. Parece que ya se acabaron todo aqui.");
     }
 }
+
+module.exports = MealNotExist;
