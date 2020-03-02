@@ -60,7 +60,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ./
-      Handler: src/client/products/item/aplication/find/meal_finder_handler.mealFindHandler
+      Handler: src/client/products/meal/aplication/find/meal_finder_handler.mealFindHandler
       Runtime: nodejs10.x
       MemorySize: 128
       Timeout: 60
