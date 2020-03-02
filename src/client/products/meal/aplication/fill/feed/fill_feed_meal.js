@@ -5,14 +5,12 @@ const LocalName = require("../../../../../shared/domain/local/value/local_name")
 const MealPrice = require("../../../domain/value/meal_price");
 const MealImage = require("../../../domain/value/meal_image");
 const MealFavorite = require("../../../domain/value/meal_favorite");
-const MySqlTagRepository = require("../../../../../shared/infrastructure/mysql_tag_repository");
-const TagGetCatagory = require("../../../../../shared/aplication/get_category/tag_get_category");
 const GetScore = require("../../../aplication/get_score/get_score");
 
 class FillFeedMeal {
-    constructor(dataMeal, tagGetCatagory) {
+    constructor(dataMeal, tagGetCategory) {
         this._dataMeal = dataMeal;
-        this._tagGetCategory = tagGetCatagory;
+        this._tagGetCategory = tagGetCategory;
         this._mealId = new MealId(this._dataMeal.id_meal);
     }
     async call() {

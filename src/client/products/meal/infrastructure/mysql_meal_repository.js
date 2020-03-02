@@ -28,7 +28,7 @@ class MySqlMealRepository {
         if (data.length == 0) throw new MealNotExist();
         const meals = await Promise.all(
             data.map(async meal => {
-                const fillFeedMeal = new FillFeedMeal(meal, new TagGetCatagory(new MySqlTagRepository()));
+                const fillFeedMeal = new FillFeedMeal(meal, new TagGetCategory(new MySqlTagRepository()));
                 return await fillFeedMeal.call();
             })
         );
