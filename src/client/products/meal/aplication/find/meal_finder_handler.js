@@ -20,10 +20,7 @@ exports.mealFindHandler = async event => {
             status: true
         });
     } catch (error) {
-        response.body = JSON.stringify({
-            result: error.toString(),
-            status: false
-        });
+        throw error;
     }
     return response;
 };
