@@ -18,7 +18,7 @@ exports.mealFindHandler = async event => {
     response.body = JSON.stringify(result.toJson());
   } catch (error) {
     response.statusCode = 404;
-    response.body = JSON.stringify(error.toString());
+    response.body = JSON.stringify({ message: error.message });
   }
   return response;
 };

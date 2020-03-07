@@ -14,7 +14,7 @@ exports.feedItemsHandler = async event => {
     response.body = JSON.stringify(result);
   } catch (error) {
     response.statusCode = 404;
-    response.body = JSON.stringify(error.message);
+    response.body = JSON.stringify({ message: error.message });
   }
   console.log(response.body);
 
