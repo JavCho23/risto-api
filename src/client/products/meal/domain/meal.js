@@ -6,17 +6,7 @@ const MealDescription = require("./value/meal_description");
 const LocalName = require("../../../shared/domain/local/value/local_name");
 
 class Meal {
-    constructor(
-        id_meal,
-        name,
-        local,
-        price,
-        image,
-        description,
-        category,
-        score,
-        favourite, ingredients
-    ) {
+    constructor(id_meal,name,local,price,image,description,category,score,favourite, ingredients) {
         this._id = id_meal;
         this._name = name;
         this._local = local;
@@ -38,7 +28,7 @@ class Meal {
             price: this._price.value,
             score: this._score.value,
             category: this._category.value,
-            isfavourite: this._favorite.value
+            isFavourite: this._favorite.value
         };
     }
     toJson() {
@@ -52,7 +42,7 @@ class Meal {
             description: this._description.value,
             ingredients: this._ingredients.map(ingredient => ingredient.value),
             category: this._category.value,
-            isfavourite: this._favorite.value
+            isFavourite: this._favorite.value
         };
     }
 }
