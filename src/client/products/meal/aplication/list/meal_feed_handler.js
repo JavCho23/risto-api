@@ -13,12 +13,11 @@ exports.feedItemsHandler = async event => {
         let result = data.map(item => item.toJsonFeed());
         response.body = JSON.stringify({
             result: result,
-            status: true
         });
     } catch (error) {
+        response.statusCode = 400;
         response.body = JSON.stringify({
             result: error.message,
-            status: false
         });
     }
     console.log(response.body);

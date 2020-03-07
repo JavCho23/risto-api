@@ -17,12 +17,11 @@ exports.mealFindHandler = async event => {
     );
     response.body = JSON.stringify({
       result: result.toJson(),
-      status: true
     });
   } catch (error) {
+    response.statusCode = 400;
     response.body = JSON.stringify({
       result: error.toString(),
-      status: false
     });
   }
   return response;
