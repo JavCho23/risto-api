@@ -15,14 +15,10 @@ exports.mealFindHandler = async event => {
       new MealId(pathParameters.id),
       new State(true)
     );
-    response.body = JSON.stringify({
-      result: result.toJson(),
-    });
+    response.body = JSON.stringify(result.toJson());
   } catch (error) {
-    response.statusCode = 400;
-    response.body = JSON.stringify({
-      result: error.toString(),
-    });
+    response.statusCode = 404;
+    response.body = JSON.stringify(error.toString());
   }
   return response;
 };
