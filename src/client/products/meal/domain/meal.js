@@ -6,8 +6,8 @@ const MealDescription = require("./value/meal_description");
 const LocalName = require("../../../shared/domain/local/value/local_name");
 
 class Meal {
-    constructor(id_meal,name,local,price,image,description,category,score,favourite, ingredients) {
-        this._id = id_meal;
+    constructor(idMeal,name,local,price,image,description,category,score,favourite, ingredients) {
+        this._id = idMeal;
         this._name = name;
         this._local = local;
         this._price = price;
