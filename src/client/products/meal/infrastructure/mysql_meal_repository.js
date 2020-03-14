@@ -22,14 +22,15 @@ class MySqlMealRepository {
     }
     async listFeed(state) {
         const data = await db.doQuery(
-            "SELECT id_meal, meal.name as name, local.name as localName ,price ,image FROM meal INNER JOIN menu ON menu.id_menu = meal.id_menu INNER JOIN local ON local.id_local = menu.id_local WHERE meal.state = ?",
+            "SELECT id_meal, meal.name as name, local.name as localName ,price ,image, meal.description FROM meal INNER JOIN menu ON menu.id_menu = meal.id_menu INNER JOIN local ON local.id_local = menu.id_local WHERE meal.state = ?",
             state.value
         );
         if (data.length == 0) throw new MealNotExist();
         const meals = await Promise.all(
             data.map(async meal => {
-                const fillFeedMeal = new FillFeedMeal(meal, new TagGetCategory(new MySqlTagRepository()));
-                return await fillFeedMeal.call();
+                const fillCompleteMeal = new FillCompleteMeal(meal,new TagGetCategory(new MySqlTagRepository()),
+                new TagListIngredients(new MySqlTagRepository()) );
+                return await fillCompleteMeal.call();
             })
         );
         return meals;
