@@ -3,7 +3,7 @@ class ScoreList {
         this.repository = repository;
     }
     call(idQualification) {
-        return this.repository.list(idQualification);
+        return this.repository.listQualificationScore(idQualification);
     }
 }
 
