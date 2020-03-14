@@ -1,5 +1,5 @@
-const QualificationList = require("./qualification_list");
-const MysqlQualificationRepository = require("../infrastructure/mysql_qualification_repository");
+const QualificationsList = require("./qualifications_list");
+const MySqlQualificationsRepository = require("../infrastructure/mysql_qualifications_repository");
 const MealId = require("../../../products/meal/domain/value/meal_id");
 exports.qualificationListHandler = async event => {
     const { pathParameters } = event;
@@ -9,15 +9,11 @@ exports.qualificationListHandler = async event => {
         isBase64Encoded: false
     };
     try {
-        const qualificationList = new QualificationList(
-            new MysqlQualificationRepository()
+        const qualificationsList = new QualificationsList(
+            new MySqlQualificationsRepository()
         );
-        const data = await qualificationList.call(new MealId(pathParameters.id));
-
-        const result = data.map( qualification =>{
-            return qualification.toJson();
-        });
-
+        const data = await qualificationsList.call(new MealId(pathParameters.id));
+                const result = data.toJson(); 
         response.body = JSON.stringify(result);
     } catch (error) {
         response.statusCode = 404;
