@@ -9,7 +9,7 @@ class VerifyToken {
         try {
             const decoded = JWT.verify(this._token, secretKey);
         } catch (err) {
-            return 'deny';
+            return 'unauthorized';
         }
         return 'allow';
     }
