@@ -7,6 +7,7 @@ exports.authLoginHandler = async event => {
         isBase64Encoded: false
     };
     try {
+        console.log(body);
         const login = new Login(JSON.parse(body), "mySecurityKey");
         const token = await login.call();
         response.body = JSON.stringify({ token: token });
