@@ -5,13 +5,10 @@ class VerifyToken {
     constructor(token) {
         this._token = token;
     }
-    call() {
-        try {
-            const decoded = JWT.verify(this._token, secretKey);
-        } catch (err) {
-            return 'deny';
-        }
-        return 'allow';
+    call(secretKey) {
+
+        const decoded = JWT.verify(this._token, secretKey);
+        return 'deny';
     }
 }
 

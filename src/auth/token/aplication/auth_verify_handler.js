@@ -4,12 +4,12 @@ const VerifyToken = require('./verify_token');
 exports.authVerifyHandler = function (event, context, callback) {
     const token = event.authorizationToken;
     const verifyToken = new VerifyToken(token);
-    switch (verifyToken.call()) {
+    switch (verifyToken.call("mySecurityKey")) {
         case 'allow':
-            callback(null, generatePolicy('user', 'Allow', event.methodArn));
+            callback(null, generatePolicy('comensal', 'Allow', event.methodArn));
             break;
         case 'deny':
-            callback(null, generatePolicy('user', 'Deny', event.methodArn));
+            callback(null, generatePolicy('comensal', 'Deny', event.methodArn));
             break;
         case 'unauthorized':
             callback("Unauthorized");   // Return a 401 Unauthorized response
