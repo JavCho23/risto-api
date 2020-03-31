@@ -1,6 +1,7 @@
 const Login = require("./login");
 exports.authLoginHandler = async event => {
     const { body } = event;
+    console.log(event);
     const response = {
         statusCode: 200,
         headers: { "Content-Type": "application/json" },
