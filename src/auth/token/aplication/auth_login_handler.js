@@ -1,13 +1,13 @@
 const Login = require("./login");
 exports.authLoginHandler = async event => {
-    const { pathParameters } = event;
+    const { body } = event;
     const response = {
         statusCode: 200,
         headers: { "Content-Type": "application/json" },
         isBase64Encoded: false
     };
     try {
-        const login = new Login(pathParameters, "mySecurityKey");
+        const login = new Login(JSON.parse(body), "mySecurityKey");
         const token = await login.call();
         response.body = JSON.stringify({ token: token });
     } catch (error) {
