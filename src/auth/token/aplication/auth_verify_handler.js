@@ -26,7 +26,7 @@ var generatePolicy = function (principalId, effect, resource) {
     authResponse.principalId = principalId;
     if (effect && resource) {
         var policyDocument = {};
-        policyDocument.Version = '2020-03-30';
+        policyDocument.Version = '2012-10-17';
         policyDocument.Statement = [];
         var statementOne = {};
         statementOne.Action = 'execute-api:Invoke';
