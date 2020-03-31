@@ -6,9 +6,12 @@ class VerifyToken {
         this._token = token;
     }
     call(secretKey) {
-
-        const decoded = JWT.verify(this._token, secretKey);
-        return 'deny';
+        try {
+            const decoded = JWT.verify(this._token, secretKey);
+        } catch (err) {
+            return 'deny';
+        }
+        return 'allow';
     }
 }
 
