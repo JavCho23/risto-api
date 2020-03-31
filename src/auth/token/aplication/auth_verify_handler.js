@@ -1,7 +1,7 @@
 
 const VerifyToken = require('./verify_token');
 
-exports.authHandler = function (event, context, callback) {
+exports.authVerifyHandler = function (event, context, callback) {
     const token = event.authorizationToken;
     const verifyToken = new VerifyToken(token);
     switch (verifyToken.call()) {

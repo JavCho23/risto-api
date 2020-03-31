@@ -3,7 +3,7 @@ class UserFinder {
         this.repository = repository;
     }
     call(userId) {
-        return this.repository.find(userId);
+        return  this.repository.find(userId);
     }
 }
 
