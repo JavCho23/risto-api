@@ -1,6 +1,6 @@
 const Login = require("./login");
 exports.authLoginHandler = async event => {
-    const body = event;
+    const {body} = event;
     console.log(event);
     const response = {
         statusCode: 200,
