@@ -16,7 +16,7 @@ class MySqlUserRepository {
     }
     async find(userId) {
         const data = await db.doQuery(
-            "SELECT id_user, username,email FROM user WHERE id_user = ?",
+            "SELECT id_user, username,email FROM user WHERE id_user = '?'",
             userId.value
         );
         if (data.length == 0) return false;
