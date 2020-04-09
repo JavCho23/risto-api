@@ -1,4 +1,4 @@
-const JWT = require('jsonwebtoken');
+const JWT = require("jsonwebtoken");
 
 class GenerateToken {
 

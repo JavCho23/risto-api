@@ -1,4 +1,4 @@
-const JWT = require('jsonwebtoken');
+const JWT = require("jsonwebtoken");
 
 class VerifyToken {
 
@@ -9,9 +9,9 @@ class VerifyToken {
         try {
             const decoded = JWT.verify(this._token, secretKey);
         } catch (err) {
-            return 'unauthorized';
+            return "unauthorized";
         }
-        return 'allow';
+        return "allow";
     }
 }
 

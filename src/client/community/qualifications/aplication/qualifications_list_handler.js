@@ -13,7 +13,7 @@ exports.qualificationListHandler = async event => {
             new MySqlQualificationsRepository()
         );
         const data = await qualificationsList.call(new MealId(pathParameters.id));
-                const result = data.toJson(); 
+        const result = data.toJson(); 
         response.body = JSON.stringify(result);
     } catch (error) {
         response.statusCode = 404;

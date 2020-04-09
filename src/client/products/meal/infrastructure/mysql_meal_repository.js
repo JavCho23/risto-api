@@ -29,7 +29,7 @@ class MySqlMealRepository {
         const meals = await Promise.all(
             data.map(async meal => {
                 const fillCompleteMeal = new FillCompleteMeal(meal,new TagGetCategory(new MySqlTagRepository()),
-                new TagListIngredients(new MySqlTagRepository()) );
+                    new TagListIngredients(new MySqlTagRepository()) );
                 return await fillCompleteMeal.call();
             })
         );

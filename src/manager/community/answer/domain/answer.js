@@ -10,7 +10,7 @@ class Answer{
             id_ask:this._askId,
             id_manager: this._managerId,
             text: this._text
-        }
+        };
     }
 }
 
