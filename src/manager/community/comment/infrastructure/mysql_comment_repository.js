@@ -8,7 +8,7 @@ class MySqlQualificationRepository {
 
     async list(localId) {
         const data = await db.doQuery(
-            `SELECT qualification.id_qualification as id, person.name, comentary.text as text 
+            `SELECT qualification.id_qualification as id 
             FROM qualification 
             WHERE id_local = ? AND qualification.state = 1`,
             localId

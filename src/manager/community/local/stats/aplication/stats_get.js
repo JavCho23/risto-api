@@ -1,4 +1,4 @@
-class QualificationGet {
+class CommunityStatsGet {
     constructor(repository) {
         this.repository = repository;
     }
@@ -7,4 +7,4 @@ class QualificationGet {
     }
 }
 
-module.exports = QualificationGet;
+module.exports = CommunityStatsGet;

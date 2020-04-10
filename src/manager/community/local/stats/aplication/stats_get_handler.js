@@ -1,7 +1,7 @@
-const QualificationGet = require("./qualification_get");
+const CommunityStatsGet = require("./stats_get");
 const MySqlCommunityStatsRepository = require("../infrastructure/mysql_community_stats_repository");
 
-exports.qualificationGetHandler = async event => {
+exports.CommunityStatsGetHandler = async event => {
     const { pathParameters } = event;
     const response = {
         statusCode: 200,
@@ -9,7 +9,7 @@ exports.qualificationGetHandler = async event => {
         isBase64Encoded: false
     };
     try {
-        const qualificationGet = new QualificationGet(
+        const qualificationGet = new CommunityStatsGet(
             new MySqlCommunityStatsRepository()
         );
         const data = await qualificationGet.call(pathParameters.id);
