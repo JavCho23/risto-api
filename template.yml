@@ -136,7 +136,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ./
-      Handler: src/manager/community/answer/aplication/answer_register_handler.answerRegisterHandler
+      Handler: src/manager/community/answer/aplication/register/answer_register_handler.answerRegisterHandler
       Runtime: nodejs10.x
       MemorySize: 128
       Timeout: 60
