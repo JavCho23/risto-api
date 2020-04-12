@@ -111,7 +111,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ./
-      Handler: src/manager/community/ask/aplication/ask_lister_handler.askListHandler
+      Handler: src/manager/community/ask/aplication/list/ask_lister_handler.askListHandler
       Runtime: nodejs10.x
       MemorySize: 128
       Timeout: 60
