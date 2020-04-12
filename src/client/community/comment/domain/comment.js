@@ -1,4 +1,4 @@
-const Utils = require("../../../../shared/utils");
+const Utils = require("../../../shared/utils.js");
 class Comment {
   constructor(id_qualification, name, scores, text) {
     this._id = id_qualification;

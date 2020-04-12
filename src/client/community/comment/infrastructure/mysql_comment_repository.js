@@ -18,7 +18,7 @@ class MySqlQualificationRepository {
         const scoreList  =  new ScoreList(new MysqlScoreRepository());
         const qualifications = await Promise.all(data.map(async qualification => {
 
-            const scores = await scoreList.call(new QualificationId(qualification.id));
+            const scores = await scoreList.call(new CommentId(qualification.id));
 
             return new Comment(new CommentId(qualification.id), new PersonName(qualification.name),scores, new RawString(qualification.text));
             

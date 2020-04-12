@@ -9,7 +9,7 @@ exports.statsGetHandler = async event => {
         isBase64Encoded: false
     };
     try {
-       if(queryStringParameters.type == community){
+       if(queryStringParameters.type == "community"){
         const qualificationGet = new CommunityStatsGet(
             new MySqlCommunityStatsRepository()
         );

@@ -2,7 +2,7 @@
 const Score = require("../../score/domain/score");
 const ScoreName = require("../../score/domain/value/score_name");
 const ScoreAmount = require("../../score/domain/value/score_amount");
-const Utils = require("../../../../shared/utils");
+const Utils = require("../../../shared/utils.js");
 class Qualification{
     constructor(categories,comments){
         this._scores = [];

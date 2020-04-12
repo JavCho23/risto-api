@@ -16,6 +16,7 @@ exports.qualificationListHandler = async event => {
         const result = data.toJson(); 
         response.body = JSON.stringify(result);
     } catch (error) {
+        throw error;
         response.statusCode = 404;
         response.body = JSON.stringify({ message: error.message });
     }
