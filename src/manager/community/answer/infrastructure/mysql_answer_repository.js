@@ -13,6 +13,14 @@ class MySqlUserRepository {
             return false;
         }
     }
+    async list(askId) {
+            const data = await db.doQuery(
+                "SELECT id_ask as askId, id_manager managerId, text, modified_at as date FROM answer WHERE id_ask = ? ",
+                askId
+                );
+            return data.map(answer => new Answer(answer.askId, answer.managerId,answer.text));
+       
+    }
 }
 
 module.exports = MySqlUserRepository;

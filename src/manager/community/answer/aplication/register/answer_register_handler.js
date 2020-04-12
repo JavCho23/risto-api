@@ -1,5 +1,5 @@
 const AnswerRegister = require("./answer_register");
-const MySqlAnswerRepository = require("../infrastructure/mysql_answe_repository")
+const MySqlAnswerRepository = require("../../infrastructure/mysql_answer_repository")
 exports.answerRegisterHandler = async event => {
     const body = JSON.parse(event.body);
     
