@@ -10,11 +10,11 @@ class MySqlAskRepository {
             localId
         );
         //if (data.length == 0) throw new MealNotExist();
-        const answerLister = new AnswerLister(new MySqlAnswerRepository())
+        const answerLister = new AnswerLister(new MySqlAnswerRepository());
         return await Promise.all(data.map( async (ask)=> { 
             const answers = await answerLister.call(ask.id);
-            return new Ask(ask.id,ask.text,ask.date, answers)
-        }))
+            return new Ask(ask.id,ask.text,ask.date, answers);
+        }));
     }
 }
 

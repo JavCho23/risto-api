@@ -14,7 +14,7 @@ class CommunityStats{
                 increse: this._weekly.increse,
                 dataChart: this._weekly.dataChart
             }
-        }
+        };
     }
 }
 

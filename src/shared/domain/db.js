@@ -14,5 +14,5 @@ exports.doQuery = (query, values) => {
             //if(error) throw new Error(error);
             return resolve(results);
         });
-    })
+    });
 };

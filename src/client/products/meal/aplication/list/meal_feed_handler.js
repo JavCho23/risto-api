@@ -1,8 +1,8 @@
 const MealListFeed = require("./meal_list_feed");
 const MysqlItemRepository = require("../../infrastructure/mysql_meal_repository");
 const State = require("../../../../../shared/domain/state");
-const SuccessResponse = require("../../../../../shared/domain/response/success_response")
-const ErrorResponse = require("../../../../../shared/domain/response/error_response")
+const SuccessResponse = require("../../../../../shared/domain/response/success_response");
+const ErrorResponse = require("../../../../../shared/domain/response/error_response");
 exports.feedItemsHandler = async event => {
     let response;
     try {

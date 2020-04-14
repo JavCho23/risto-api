@@ -1,4 +1,4 @@
-const JSONResponse = require('./response')
+const JSONResponse = require("./response");
 class CreatedResponse extends JSONResponse{
     constructor(body){
         super(200,body);

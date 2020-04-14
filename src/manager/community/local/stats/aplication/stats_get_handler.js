@@ -1,6 +1,6 @@
 const MySqlCommunityStatsRepository = require("../infrastructure/mysql_community_stats_repository");
-const SuccessResponse = require("../../../../../shared/domain/response/success_response")
-const ErrorResponse = require("../../../../../shared/domain/response/error_response")
+const SuccessResponse = require("../../../../../shared/domain/response/success_response");
+const ErrorResponse = require("../../../../../shared/domain/response/error_response");
 
 exports.statsGetHandler = async event => {
     const { pathParameters , queryStringParameters } = event;
@@ -8,7 +8,7 @@ exports.statsGetHandler = async event => {
     try {
         const {type} = queryStringParameters ;
         const StatsGet = require("./"+type+"_stats_get");
-        const qualificationGet = new StatsGet(new MySqlCommunityStatsRepository())
+        const qualificationGet = new StatsGet(new MySqlCommunityStatsRepository());
         const body = await qualificationGet.call(pathParameters.id);
         response = new SuccessResponse(body.toJson());
     } catch (error) {

@@ -12,7 +12,7 @@ class JSONResponse{
             statusCode : this._responseCode,
             isBase64Encode: this._isBase64Encode,
             body: JSON.stringify(this._body)
-        }
+        };
     }
 
 }
