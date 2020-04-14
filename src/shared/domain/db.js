@@ -1,5 +1,5 @@
 const mysql = require("mysql");
-const DataBaseError = require("./error/data_base_error");
+const DataBaseError = require("./error/register_error");
 const config = require("../infrastructure/persistence/db_config.json");
 const connection = mysql.createConnection({
     host: config.host,
@@ -11,8 +11,8 @@ const connection = mysql.createConnection({
 exports.doQuery = (query, values) => {
     return new Promise((resolve) => {
         connection.query(query, values, (error, results) => {
-            if (error) throw new DataBaseError(); //new Error(error);
+            //if(error) throw new Error(error);
             return resolve(results);
         });
-    });
+    })
 };
