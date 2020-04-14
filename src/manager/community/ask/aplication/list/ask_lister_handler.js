@@ -1,21 +1,16 @@
 const Lister = require("./ask_lister");
 const MySqlAskRepository = require("../../infrastructure/mysql_ask_repository");
-//const LocalId = require("../../domain/value/meal_id");
-
+const SuccessResponse = require("../../../../../shared/domain/response/success_response")
+const ErrorResponse = require("../../../../../shared/domain/response/error_response")
 exports.askListHandler = async event => {
     const { pathParameters } = event;
-    const response = {
-        statusCode: 200,
-        headers: { "Content-Type": "application/json" },
-        isBase64Encoded: false
-    };
+    let response;
     try {
         const lister = new Lister(new MySqlAskRepository());
         let result = await lister.call(pathParameters.id);
-        response.body = JSON.stringify(result.map((ask)=> ask.toJson()));
+        response = new SuccessResponse(result.map((ask)=> ask.toJson()))
     } catch (error) {
-        response.statusCode = 404;
-        response.body = JSON.stringify({ message: error.message });
+        response = new ErrorResponse(error);
     }
-    return response;
+    return response.toJson();
 };

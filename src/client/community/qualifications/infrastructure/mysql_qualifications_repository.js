@@ -11,11 +11,8 @@ class MySqlQualificationsRepository {
             new MySqlCommentRepository()
         );
         const comments   = await commentList.call(mealId);
-        
         const summaryGet = new SummaryGet(new MySqlSummaryRepository());
         const summary    = await summaryGet.call(mealId,comments);
-        
-
         return new Qualifications(summary,comments);
     }
 }

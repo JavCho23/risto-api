@@ -1,21 +1,16 @@
 const AnswerRegister = require("./answer_register");
 const MySqlAnswerRepository = require("../../infrastructure/mysql_answer_repository")
+const CreatedResponse = require("../../../../../shared/domain/response/created_response")
+const ErrorResponse = require("../../../../../shared/domain/response/error_response")
 exports.answerRegisterHandler = async event => {
-    const body = JSON.parse(event.body);
-    
-    const response = {
-        statusCode: 201,
-        headers: { "Content-Type": "application/json" },
-        isBase64Encoded: false
-    };
+    const requestBody = JSON.parse(event.body);
+    let response;
     try {
         const answerRegister = new AnswerRegister(new MySqlAnswerRepository());
-        const result = await answerRegister.call(body);
-        response.body = JSON.stringify({ result: result});
+        const body = await answerRegister.call(requestBody);
+        response = new CreatedResponse(body);
     } catch (error) {
-        throw error;
-        // response.statusCode = 401;
-        // response.body = JSON.stringify({ message: error.message });
+       response = new ErrorResponse(error);
     }
-    return response;
+    return response.toJson();
 };
