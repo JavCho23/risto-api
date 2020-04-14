@@ -1,5 +1,4 @@
 const db = require("../../../../shared/domain/db");
-const MealNotExist = require("../domain/meal_not_exist");
 const FillCompleteMeal = require("../aplication/fill/complete/fill_complete_meal");
 const NotFoundError = require("../../../../shared/domain/error/no_found_error");
 const MySqlTagRepository = require("../../../shared/infrastructure/mysql_tag_repository");
