@@ -8,9 +8,9 @@ class JSONResponse{
 
     toJson(){
         return {
-            headers: this._headers,
+            isBase64Encoded: this._isBase64Encode,
             statusCode : this._responseCode,
-            isBase64Encode: this._isBase64Encode,
+            headers: this._headers,
             body: JSON.stringify(this._body)
         };
     }
