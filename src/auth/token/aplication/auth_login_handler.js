@@ -12,8 +12,8 @@ exports.authLoginHandler = async event => {
         const token = await login.call();
         response.body = JSON.stringify({ token: token });
     } catch (error) {
-         response.statusCode = 401;
-         response.body = JSON.stringify({ message: error.message });
+        response.statusCode = 401;
+        response.body = JSON.stringify({ message: error.message });
     }
     return response;
 };
