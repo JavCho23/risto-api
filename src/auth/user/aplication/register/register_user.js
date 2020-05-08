@@ -1,5 +1,4 @@
 const User = require("../../domain/user");
-const UserId = require("../../../../shared/domain/user_id");
 const UserName = require("../../domain/value/user_name");
 const UserPhoto = require("../../domain/value/user_photo");
 const UserEmail = require("../../domain/value/user_email");

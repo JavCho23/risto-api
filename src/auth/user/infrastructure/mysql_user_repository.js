@@ -1,6 +1,5 @@
 const db = require("../../../shared/domain/db");
 const User = require("../domain/user");
-const UserId = require("../../../shared/domain/user_id");
 class MySqlUserRepository {
     async register(dataUser) {
         const user = new User(dataUser);

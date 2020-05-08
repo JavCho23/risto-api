@@ -1,7 +1,7 @@
 const VerifyUser = require("../../user/aplication/find/user_finder");
 const RegisterUser = require("../../user/aplication/register/register_user");
 const GenerateToken = require("./generate_token");
-const UserId = require("../../../shared/domain/user_id");
+const UserId = require("../../../shared/domain/value/uuid");
 const MySqlUserRepository = require("../../user/infrastructure/mysql_user_repository");
 class Login {
     constructor(userData, securityKey) {
