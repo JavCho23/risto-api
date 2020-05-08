@@ -1,7 +1,6 @@
 const db = require("../../../../shared/domain/db");
 const Day = require("../domain/day");
 const RawString = require("../../../../shared/domain/value/raw_string");
-const days = require("./persistence/days.json");
 class MySqlDayRepository {
   async list(idLocal) {
     const data = await db.doQuery(
@@ -15,7 +14,7 @@ class MySqlDayRepository {
     return data.map(
       (day) =>
         new Day(
-          new RawString(days[day.idDay]),
+          new RawString(day.idDay),
           new RawString(day.opening),
           new RawString(day.closing)
         )

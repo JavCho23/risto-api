@@ -22,6 +22,7 @@ class Local {
     return {
       idLocal: this._id.value,
       name: this._name.value,
+      status: this._schedule.status,
       description: this._description.value,
       location: this._location.toJson(),
       folows: this._folows.value,
