@@ -22,7 +22,7 @@ class MySqlLocalRepository {
     );
     if (data.length == 0) throw new NotFoundError();
     const localInfo = data[0];
-    const local = new Local(
+    return new Local(
       idLocal,
       new RawString(localInfo.name),
       new RawString(localInfo.description),
@@ -32,8 +32,6 @@ class MySqlLocalRepository {
       await scheduleFinder.call(idLocal),
       await paymentsLister.call(idLocal)
     );
-    console.log(local);
-    return local;
   }
   async list(idSignature) {}
 }

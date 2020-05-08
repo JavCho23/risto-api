@@ -26,7 +26,6 @@ exports.findLocal = async (event) => {
     );
     response = new SuccessResponse(body.toJson());
   } catch (error) {
-    throw error
     response = new ErrorResponse(error);
   }
   return response.toJson();
