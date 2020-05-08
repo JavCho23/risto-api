@@ -10,7 +10,7 @@ class MySqlLocalRepository {
     idLocal,
     phoneLister,
     findLocation,
-    scheduleLister,
+    scheduleFinder,
     paymentsLister
   ) {
     const data = await db.doQuery(
@@ -29,7 +29,7 @@ class MySqlLocalRepository {
       await findLocation.call(new Uuid(localInfo.idLocation)),
       new RawDouble(localInfo.follows),
       await phoneLister.call(idLocal),
-      await scheduleLister.call(idLocal),
+      await scheduleFinder.call(idLocal),
       await paymentsLister.call(idLocal)
     );
     console.log(local);

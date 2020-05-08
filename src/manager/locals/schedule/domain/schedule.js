@@ -1,16 +1,13 @@
-class Schedule{
-    constructor(day, opening, closing){
-        this._day  = day ;
-        this._opening = opening;
-        this._closing = closing;
-    }
-    toJson(){
-        return{
-            day:this._day.value,
-            opening:this._opening.value,
-            closing: this._closing.value
-        }
-    }  
+class Schedule {
+  constructor(days) {
+    this._days = days;
+  }
+  get status() {
+    return "Cerrado";
+  }
+  toJson() {
+    return this._days.map((day) => day.toJson());
+  }
 }
 
 module.exports = Schedule;

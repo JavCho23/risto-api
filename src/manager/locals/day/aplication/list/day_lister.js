@@ -1,4 +1,4 @@
-class ScheduleLister {
+class DayLister {
   constructor(repository) {
     this.repository = repository;
   }
@@ -7,4 +7,4 @@ class ScheduleLister {
   }
 }
 
-module.exports = ScheduleLister;
+module.exports = DayLister;

@@ -1,8 +1,8 @@
 const db = require("../../../../shared/domain/db");
-const Schedule = require("../domain/schedule");
+const Day = require("../domain/day");
 const RawString = require("../../../../shared/domain/value/raw_string");
-
-class MySqlScheduleRepository {
+const days = require("./persistence/days.json");
+class MySqlDayRepository {
   async list(idLocal) {
     const data = await db.doQuery(
       `SELECT id_day as idDay, opening, closing 
@@ -13,14 +13,14 @@ class MySqlScheduleRepository {
     );
 
     return data.map(
-      (schedule) =>
-        new Schedule(
-          new RawString(schedule.day),
-          new RawString(schedule.opening),
-          new RawString(schedule.closing)
+      (day) =>
+        new Day(
+          new RawString(days[day.idDay]),
+          new RawString(day.opening),
+          new RawString(day.closing)
         )
     );
   }
 }
 
-module.exports = MySqlScheduleRepository;
+module.exports = MySqlDayRepository;

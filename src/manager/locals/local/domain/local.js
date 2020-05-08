@@ -26,7 +26,7 @@ class Local {
       location: this._location.toJson(),
       folows: this._folows.value,
       phones: this._phones.map((phone) => phone.toJson()),
-      schedule: this._schedule.map((phone) => phone.toJson()),
+      schedule: this._schedule.toJson(),
       payments: this._payments.map((payment) => payment.id.value),
     };
   }

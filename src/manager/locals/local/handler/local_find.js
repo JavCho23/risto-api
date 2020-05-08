@@ -4,8 +4,8 @@ const MySqlLocationRepository = require("../../location/infrastructure/mysql_loc
 const LocationFinder = require("../../location/aplication/find/location_finder");
 const MySqlPhoneRepository = require("../../phone/infrastructure/mysql_phone_repository");
 const PhoneLister = require("../../phone/aplication/list/phone_lister");
-const MySqlScheduleRepository = require("../../schedule/infrastructure/mysql_schedule_repository");
-const ScheduleLister = require("../../schedule/aplication/list/schedule_lister");
+const MySqlDayRepository = require("../../day/infrastructure/mysql_day_repository");
+const ScheduleFinder = require("../../schedule/aplication/find/schedule_finder");
 const MySqlPaymentRepository = require("../../payment/infrastructure/mysql_payment_repository");
 const PaymentLister = require("../../payment/aplication/list_by_local/payment_lister_by_local");
 const Uuid = require("../../../../shared/domain/value/uuid");
@@ -21,7 +21,7 @@ exports.findLocal = async (event) => {
       new Uuid(pathParameters.id),
       new PhoneLister(new MySqlPhoneRepository()),
       new LocationFinder(new MySqlLocationRepository()),
-      new ScheduleLister(new MySqlScheduleRepository()),
+      new ScheduleFinder(new MySqlDayRepository()),
       new PaymentLister(new MySqlPaymentRepository())
     );
     response = new SuccessResponse(body.toJson());
