@@ -11,7 +11,6 @@ class MySqlPhoneRepository {
       FROM phone WHERE phone.id_local = ? AND state = 1;`,
       idLocal.value
     );
-
     return data.map(
       (phone) =>
         new Phone(

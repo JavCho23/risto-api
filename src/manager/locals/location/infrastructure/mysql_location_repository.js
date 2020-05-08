@@ -11,15 +11,12 @@ class MySqlLocationRepository {
       WHERE id_location = ? AND location.state = 1;`,
       idLocation.value
     );
-
-    return data.map(
-      (location) =>
-        new Location(
-          new RawString(location.address),
-          new RawString(location.city),
-          new RawString(location.latitude),
-          new RawString(location.longitude)
-        )
+    const location = data[0];
+    return new Location(
+      new RawString(location.address),
+      new RawString(location.city),
+      new RawString(location.latitude),
+      new RawString(location.longitude)
     );
   }
 }
