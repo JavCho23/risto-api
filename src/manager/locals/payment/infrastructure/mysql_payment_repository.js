@@ -32,7 +32,7 @@ class MySqlPaymentRepository {
     return data.map(
       (payment) =>
         new Payment(
-          new Uuid(payment.idPaymente),
+          new Uuid(payment.idPayment),
           new RawString(payment.name),
           new RawString(payment.description)
         )
