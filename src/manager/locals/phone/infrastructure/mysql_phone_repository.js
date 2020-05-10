@@ -7,7 +7,7 @@ const Uuid = require("../../../../shared/domain/value/uuid");
 class MySqlPhoneRepository {
   async list(idLocal) {
     const data = await db.doQuery(
-      `SELECT id_phone ,label, number 
+      `SELECT id_phone as idPhone ,label, number 
       FROM phone WHERE phone.id_local = ? AND state = 1;`,
       idLocal.value
     );
