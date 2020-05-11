@@ -20,6 +20,21 @@ class MySqlDayRepository {
         )
     );
   }
+  async update(idSchedule, day) {
+    await db.doQuery(
+      `UPDATE day SET ?
+       WHERE id_day = ? AND id_schedule = ?`,
+      [
+        {
+          opening: day.opening.value,
+          closing: day.closing.value,
+          modified_at: new Date().toLocaleString(),
+        },
+        day.idDay.value,
+        idSchedule.value,
+      ]
+    );
+  }
 }
 
 module.exports = MySqlDayRepository;
