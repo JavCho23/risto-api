@@ -1,6 +1,13 @@
+const Day = require('../../day/domain/day');
 class Schedule {
   constructor(days) {
     this._days = days;
+  }
+  get days(){
+    return this._days;
+  }
+  static fromJson(schedule){
+    return new this(schedule.map(day => Day.fromJson(day)));
   }
   get status() {
     const today = new Date();
