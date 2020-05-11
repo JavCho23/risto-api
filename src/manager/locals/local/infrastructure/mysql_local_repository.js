@@ -20,7 +20,7 @@ class MySqlLocalRepository {
       WHERE local.id_local = ? AND local.state = 1;`,
       idLocal.value
     );
-    if (data.length == 0) throw new NotFoundError();
+    if (data[0].idLocation == null) throw new NotFoundError();
     const localInfo = data[0];
     return new Local(
       idLocal,
@@ -50,6 +50,8 @@ class MySqlLocalRepository {
       WHERE local.id_local = ? AND local.state = 1;`,
       local.idLocal.value
     );
+    console.log(ids);
+    if (ids.length == 0) throw new NotFoundError();
     await db.doQuery(
       `UPDATE local SET ?
       WHERE id_local = ?`,
@@ -72,6 +74,21 @@ class MySqlLocalRepository {
     );
     await scheduleUpdater.call(new Uuid(ids[0].idSchedule), local.schedule);
     await this.updatePayments(local.idLocal, local.payments, paymentsLister);
+  }
+
+  async rename(idLocal, name) {
+    await db.doQuery(
+      `UPDATE local SET name = ?, modified_at = NOW() 
+      WHERE id_local = ?`,
+      [name.value, idLocal.value]
+    );
+  }
+  async remove(idLocal) {
+    await db.doQuery(
+      `UPDATE local SET state = 0, modified_at = NOW()
+      WHERE id_local = ?`,
+      idLocal.value
+    );
   }
 
   async updatePhones(idLocal, phones, phoneLister, phoneAdder, phoneRemover) {
@@ -145,7 +162,6 @@ class MySqlLocalRepository {
       id_local: idLocal.value,
     });
   }
-  async list(idSignature) {}
 }
 
 module.exports = MySqlLocalRepository;
