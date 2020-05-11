@@ -3,12 +3,12 @@ const PaymentListerAll = require("../aplication/list_all/payment_lister_all");
 
 const SuccessResponse = require("../../../../shared/domain/response/success_response");
 const ErrorResponse = require("../../../../shared/domain/response/error_response");
-exports.findPayment = async (event) => {
+exports.listAll = async (event) => {
   let response;
   try {
     const paymentListerAll = new PaymentListerAll(new MySqlPaymentRepository());
     const body = await paymentListerAll.call();
-    response = new SuccessResponse(body.toJson());
+    response = new SuccessResponse(body.map((payment) => payment.toJson()));
   } catch (error) {
     response = new ErrorResponse(error);
   }
