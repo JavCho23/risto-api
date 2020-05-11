@@ -11,7 +11,7 @@ const connection = mysql.createConnection({
 exports.doQuery = (query, values) => {
     return new Promise((resolve) => {
         connection.query(query, values, (error, results) => {
-            //if(error) throw new Error(error);
+            if(error) throw new Error(error);
             return resolve(results);
         });
     });
