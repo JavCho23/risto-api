@@ -7,7 +7,7 @@ class Tag {
     this._name = name;
   }
   static fromJson(tag) {
-    return new this(new Uuid(tag.idTag), new RawString(tag.name));
+    return new this(new Uuid(""), new RawString(tag));
   }
   get idTag() {
     return this._id;

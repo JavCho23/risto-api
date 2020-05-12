@@ -32,11 +32,11 @@ class Item {
       new Uuid(item.idItem),
       new RawString(item.name),
       new RawString(item.description),
-      new RawString(item.local),
-      new RawString(item.idLocal),
-      new RawDouble(item.score),
-      new RawBool(item.aviable),
-      new RawString(item.city),
+      new RawString(''),
+      new RawString(''),
+      new RawDouble(0),
+      new RawBool(0),
+      new RawString(''),
       item.tags.map((tag) => new RawString(tag)),
       item.products.map((product) => Product.fromJson(product))
     );
@@ -47,6 +47,15 @@ class Item {
 
   get name() {
     return this._name;
+  }
+  get tags(){
+    return this._tags;
+  }
+  get description(){
+    return this._description;
+  }
+  get products(){
+    return this._products;
   }
   toJson() {
     return {
