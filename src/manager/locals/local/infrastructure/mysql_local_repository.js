@@ -6,13 +6,7 @@ const Uuid = require("../../../../shared/domain/value/uuid");
 const NotFoundError = require("../../../../shared/domain/error/no_found_error");
 
 class MySqlLocalRepository {
-  async find(
-    idLocal,
-    phoneLister,
-    locationFinder,
-    scheduleFinder,
-    paymentsLister
-  ) {
+  async find( idLocal, phoneLister,locationFinder,scheduleFinder,paymentsLister) {
     const data = await db.doQuery(
       `SELECT id_location as idLocation, name, description, COUNT(follow.id_customer) as follows  
       FROM local
@@ -34,15 +28,7 @@ class MySqlLocalRepository {
     );
   }
 
-  async update(
-    local,
-    phoneLister,
-    paymentsLister,
-    locationUpdater,
-    scheduleUpdater,
-    phoneAdder,
-    phoneRemover
-  ) {
+  async update(local,phoneLister,paymentsLister,locationUpdater,scheduleUpdater,phoneAdder,phoneRemover) {
     const ids = await db.doQuery(
       `SELECT id_location as idLocation, schedule.id_schedule as idSchedule
       FROM local
@@ -50,7 +36,6 @@ class MySqlLocalRepository {
       WHERE local.id_local = ? AND local.state = 1;`,
       local.idLocal.value
     );
-    console.log(ids);
     if (ids.length == 0) throw new NotFoundError();
     await db.doQuery(
       `UPDATE local SET ?
@@ -162,6 +147,24 @@ class MySqlLocalRepository {
       id_local: idLocal.value,
     });
   }
+
+  async listBySignature(idSignature,phoneLister,locationFinder,scheduleFinder, paymentLister){
+    const data = await db.doQuery(
+      `SELECT id_Local as idLocal
+      FROM local
+      INNER JOIN signature ON local.id_signature = signature.id_signature
+      WHERE signature.id_signature = ? AND local.state = 1;`,
+      [idSignature.value]
+    );
+    console.log(data);
+    return await Promise.all(
+      data.map(
+        async (local) =>
+          await this.find(new Uuid(local.idLocal),phoneLister,locationFinder,scheduleFinder, paymentLister)
+      )
+    );
+  }
+
 }
 
 module.exports = MySqlLocalRepository;

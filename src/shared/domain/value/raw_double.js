@@ -1,4 +1,4 @@
-class RawDouble {
+class RawNumber {
     constructor(value) {
         this._value = value;
     }
@@ -11,4 +11,4 @@ class RawDouble {
     }
 }
 
-module.exports = RawDouble;
+module.exports = RawNumber;
