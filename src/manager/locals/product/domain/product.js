@@ -21,6 +21,9 @@ class Product {
   get name() {
     return this._name;
   }
+  get price(){
+    return this._price;
+  }
   toJson() {
     return {
       idProduct: this._id.value,

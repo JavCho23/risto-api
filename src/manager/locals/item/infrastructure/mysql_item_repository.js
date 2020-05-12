@@ -5,7 +5,10 @@ const RawDouble = require("../../../../shared/domain/value/raw_double");
 const RawBool = require("../../../../shared/domain/value/raw_bool");
 const Uuid = require("../../../../shared/domain/value/uuid");
 const NotFoundError = require("../../../../shared/domain/error/no_found_error");
-
+const { v4: uuidv4 } = require("uuid");
+const tag_categories = require('../../../../shared/infrastructure/persistence/tag_categories.json')
+const ItemFilterUpdateTag = require('./item_filter_update_tag');
+const ItemFilterUpdateProduct = require('./item_filter_update_product');
 class MySqlItemRepository {
   async find(idItem, productLister, tagLister) {
     const data = await db.doQuery(
@@ -31,6 +34,41 @@ class MySqlItemRepository {
       await tagLister.call(idItem),
       await productLister.call(idItem)
     );
+  }
+  async update(item,productLister,tagLister,productUpdater,productAdder,productRemover){
+    await db.doQuery(' UPDATE item SET ? WHERE id_item = ?',[
+      {
+        name: item.name.value,
+        description: item.description.value,
+        modified_at: new Date().toLocaleString()
+      },
+      item.idItem.value
+  ]);
+    const itemFilterUpdateProduct = new ItemFilterUpdateProduct(item.idItem,item.products, productLister,productUpdater,productAdder,productRemover);
+    await itemFilterUpdateProduct.call();
+    const itemFilterUpdateTag = new ItemFilterUpdateTag(item.idItem,item.tags,tagLister,this.addTag,this.removeTag);
+    await itemFilterUpdateTag.call();
+  }
+  async addTag(idItem,name){
+    console.log(name);
+    const id = await db.doQuery('SELECT id_tag as idTag FROM tag WHERE name = ?', name.value);
+    let idTag;
+    console.log(id);
+    if (id.length == 0) {
+      idTag = uuidv4();
+      await db.doQuery('INSERT INTO tag SET ?',{
+        id_tag: idTag,
+        id_category: tag_categories.etiqueta,
+        name: name.value
+      })
+    }else idTag = id[0].idTag
+    await db.doQuery(' INSERT INTO tagger SET ?',{
+      id_tag: idTag,
+      id_item: idItem.value
+    })
+  }
+  async removeTag(idItem, idTag){
+    await db.doQuery(' DELETE FROM tagger WHERE id_item = ? AND id_tag = ?', [idItem.value,idTag.value])
   }
   async listByLocal(idLocal, limit, offset, productLister, tagLister) {
     const data = await db.doQuery(

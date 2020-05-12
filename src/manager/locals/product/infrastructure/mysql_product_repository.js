@@ -20,6 +20,31 @@ class MySqlProductRepository {
         )
     );
   }
+  async update(product) {
+    await db.doQuery(`UPDATE product SET ? WHERE id_product = ?`, [
+      {
+        name: product.name.value,
+        price: product.price.value,
+      },
+      product.idProduct.value,
+    ]);
+  }
+  async remove(idProduct) {
+    await db.doQuery(
+      `DELETE FROM product WHERE id_product = ?`,
+      idProduct.value
+    );
+  }
+  async add(idItem, product) {
+    await db.doQuery(`INSERT INTO product SET ? `, 
+      {
+        id_product: product.idProduct.value,
+        id_item: idItem.value,
+        name: product.name.value,
+        price: product.price.value,
+      }
+    );
+  }
 }
 
 module.exports = MySqlProductRepository;

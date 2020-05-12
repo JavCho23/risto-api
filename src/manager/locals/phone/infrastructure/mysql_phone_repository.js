@@ -42,6 +42,7 @@ class MySqlPhoneRepository {
     );
   }
   async add(idLocal, phone) {
+
     await db.doQuery(`INSERT INTO phone SET ?`, {
       id_phone: phone.idPhone.value,
       id_local: idLocal.value,

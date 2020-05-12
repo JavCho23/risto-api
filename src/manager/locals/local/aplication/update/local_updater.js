@@ -10,6 +10,7 @@ class LocalUpdater {
     paymentsLister,
     locationUpdater,
     scheduleUpdater,
+    phoneUpdater,
     phoneAdder,
     phoneRemover
   ) {
@@ -19,6 +20,7 @@ class LocalUpdater {
       paymentsLister,
       locationUpdater,
       scheduleUpdater,
+      phoneUpdater,
       phoneAdder,
       phoneRemover
     );
