@@ -1,8 +1,8 @@
 const JSONResponse = require("./response");
-class SuccessResponse extends JSONResponse {
+class NoContentResponse extends JSONResponse {
   constructor() {
     super(204, {});
   }
 }
 
-module.exports = SuccessResponse;
+module.exports = NoContentResponse;
