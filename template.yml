@@ -56,6 +56,18 @@ Resources:
       Policies:
         # Give Lambda basic execution Permission to the helloFromLambda
         - AWSLambdaBasicExecutionRole
+  addPersonalToLocal:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./
+      Handler: src/delivery/personal/handler/personal_add.addPersonal
+      Runtime: nodejs10.x
+      MemorySize: 128
+      Timeout: 60
+      Description: This function add a personal to a local.
+      Policies:
+        # Give Lambda basic execution Permission to the helloFromLambda
+        - AWSLambdaBasicExecutionRole
   authVerifyFunction:
     Type: AWS::Serverless::Function
     Properties:
