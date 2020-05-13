@@ -36,6 +36,19 @@ class MySqlItemRepository {
       await productLister.call(idItem)
     );
   }
+  async add(idLocal,item, productAdder){
+    const local = await db.doQuery('SELECT id_catalog FROM local WHERE id_local = ?', idLocal.value)
+    if (local.length == 0) throw new NotFoundError() 
+    await db.doQuery('INSERT INTO item SET ?',{
+      id_item: item.idItem.value,
+      id_catalog: local[0].id_catalog,
+      name: item.name.value,
+      description: item.description.value
+    });
+    await Promise.all( item.products.map( async product => await productAdder.call(idItem, product)));
+    await Promise.all( item.tags.map(tag => this.addTag(idItem,tag)));
+
+  }
   async update(item,productLister,tagLister,productUpdater,productAdder,productRemover){
     await db.doQuery(' UPDATE item SET ? WHERE id_item = ?',[
       {
