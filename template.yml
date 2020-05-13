@@ -48,7 +48,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ./
-      Handler: src/manager/locals/payment/handler/payment_list_all.listAll
+      Handler: src/delivery/payment/handler/payment_list_all.listAll
       Runtime: nodejs10.x
       MemorySize: 128
       Timeout: 60
