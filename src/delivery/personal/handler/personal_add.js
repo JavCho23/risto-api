@@ -1,7 +1,7 @@
 const MySqlPersonalRepository = require("../infrastructure/mysql_personal_repository");
 const PersonalAdder = require("../aplication/add/personal_adder");
 const Uuid = require("../../../shared/domain/value/uuid");
-const NoContentReponse = require("../../../shared/domain/response/no_content_response");
+const CreatedResponse = require("../../../shared/domain/response/created_response");
 const ErrorResponse = require("../../../shared/domain/response/error_response");
 
 exports.addPersonal = async (event) => {
@@ -15,7 +15,7 @@ exports.addPersonal = async (event) => {
       new Uuid(bodyRequest.idManager),
       new Uuid(bodyRequest.idUser)
     );
-    response = new NoContentReponse();
+    response = new CreatedResponse();
   } catch (error) {
     throw error;
     response = new ErrorResponse(error);

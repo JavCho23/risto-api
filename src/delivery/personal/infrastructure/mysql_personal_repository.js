@@ -10,7 +10,7 @@ class MySqlPersonalRepository {
       FROM manager
       INNER JOIN person ON person.id_manager = manager.id_manager
       INNER JOIN user ON user.id_user = person.id_user
-      WHERE manager.state = 1 AND manager.id_local = "5449699c-d70c-44d9-a83a-0f8d220ee207"`,
+      WHERE manager.state = 1 AND manager.id_local = ?`,
       idLocal.value
     );
     return data.map(
@@ -18,7 +18,7 @@ class MySqlPersonalRepository {
         new Personal(
           new Uuid(personal.idPersonal),
           new RawString(personal.name),
-          new PersonalNumber(personal.email)
+          new RawString(personal.email)
         )
     );
   }

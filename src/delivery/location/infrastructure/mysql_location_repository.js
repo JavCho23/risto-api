@@ -22,21 +22,8 @@ class MySqlLocationRepository {
     );
   }
   async update(idLocation, location) {
-    const city = await db.doQuery(
-      `SELECT id_city as idCity, name FROM city WHERE name = ? AND state = 1;`,
-      location.city.value
-    );
-    let idCity;
-    if (city.length == 0) {
-      idCity = new Uuid(uuidv4());
-      const result = await db.doQuery(` INSERT INTO city SET ? `, {
-        id_city: uuidv4(),
-        name: location.city.value,
-        state: 1,
-        created_at: new Date().toLocaleString(),
-        modified_at: new Date().toLocaleString(),
-      });
-    } else idCity = new Uuid(city[0].idCity);
+    const idCity = await this.findOrInsertCity(location.city);
+    console.log(idCity);
     await db.doQuery(
       `UPDATE location SET ?
       WHERE id_location = ?`,
@@ -51,6 +38,36 @@ class MySqlLocationRepository {
         idLocation.value,
       ]
     );
+  }
+  async add(location) {
+    const idCity = await this.findOrInsertCity(location.city);
+    const idLocation = new Uuid(uuidv4());
+    await db.doQuery(`INSERT INTO location SET ?`, {
+      id_location: idLocation.value,
+      id_city: idCity.value,
+      latitude: location.latitude.value,
+      longitude: location.longitude.value,
+      address: location.address.value,
+    });
+    return idLocation;
+  }
+  async findOrInsertCity(city) {
+    let idCity = await db.doQuery(
+      `SELECT id_city as idCity, name FROM city WHERE name = ? AND state = 1;`,
+      city.value
+    );
+    if (city.length == 0) {
+      idCity = new Uuid(uuidv4());
+      await db.doQuery(` INSERT INTO city SET ? `, {
+        id_city: uuidv4(),
+        name: city.value,
+        state: 1,
+        created_at: new Date().toLocaleString(),
+        modified_at: new Date().toLocaleString(),
+      });
+      return idCity;
+    }
+    return new Uuid(idCity[0].idCity);
   }
 }
 
