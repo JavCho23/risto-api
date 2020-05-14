@@ -1,8 +1,3 @@
-const User = require("../../domain/user");
-const UserName = require("../../domain/value/user_name");
-const UserPhoto = require("../../domain/value/user_photo");
-const UserEmail = require("../../domain/value/user_email");
-
 
 class RegisterUser {
     constructor(repository) {

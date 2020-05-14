@@ -7,7 +7,7 @@ class VerifyToken {
     }
     call(secretKey) {
         try {
-            const decoded = JWT.verify(this._token, secretKey);
+            JWT.verify(this._token, secretKey);
         } catch (err) {
             return "unauthorized";
         }

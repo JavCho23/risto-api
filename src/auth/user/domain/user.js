@@ -1,24 +1,26 @@
-const UserId = require("../../../shared/domain/value/uuid");
-const UserName = require("./value/user_name");
-const UserEmail = require("./value/user_email");
-const UserPhoto = require("./value/user_photo");
+const Uuid = require("../../../shared/domain/value/uuid");
+const RawString = require("../../../shared/domain//value/raw_string");
 
 class User {
-    constructor(dataUser) {
-        this._id = new UserId(dataUser.id);
-        this._name = new UserName(dataUser.username);
-        this._email = new UserEmail(dataUser.email);
-        this._photo = new UserPhoto(dataUser.photo);
-    }
+  constructor(dataUser) {
+    this._id = new Uuid(dataUser.idUser);
+    this._email = new RawString(dataUser.email);
+    this._name = new RawString(dataUser.name);
+    this._application = new RawString(dataUser.aplication);
+  }
+  get idUser() {
+    return this._id;
+  }
+  get email() {
+    return this._email;
+  }
+  get name() {
+    return this._name;
+  }
 
-    toJson() {
-        return {
-            id_user: this._id.value,
-            username: this._name.value,
-            photo: this._photo.value,
-            email: this._email.value
-        };
-    }
+  get aplication() {
+    return this._application;
+  }
 }
 
 module.exports = User;

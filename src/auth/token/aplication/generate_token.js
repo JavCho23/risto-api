@@ -7,7 +7,7 @@ class GenerateToken {
         this._securityKey = securityKey;
     }
     call() {
-        const payload = this._user.toJson();
+        const payload = this._user;
         const token = JWT.sign(payload, this._securityKey);
         return token;
     }

@@ -1,24 +1,31 @@
 const db = require("../../../shared/domain/db");
-const User = require("../domain/user");
+const { v4: uuidv4 } = require("uuid");
+
 class MySqlUserRepository {
-  async register(dataUser) {
-    const user = new User(dataUser);
-    const data = await db.doQuery("INSERT INTO user SET ?", user.toJson());
-    return user;
+  async register(user) {
+    const idCustomer = uuidv4();
+    await db.doQuery("INSERT INTO user SET ?", { id_user: user.idUser.value });
+    await db.doQuery("INSERT INTO customer SET ?", { id_customer: idCustomer });
+    await db.doQuery("INSERT INTO person SET ?", {
+      id_person: uuidv4(),
+      id_user: user.idUser.value,
+      id_customer: idCustomer,
+      name: user.name.value,
+    });
+    return { idUser: user.idUser.value, aplication: user.aplication.value };
   }
-  async find(userId) {
+  async find(user) {
     const data = await db.doQuery(
       `SELECT user.id_user,person.name, email FROM user
-            INNER JOIN person ON person.id_user = user.id_user
-            WHERE user.id_user = ?`,
-      userId.value
+      INNER JOIN person ON person.id_user = user.id_user
+      WHERE user.id_user = ?`,
+      user.idUser.value
     );
     if (data.length == 0) return false;
-    return new User({
-      id: data[0].id,
-      username: data[0].name,
-      email: data[0].email,
-    });
+    return {
+      idUser: user.idUser.value,
+      aplication: user.aplication.value,
+    };
   }
 }
 
