@@ -109,7 +109,6 @@ class MySqlLocalRepository {
       WHERE signature.id_signature = ? AND local.state = 1;`,
       [idSignature.value]
     );
-    console.log(data);
     return await Promise.all(
       data.map(
         async (local) =>
