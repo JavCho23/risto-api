@@ -38,6 +38,19 @@ class MySqlPaymentRepository {
         )
     );
   }
+  async find(idPayment) {
+    const data = await db.doQuery(
+      `SELECT payment.id_payment as idPayment, name, description 
+      FROM payment 
+      WHERE payment.state = 1 AND payment.id_payment = ?;`,
+      idPayment.value
+    );
+    return new Payment(
+      new Uuid(data[0].idPayment),
+      new RawString(data[0].name),
+      new RawString(data[0].description)
+    );
+  }
 }
 
 module.exports = MySqlPaymentRepository;
