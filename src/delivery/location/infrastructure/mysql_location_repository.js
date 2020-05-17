@@ -23,7 +23,6 @@ class MySqlLocationRepository {
   }
   async update(idLocation, location) {
     const idCity = await this.findOrInsertCity(location.city);
-    console.log(idCity);
     await db.doQuery(
       `UPDATE location SET ?
       WHERE id_location = ?`,
