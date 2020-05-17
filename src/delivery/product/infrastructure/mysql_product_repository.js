@@ -3,7 +3,7 @@ const Product = require("../domain/product");
 const RawString = require("../../../shared/domain/value/raw_string");
 const RawDouble = require("../../../shared/domain/value/raw_double");
 const Uuid = require("../../../shared/domain/value/uuid");
-
+const { v4: uuidv4 } = require("uuid");
 class MySqlProductRepository {
   async list(idItem) {
     const data = await db.doQuery(
@@ -36,14 +36,29 @@ class MySqlProductRepository {
     );
   }
   async add(idItem, product) {
-    await db.doQuery(`INSERT INTO product SET ? `, 
-      {
-        id_product: product.idProduct.value,
-        id_item: idItem.value,
-        name: product.name.value,
-        price: product.price.value,
-      }
+    await db.doQuery(`INSERT INTO product SET ? `, {
+      id_product: product.idProduct.value,
+      id_item: idItem.value,
+      name: product.name.value,
+      price: product.price.value,
+    });
+  }
+  async rate(idProduct, idUser, score) {
+    const item = await db.doQuery(
+      `SELECT id_item as idItem FROM product  WHERE id_product = ? `,
+      idProduct.value
     );
+    const customer = await db.doQuery(
+      `SELECT id_customer as idCustomer person WHERE id_user = ?`,
+      idUser.value
+    );
+
+    await db.doQuery(`INSERT INTO qualification SET ? `, {
+      id_qualification: uuidv4(),
+      id_item: item.idItem,
+      id_customer: customer.idCustomer,
+      amount: score.value,
+    });
   }
 }
 
