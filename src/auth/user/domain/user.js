@@ -3,7 +3,7 @@ const RawString = require("../../../shared/domain//value/raw_string");
 
 class User {
   constructor(dataUser) {
-    this._id = new Uuid(dataUser.idUser);
+    this._id = new RawString(dataUser.idUser);
     this._email = new RawString(dataUser.email);
     this._name = new RawString(dataUser.name);
     this._application = new RawString(dataUser.aplication);
