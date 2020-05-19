@@ -6,7 +6,7 @@ const Uuid = require("../../../shared/domain/value/uuid");
 class MySqlPersonalRepository {
   async list(idLocal) {
     const data = await db.doQuery(
-      `SELECT manager.id_manager as idManager, CONCAT(person.name, person.lastname) as name, user.email
+      `SELECT manager.id_manager as idManager, person.name, user.email
       FROM manager
       INNER JOIN person ON person.id_manager = manager.id_manager
       INNER JOIN user ON user.id_user = person.id_user
