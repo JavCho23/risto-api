@@ -7,9 +7,9 @@ const Uuid = require("../../../shared/domain/value/uuid");
 const NotFoundError = require("../../../shared/domain/error/no_found_error");
 
 class MySqlDeliveryRepository {
-  async find(idDelivery, locationFinder, paymentFinder, orderLister,idUser) {
+  async find(idDelivery, locationFinder, paymentFinder, orderLister, idUser) {
     const data = await db.doQuery(
-      `SELECT delivery.id_delivery as idDelivery, local.id_local as idLocal, status.name as status , profile.name, local.name as local, delivery.created_at as date, profile.id_location as idLocation, delivery.price, delivery.id_payment as idPayment
+      `SELECT delivery.id_delivery as idDelivery, local.id_local as idLocal, status.name as status , profile.name, local.name as local, delivery.created_at as date, profile.id_location as idLocation, delivery.price,delivery.total, delivery.id_payment as idPayment
       FROM delivery 
       INNER JOIN profile ON profile.id_profile = delivery.id_profile
       INNER JOIN person ON person.id_customer = profile.id_customer
@@ -31,6 +31,7 @@ class MySqlDeliveryRepository {
       await locationFinder.call(idDelivery),
       await orderLister.call(idDelivery, idUser),
       new RawDouble(deliveryInfo.price),
+      new RawDouble(deliveryInfo.total),
       await paymentFinder.call(new Uuid(deliveryInfo.idPayment))
     );
   }
@@ -115,7 +116,16 @@ class MySqlDeliveryRepository {
     );
   }
 
-  async add(idDelivery, idLocal, idUser, idPayment, price, orders, orderAdder) {
+  async add(
+    idDelivery,
+    idLocal,
+    idUser,
+    idPayment,
+    price,
+    total,
+    orders,
+    orderAdder
+  ) {
     const profile = await db.doQuery(
       `SELECT profile.id_profile as idProfile, id_location as idProfile FROM profile
     INNER JOIN person ON profile.id_customer = person.id_customer
@@ -128,6 +138,7 @@ class MySqlDeliveryRepository {
       id_profile: profile[0].idProfile,
       id_payment: idPayment.value,
       price: price.value,
+      total: total.value,
     });
     await Promise.all(
       orders.map(

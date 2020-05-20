@@ -1,4 +1,4 @@
-class Local {
+class Delivery {
   constructor(
     id,
     idLocal,
@@ -9,6 +9,7 @@ class Local {
     location,
     orders,
     price,
+    total,
     payment
   ) {
     this._id = id;
@@ -20,6 +21,7 @@ class Local {
     this._date = date;
     this._status = status;
     this._price = price;
+    this._total = total;
     this._payment = payment;
   }
   get idDelivery() {
@@ -43,6 +45,9 @@ class Local {
   get payment() {
     return this._payment;
   }
+  get total() {
+    return this._total;
+  }
   toJson() {
     return {
       idDelivery: this._id.value,
@@ -59,4 +64,4 @@ class Local {
   }
 }
 
-module.exports = Local;
+module.exports = Delivery;

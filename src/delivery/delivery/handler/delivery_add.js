@@ -20,6 +20,7 @@ exports.updateLocal = async (event) => {
       new Uuid(JWT.decode(headers["x-api-key"]).idUser),
       new Uuid(bodyRequest.idPayment),
       new RawDouble(bodyRequest.price),
+      new RawDouble(bodyRequest.total),
       bodyRequest.orders,
       new OrderAdder(MySqlOrderRepository())
     );
