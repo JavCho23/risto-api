@@ -8,10 +8,17 @@ const NotFoundError = require("../../../shared/domain/error/no_found_error");
 const LocalFilterUpdatePayments = require("./local_filter_update_payments");
 const LocalFilterUpdatePhones = require("./local_filter_update_phones");
 class MySqlLocalRepository {
-  async find(idLocal, phoneLister, locationFinder, scheduleFinder, paymentsLister) {
+  async find(
+    idLocal,
+    phoneLister,
+    locationFinder,
+    scheduleFinder,
+    paymentsLister
+  ) {
     const data = await db.doQuery(
-      `SELECT id_location as idLocation, name, description, COUNT(follow.id_customer) as follows  
+      `SELECT id_location as idLocation, local.name, description, local.delivery_price as deliveryPrice, COUNT(follow.id_customer) as follows, tag.name as category  
       FROM local
+      INNER JOIN tag ON tag.id_tag = local.id_tag
       LEFT JOIN follow ON follow.id_local = local.id_local
       WHERE local.id_local = ? AND local.state = 1;`,
       idLocal.value
@@ -22,6 +29,8 @@ class MySqlLocalRepository {
       idLocal,
       new RawString(localInfo.name),
       new RawString(localInfo.description),
+      new RawString(this.singularize(localInfo.category)),
+      new RawDouble(localInfo.deliveryPrice),
       await locationFinder.call(new Uuid(localInfo.idLocation)),
       new RawDouble(localInfo.follows),
       await phoneLister.call(idLocal),
@@ -30,7 +39,16 @@ class MySqlLocalRepository {
     );
   }
 
-  async update(local, phoneLister,paymentsLister,locationUpdater,scheduleUpdater,phoneUpdater,phoneAdder,phoneRemover) {
+  async update(
+    local,
+    phoneLister,
+    paymentsLister,
+    locationUpdater,
+    scheduleUpdater,
+    phoneUpdater,
+    phoneAdder,
+    phoneRemover
+  ) {
     const ids = await db.doQuery(
       `SELECT id_location as idLocation, schedule.id_schedule as idSchedule
       FROM local
@@ -46,7 +64,7 @@ class MySqlLocalRepository {
         {
           name: local.name.value,
           description: local.description.value,
-          modified_at: new Date().toLocaleString(),
+          delivery_price: local.deliveryPrice.value
         },
         local.idLocal.value,
       ]
@@ -71,6 +89,15 @@ class MySqlLocalRepository {
     );
     await localFilterUpdatePhones.call();
     await scheduleUpdater.call(new Uuid(ids[0].idSchedule), local.schedule);
+  }
+  singularize(word) {
+    word = word.split("");
+    if (word[word.length - 2] == "E") {
+      word.splice(word.length - 2, 2);
+      return word.join("");
+    }
+    word.splice(word.length - 1, 2);
+    return word.join("");
   }
 
   async rename(idLocal, name) {
@@ -101,7 +128,13 @@ class MySqlLocalRepository {
     });
   }
 
-  async listBySignature( idSignature, phoneLister, locationFinder, scheduleFinder, paymentLister) {
+  async listBySignature(
+    idSignature,
+    phoneLister,
+    locationFinder,
+    scheduleFinder,
+    paymentLister
+  ) {
     const data = await db.doQuery(
       `SELECT id_Local as idLocal
       FROM local
