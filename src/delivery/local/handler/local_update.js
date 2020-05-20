@@ -32,7 +32,6 @@ exports.updateLocal = async (event) => {
     );
     response = new NoContentReponse();
   } catch (error) {
-    throw error;
     response = new ErrorResponse(error);
   }
   return response.toJson();

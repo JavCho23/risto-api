@@ -41,10 +41,8 @@ exports.search = async (event) => {
       new ScheduleFinder(new MySqlDayRepository()),
       new PaymentLister(new MySqlPaymentRepository())
     );
-    console.log(body);
     response = new SuccessResponse(body.map((result) => result.toJson()));
   } catch (error) {
-    throw error;
     response = new ErrorResponse(error);
   }
   return response.toJson();

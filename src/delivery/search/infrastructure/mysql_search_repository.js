@@ -96,7 +96,6 @@ class MySqlSearchRepository {
     );
   }
   async findItemResults(results, itemFinder, productLister, tagLister) {
-    console.log(results);
     return await Promise.all(
       results.map(async (result) => {
         return await itemFinder.call(
