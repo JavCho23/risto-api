@@ -1,10 +1,11 @@
 const RawString = require("../../../shared/domain/value/raw_string");
 
 class Personal {
-  constructor(id, name, email) {
+  constructor(id, name, email, idUser) {
     this._id = id;
     this._name = name;
     this._email = email;
+    this._idUser = idUser;
   }
   get idManager() {
     return this._id;
@@ -14,6 +15,9 @@ class Personal {
   }
   get email() {
     return this._email;
+  }
+  get idUser() {
+    return this._idUser;
   }
   static fromJson(personal) {
     return new this(
