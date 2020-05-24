@@ -68,6 +68,66 @@ Resources:
       Policies:
         # Give Lambda basic execution Permission to the helloFromLambda
         - AWSLambdaBasicExecutionRole
+  findLocal:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./
+      Handler: src/delivery/local/handler/local_find.findLocal
+      Runtime: nodejs10.x
+      MemorySize: 128
+      Timeout: 60
+      Description: This function return one local.
+      Policies:
+        # Give Lambda basic execution Permission to the helloFromLambda
+        - AWSLambdaBasicExecutionRole
+  listLocalPayments:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./
+      Handler: src/delivery/payment/handler/payment_list_by_local.listByLocal
+      Runtime: nodejs10.x
+      MemorySize: 128
+      Timeout: 60
+      Description: This function return local payments.
+      Policies:
+        # Give Lambda basic execution Permission to the helloFromLambda
+        - AWSLambdaBasicExecutionRole
+  listLocalItems:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./
+      Handler: src/delivery/item/handler/item_list_by_local.listItemsByLocal
+      Runtime: nodejs10.x
+      MemorySize: 128
+      Timeout: 60
+      Description: This function return all local items.
+      Policies:
+        # Give Lambda basic execution Permission to the helloFromLambda
+        - AWSLambdaBasicExecutionRole
+  getItemViews:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./
+      Handler: src/delivery/item/handler/item_get_views.getItemViews
+      Runtime: nodejs10.x
+      MemorySize: 128
+      Timeout: 60
+      Description: This function return one local.
+      Policies:
+        # Give Lambda basic execution Permission to the helloFromLambda
+        - AWSLambdaBasicExecutionRole
+  addItemView:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./
+      Handler: src/delivery/item/handler/item_add_view.addItemView
+      Runtime: nodejs10.x
+      MemorySize: 128
+      Timeout: 60
+      Description: This function return one local.
+      Policies:
+        # Give Lambda basic execution Permission to the helloFromLambda
+        - AWSLambdaBasicExecutionRole
   authVerifyFunction:
     Type: AWS::Serverless::Function
     Properties:
