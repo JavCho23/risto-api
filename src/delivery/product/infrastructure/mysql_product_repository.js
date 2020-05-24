@@ -43,22 +43,34 @@ class MySqlProductRepository {
       price: product.price.value,
     });
   }
-  async rate(idProduct, idUser, score) {
+  async rate(idProduct, idUser, score, itemRateCalculater) {
     const item = await db.doQuery(
       `SELECT id_item as idItem FROM product  WHERE id_product = ? `,
       idProduct.value
     );
     const customer = await db.doQuery(
-      `SELECT id_customer as idCustomer person WHERE id_user = ?`,
+      `SELECT id_customer as idCustomer FROM person WHERE id_user = ?`,
       idUser.value
     );
+    const isRegister = await db.doQuery(
+      `SELECT 'skrin.dev'  FROM qualification WHERE id_item = ? AND id_customer = ?`,
+      [item[0].idItem, customer[0].idCustomer]
+    );
+    if (isRegister.length == 0) {
+      await db.doQuery(`INSERT INTO qualification SET ? `, {
+        id_qualification: uuidv4(),
+        id_item: item[0].idItem,
+        id_customer: customer[0].idCustomer,
+        amount: score.value,
+      });
+    } else {
+      await db.doQuery(
+        `UPDATE qualification SET amount = ? WHERE id_item = ? AND id_customer = ?`,
+        [score.value, item[0].idItem, customer[0].idCustomer]
+      );
+    }
 
-    await db.doQuery(`INSERT INTO qualification SET ? `, {
-      id_qualification: uuidv4(),
-      id_item: item.idItem,
-      id_customer: customer.idCustomer,
-      amount: score.value,
-    });
+    await itemRateCalculater.call(new Uuid(item.idItem));
   }
 }
 

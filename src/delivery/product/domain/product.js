@@ -21,7 +21,7 @@ class Product {
   get name() {
     return this._name;
   }
-  get price(){
+  get price() {
     return this._price;
   }
   toJson() {
