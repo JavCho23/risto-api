@@ -214,14 +214,14 @@ class MySqlLocalRepository {
     );
     locals.sort(function (a, b) {
       if (
-        a.location.distance(location.latitude, location.longitude) >
-        b.distance(location.latitude, location.longitude)
+        a.location.getDistance(location.latitude, location.longitude) >
+        b.getDistance(location.latitude, location.longitude)
       ) {
         return 1;
       }
       if (
-        a.distance(location.latitude, location.longitude) <
-        b.distance(location.latitude, location.longitude)
+        a.getDistance(location.latitude, location.longitude) <
+        b.getDistance(location.latitude, location.longitude)
       ) {
         return -1;
       }

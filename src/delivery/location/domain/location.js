@@ -11,7 +11,7 @@ class Location {
   get address() {
     return this._address;
   }
-  get distance(latitude, longitude) {
+  getDistance(latitude, longitude) {
     radianes = function (x) {
       return (x * Math.PI) / 180;
     };
