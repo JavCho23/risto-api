@@ -6,9 +6,11 @@
     "dependencies": {
         "aws-sdk": "^2.625.0",
         "eslint": "^6.8.0",
+        "firebase-admin": "^8.12.1",
         "jsonwebtoken": "^8.5.1",
         "mysql": "^2.18.1",
-        "uuid": "^7.0.3"
+        "uuid": "^7.0.3",
+        "xlsx": "^0.16.1"
     },
     "devDependencies": {
         "jest": "^24.7.1"
