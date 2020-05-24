@@ -11,7 +11,22 @@ class Location {
   get address() {
     return this._address;
   }
-
+  get distance(latitude, longitude) {
+    radianes = function (x) {
+      return (x * Math.PI) / 180;
+    };
+    const R = 6378.137;
+    var distanceLat = radianes(latitude - this._latitude);
+    var distanceLong = radianes(longitude - this._longitude);
+    var a =
+      Math.sin(distanceLat / 2) * Math.sin(distanceLat / 2) +
+      Math.cos(radianes(this.latitude)) *
+        Math.cos(radianes(latitude)) *
+        Math.sin(distanceLong / 2) *
+        Math.sin(distanceLong / 2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+  }
   get city() {
     return this._city;
   }

@@ -3,6 +3,7 @@ const Local = require("../domain/local");
 const RawString = require("../../../shared/domain/value/raw_string");
 const RawDouble = require("../../../shared/domain/value/raw_double");
 const Uuid = require("../../../shared/domain/value/uuid");
+const Utils = require("../../../shared/domain/utils");
 const NotFoundError = require("../../../shared/domain/error/no_found_error");
 
 const LocalFilterUpdatePayments = require("./local_filter_update_payments");
@@ -38,7 +39,7 @@ class MySqlLocalRepository {
       await paymentsLister.call(idLocal)
     );
   }
-
+  
   async update(
     local,
     phoneLister,
@@ -64,7 +65,7 @@ class MySqlLocalRepository {
         {
           name: local.name.value,
           description: local.description.value,
-          delivery_price: local.deliveryPrice.value
+          delivery_price: local.deliveryPrice.value,
         },
         local.idLocal.value,
       ]
@@ -154,6 +155,79 @@ class MySqlLocalRepository {
           )
       )
     );
+  }
+  async listFavorites(
+    idUser,
+    phoneLister,
+    locationFinder,
+    scheduleFinder,
+    paymentLister
+  ) {
+    const data = await db.doQuery(
+      `SELECT local.id_Local as idLocal
+      FROM local
+      INNER JOIN follow ON follow.id_local = local.id_local
+      INNER JOIN person ON follow.id_customer = person.id_customer
+      WHERE person.id_user = ?`,
+      idUser.value
+    );
+    return await Promise.all(
+      data.map(
+        async (local) =>
+          await this.find(
+            new Uuid(local.idLocal),
+            phoneLister,
+            locationFinder,
+            scheduleFinder,
+            paymentLister
+          )
+      )
+    );
+  }
+  async listNear(
+    location,
+    limit,
+    offset,
+    phoneLister,
+    locationFinder,
+    scheduleFinder,
+    paymentLister
+  ) {
+    const data = await db.doQuery(
+      `SELECT id_Local as idLocal
+      FROM local
+      INNER JOIN location ON local.id_location = location.id_location
+      WHERE ROUND(location.latitude,0) = ROUND(?,0) AND ROUND(location.longitude,0) = ROUND(?,0) AND local.state = 1;`,
+      [location.latitude, location.longitude]
+    );
+    const locals = await Promise.all(
+      data.map(
+        async (local) =>
+          await this.find(
+            new Uuid(local.idLocal),
+            phoneLister,
+            locationFinder,
+            scheduleFinder,
+            paymentLister
+          )
+      )
+    );
+    locals.sort(function (a, b) {
+      if (
+        a.location.distance(location.latitude, location.longitude) >
+        b.distance(location.latitude, location.longitude)
+      ) {
+        return 1;
+      }
+      if (
+        a.distance(location.latitude, location.longitude) <
+        b.distance(location.latitude, location.longitude)
+      ) {
+        return -1;
+      }
+      return 0;
+    });
+    return Utils.paginate(locals, limit.value, offset.value);
   }
 }
 
