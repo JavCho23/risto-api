@@ -1,8 +1,10 @@
 const JSONResponse = require("./response");
-class SuccessResponse extends JSONResponse{
-    constructor(body){
-        super(200,body);
-    }
+const NoFoundError = require("../error/no_found_error");
+class SuccessResponse extends JSONResponse {
+  constructor(body) {
+    if (Array.isArray(body) && body.length == 0) throw new NoFoundError();
+    super(200, body);
+  }
 }
 
 module.exports = SuccessResponse;
