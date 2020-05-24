@@ -1,0 +1,24 @@
+{
+  "local": {
+    "newDelivery": {
+      "title": "NUEVO PEDIDO",
+      "message": "Se ha agregado un nuevo pedido, atiendelo lo más pronto que puedas "
+    }
+  },
+  "client": {
+    "incomingDelivery": {
+      "title": "PEDIDO EN CAMINO",
+      "message": "Su pedido ya esta en camino "
+    },
+    "finishDelivery": {
+      "title": "PEDIDO FINALIZADO",
+      "message": "Su pedido ha sido entregado "
+    }
+  },
+  "shared": {
+    "cancelDelivery": {
+      "title": "PERDIDO CANCELADO",
+      "message": "Se ha cancelado un pedido "
+    }
+  }
+}

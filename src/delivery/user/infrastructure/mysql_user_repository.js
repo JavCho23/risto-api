@@ -4,10 +4,18 @@ const RawString = require("../../../shared/domain/value/raw_string");
 const Uuid = require("../../../shared/domain/value/uuid");
 
 class MySqlUserRepository {
+  async findDeviceToken(idUser) {
+    const data = await db.doQuery(
+      `SELECT user.device_token as deviceToken FROM user 
+      WHERE user.id_user = ?'`,
+      idUser.value
+    );
+    return new RawString(data[0].deviceToken);
+  }
   async list(query) {
     if (query.value.length < 4) return [];
     const data = await db.doQuery(
-      `SELECT user.id_user as idUser ,user.email,  CONCAT(person.name, person.lastname) as name FROM user 
+      `SELECT user.id_user as idUser ,user.email, person.name FROM user 
       INNER JOIN person ON person.id_user = user.id_user
       WHERE user.email LIKE '%?%' OR  person.name LIKE '%?%'`,
       [query.value, query.value]

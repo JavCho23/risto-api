@@ -1,0 +1,11 @@
+{
+  "local": {
+    "newDelivery": "Se ha agregado un nuevo pedido, atiendelo lo más pronto que puedas ",
+    "cancelDelivery": "Se ha cancelado un pedido "
+  },
+  "client": {
+    "processDelivery": "Su pedido ya esta siendo preparado ",
+    "incomingDelivery": "Su pedido ya esta en camino ",
+    "finishDelivery": "Su pedido ha sido entregado "
+  }
+}

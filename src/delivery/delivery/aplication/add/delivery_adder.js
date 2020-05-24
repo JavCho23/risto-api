@@ -10,7 +10,10 @@ class DeliveryAdder {
     price,
     total,
     orders,
-    orderAdder
+    orderAdder,
+    deliveryCreatedNotification,
+    allPersonalLister,
+    tokenDeviceFinder
   ) {
     return this.repository.add(
       idDelivery,
@@ -18,10 +21,15 @@ class DeliveryAdder {
       idUser,
       idPayment,
       price,
+      total,
       orders,
-      orderAdder
+      orderAdder,
+      deliveryCreatedNotification,
+      allPersonalLister,
+      tokenDeviceFinder
     );
   }
 }
 
 module.exports = DeliveryAdder;
+
