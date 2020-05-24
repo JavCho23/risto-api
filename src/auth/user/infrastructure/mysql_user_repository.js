@@ -4,7 +4,11 @@ const { v4: uuidv4 } = require("uuid");
 class MySqlUserRepository {
   async register(user) {
     const idCustomer = uuidv4();
-    await db.doQuery("INSERT INTO user SET ?", { id_user: user.idUser.value });
+    await db.doQuery("INSERT INTO user SET ?", {
+      id_user: user.idUser.value,
+      email: user.email.value,
+      device_token: user.deviceToken.value,
+    });
     await db.doQuery("INSERT INTO customer SET ?", { id_customer: idCustomer });
     await db.doQuery("INSERT INTO person SET ?", {
       id_person: uuidv4(),
@@ -22,6 +26,10 @@ class MySqlUserRepository {
       user.idUser.value
     );
     if (data.length == 0) return false;
+    await db.doQuery(
+      `UPDATE user SET device_token = ? WHERE user.id_user = ?`,
+      [user.deviceToken.value, user.idUser.value]
+    );
     return {
       idUser: user.idUser.value,
       aplication: user.aplication.value,
