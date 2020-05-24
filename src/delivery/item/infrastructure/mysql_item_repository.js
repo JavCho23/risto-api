@@ -1,15 +1,18 @@
 const db = require("../../../shared/domain/db");
 const Item = require("../domain/item");
+const Product = require("../../product/domain/product");
 const RawString = require("../../../shared/domain/value/raw_string");
 const RawDouble = require("../../../shared/domain/value/raw_double");
 const RawBool = require("../../../shared/domain/value/raw_bool");
 const Uuid = require("../../../shared/domain/value/uuid");
 const NotFoundError = require("../../../shared/domain/error/no_found_error");
+const ItemFilterUpdateTag = require("./item_filter_update_tag");
+const ItemFilterUpdateProduct = require("./item_filter_update_product");
+const columms = require("./persistence/excel_columms.json");
+const tag_categories = require("../../../shared/infrastructure/persistence/tag_categories.json");
 const { v4: uuidv4 } = require("uuid");
-const tag_categories = require('../../../shared/infrastructure/persistence/tag_categories.json')
-const ItemFilterUpdateTag = require('./item_filter_update_tag');
-const ItemFilterUpdateProduct = require('./item_filter_update_product');
-
+const XLSX = require("xlsx");
+const Utils = require("../../../shared/domain/utils");
 class MySqlItemRepository {
   async find(idItem, productLister, tagLister) {
     const data = await db.doQuery(
@@ -36,53 +39,115 @@ class MySqlItemRepository {
       await productLister.call(idItem)
     );
   }
-  async add(idLocal,item, productAdder){
-    const local = await db.doQuery('SELECT id_catalog FROM local WHERE id_local = ?', idLocal.value)
-    if (local.length == 0) throw new NotFoundError() 
-    await db.doQuery('INSERT INTO item SET ?',{
+  async add(idLocal, item, productAdder) {
+    const local = await db.doQuery(
+      "SELECT id_catalog FROM local WHERE id_local = ?",
+      idLocal.value
+    );
+    if (local.length == 0) throw new NotFoundError();
+    await db.doQuery("INSERT INTO item SET ?", {
       id_item: item.idItem.value,
       id_catalog: local[0].id_catalog,
       name: item.name.value,
-      description: item.description.value
+      description: item.description.value,
     });
-    await Promise.all( item.products.map( async product => await productAdder.call(idItem, product)));
-    await Promise.all( item.tags.map(tag => this.addTag(idItem,tag)));
-
+    await Promise.all(
+      item.products.map(
+        async (product) => await productAdder.call(idItem, product)
+      )
+    );
+    await Promise.all(item.tags.map((tag) => this.addTag(idItem, tag)));
   }
-  async update(item,productLister,tagLister,productUpdater,productAdder,productRemover){
-    await db.doQuery(' UPDATE item SET ? WHERE id_item = ?',[
+  async addFromExcel(idLocal, base64StringFile, productAdder) {
+    const workbook = XLSX.read(base64StringFile, { type: "base64" });
+    const data = Utils.sheetToArray(workbook.Sheets["Sheet1"]);
+    for (let row = 1; row < data.length; row++) {
+      for (let col = 0; col < data[row].length; col++) {
+        const productData = data[row][columms.products].split(",");
+        const products = [];
+        for (let index = 0; index < productData.length; index += 2) {
+          products.push(
+            Product.fromJson({
+              idProduct: uuidv4(),
+              name: productData[index],
+              price: productData[index + 1],
+            })
+          );
+        }
+        this.add(
+          idLocal,
+          new Item.fromJson({
+            idItem: uuidv4(),
+            name: data[row][columms.name],
+            description: data[row][columms.description],
+            tags: data[row][columms.tags].split(","),
+            products: products,
+          }),
+          productAdder
+        );
+      }
+    }
+  }
+  async update(
+    item,
+    productLister,
+    tagLister,
+    productUpdater,
+    productAdder,
+    productRemover
+  ) {
+    await db.doQuery(" UPDATE item SET ? WHERE id_item = ?", [
       {
         name: item.name.value,
         description: item.description.value,
-        modified_at: new Date().toLocaleString()
+        modified_at: new Date().toLocaleString(),
       },
-      item.idItem.value
-  ]);
-    const itemFilterUpdateProduct = new ItemFilterUpdateProduct(item.idItem,item.products, productLister,productUpdater,productAdder,productRemover);
+      item.idItem.value,
+    ]);
+    const itemFilterUpdateProduct = new ItemFilterUpdateProduct(
+      item.idItem,
+      item.products,
+      productLister,
+      productUpdater,
+      productAdder,
+      productRemover
+    );
     await itemFilterUpdateProduct.call();
-    const itemFilterUpdateTag = new ItemFilterUpdateTag(item.idItem,item.tags,tagLister,this.addTag,this.removeTag);
+    const itemFilterUpdateTag = new ItemFilterUpdateTag(
+      item.idItem,
+      item.tags,
+      tagLister,
+      this.addTag,
+      this.removeTag
+    );
     await itemFilterUpdateTag.call();
   }
-  async addTag(idItem,name){
+  async addTag(idItem, name) {
     console.log(name);
-    const id = await db.doQuery('SELECT id_tag as idTag FROM tag WHERE name = ?', name.value);
+    const id = await db.doQuery(
+      "SELECT id_tag as idTag FROM tag WHERE name = ?",
+      name.value
+    );
     let idTag;
     console.log(id);
     if (id.length == 0) {
       idTag = uuidv4();
-      await db.doQuery('INSERT INTO tag SET ?',{
+      await db.doQuery("INSERT INTO tag SET ?", {
         id_tag: idTag,
         id_category: tag_categories.etiqueta,
-        name: name.value
-      })
-    }else idTag = id[0].idTag
-    await db.doQuery(' INSERT INTO tagger SET ?',{
+        name: name.value,
+      });
+    } else idTag = id[0].idTag;
+    await db.doQuery(" INSERT INTO tagger SET ?", {
       id_tag: idTag,
-      id_item: idItem.value
-    })
+      id_item: idItem.value,
+    });
   }
-  async removeTag(idItem, idTag){
-    await db.doQuery(' DELETE FROM tagger WHERE id_item = ? AND id_tag = ?', [idItem.value,idTag.value])
+  async removeTag(idItem, idTag) {
+    await db.doQuery(" DELETE FROM tagger WHERE id_item = ? AND id_tag = ?", [
+      idItem.value,
+      idTag.value,
+    ]);
   }
   async listByLocal(idLocal, limit, offset, productLister, tagLister) {
     const data = await db.doQuery(
@@ -129,6 +194,21 @@ class MySqlItemRepository {
       WHERE id_item = ?`,
       [idItem.value]
     );
+  }
+  async calculateRate(idItem) {
+    const qualifications = await db.doQuery(
+      `SELECT amount from qualification WHERE id_item = ?`,
+      idItem.value
+    );
+    if (qualifications.length == 0) return;
+    const score =
+      qualifications.reduce(
+        (accumulator, currentValue) => accumulator + currentValue
+      ) / qualifications.length;
+    await db.doQuery(`UPDATE item SET score = ? WHERE id_item = ?`, [
+      score,
+      idItem.value,
+    ]);
   }
 }
 

@@ -1,6 +1,6 @@
 const db = require("../../../shared/domain/db");
 const SearchResult = require("../domain/search_result");
-const RawString = require("../../../shared/domain/value/raw_string");
+const Utils = require("../../../shared/domain/utils");
 const RawDouble = require("../../../shared/domain/value/raw_double");
 const Uuid = require("../../../shared/domain/value/uuid");
 
@@ -27,7 +27,7 @@ class MySqlSearchRepository {
       case "local":
         results = await this.searchLocals(query);
         return await this.findLocalResults(
-          this.paginate(results, limit.value, offset.value),
+          Utils.paginate(results, limit.value, offset.value),
           localFinder,
           phoneLister,
           locationFinder,
@@ -37,7 +37,7 @@ class MySqlSearchRepository {
       case "item":
         results = await this.searchItems(query);
         return await this.findItemResults(
-          this.paginate(results, limit.value, offset.value),
+          Utils.paginate(results, limit.value, offset.value),
           itemFinder,
           productLister,
           tagLister
@@ -52,9 +52,7 @@ class MySqlSearchRepository {
       .map((word) => word + "*")
       .join(" ");
   }
-  paginate(array, limit, offset) {
-    return array.filter((x, index) => index >= offset && index < limit);
-  }
+
   async searchItems(query) {
     const data = await db.doQuery(
       `SELECT item.id_item as idItem,  
@@ -98,11 +96,7 @@ class MySqlSearchRepository {
   async findItemResults(results, itemFinder, productLister, tagLister) {
     return await Promise.all(
       results.map(async (result) => {
-        return await itemFinder.call(
-          result.id,
-          productLister,
-          tagLister
-        );
+        return await itemFinder.call(result.id, productLister, tagLister);
       })
     );
   }
@@ -116,7 +110,7 @@ class MySqlSearchRepository {
   ) {
     return Promise.all(
       results.map(async (result) => {
-       return await localFinder.call(
+        return await localFinder.call(
           result.id,
           phoneLister,
           locationFinder,
