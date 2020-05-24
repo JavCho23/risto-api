@@ -1,0 +1,18 @@
+{
+  "incoming": {
+    "id": "1505607e-ac75-42c9-8652-48555e41b917",
+    "name": "EN CAMINO"
+  },
+  "finish": {
+    "id": "2686770e-02b1-45b7-94f0-bbf47f9c1a63",
+    "name": "FINALIZADO"
+  },
+  "cancel": {
+    "id": "37ef3505-3d8c-4a61-8533-1b8332549520",
+    "name": "CANCELADO"
+  },
+  "pending": {
+    "id": "55c91281-59d5-4463-b68f-50d0ef65c4cc",
+    "name": "PENDIENTE"
+  }
+}
