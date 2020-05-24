@@ -6,7 +6,8 @@ class User {
     this._id = new RawString(dataUser.idUser);
     this._email = new RawString(dataUser.email);
     this._name = new RawString(dataUser.name);
-    this._application = new RawString(dataUser.aplication);
+    this._deviceToken = new RawString(dataUser.deviceToken);
+    this._aplication = new RawString(dataUser.aplication);
   }
   get idUser() {
     return this._id;
@@ -19,7 +20,10 @@ class User {
   }
 
   get aplication() {
-    return this._application;
+    return this._aplication;
+  }
+  get deviceToken() {
+    return this._deviceToken;
   }
 }
 
