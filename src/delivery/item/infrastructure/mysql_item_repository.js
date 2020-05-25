@@ -155,8 +155,7 @@ class MySqlItemRepository {
       FROM item 
       INNER JOIN catalog ON catalog.id_catalog = item.id_catalog
       INNER JOIN local ON local.id_local = catalog.id_local
-      WHERE local.id_local = ? AND item.state = 1
-      LIMIT ? OFFSET ?;`,
+      WHERE local.id_local = ? AND item.state = 1`,
       [idLocal.value, limit.value, offset.value]
     );
     return await Promise.all(
