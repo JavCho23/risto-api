@@ -140,6 +140,54 @@ Resources:
       Policies:
         # Give Lambda basic execution Permission to the helloFromLambda
         - AWSLambdaBasicExecutionRole
+  listUserProfiles:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./
+      Handler: src/delivery/profile/handler/profile_list_by_user.listProfilesByUser
+      Runtime: nodejs10.x
+      MemorySize: 128
+      Timeout: 60
+      Description: This function return all user profiles.
+      Policies:
+        # Give Lambda basic execution Permission to the helloFromLambda
+        - AWSLambdaBasicExecutionRole
+  addUserProfile:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./
+      Handler: src/delivery/profile/handler/profile_add.addProfile
+      Runtime: nodejs10.x
+      MemorySize: 128
+      Timeout: 60
+      Description: This function add a profile.
+      Policies:
+        # Give Lambda basic execution Permission to the helloFromLambda
+        - AWSLambdaBasicExecutionRole
+  removeUserProfile:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./
+      Handler: src/delivery/profile/handler/profile_remove.removeProfile
+      Runtime: nodejs10.x
+      MemorySize: 128
+      Timeout: 60
+      Description: This function remove a profile.
+      Policies:
+        # Give Lambda basic execution Permission to the helloFromLambda
+        - AWSLambdaBasicExecutionRole
+  updateUserProfile:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./
+      Handler: src/delivery/profile/handler/profile_update.updateProfile
+      Runtime: nodejs10.x
+      MemorySize: 128
+      Timeout: 60
+      Description: This function update a profile.
+      Policies:
+        # Give Lambda basic execution Permission to the helloFromLambda
+        - AWSLambdaBasicExecutionRole
   authVerifyClient:
     Type: AWS::Serverless::Function
     Properties:
