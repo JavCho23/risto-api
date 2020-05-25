@@ -112,7 +112,7 @@ Resources:
       Runtime: nodejs10.x
       MemorySize: 128
       Timeout: 60
-      Description: This function return one local.
+      Description: This function return total views for one item.
       Policies:
         # Give Lambda basic execution Permission to the helloFromLambda
         - AWSLambdaBasicExecutionRole
@@ -124,7 +124,19 @@ Resources:
       Runtime: nodejs10.x
       MemorySize: 128
       Timeout: 60
-      Description: This function return one local.
+      Description: This function add one view to item.
+      Policies:
+        # Give Lambda basic execution Permission to the helloFromLambda
+        - AWSLambdaBasicExecutionRole
+  search:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./
+      Handler: src/delivery/search/handler/search_list.search
+      Runtime: nodejs10.x
+      MemorySize: 128
+      Timeout: 60
+      Description: This function return locals or items by query.
       Policies:
         # Give Lambda basic execution Permission to the helloFromLambda
         - AWSLambdaBasicExecutionRole
