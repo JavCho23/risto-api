@@ -7,7 +7,7 @@ const Uuid = require("../../../shared/domain/value/uuid");
 const CreatedResponse = require("../../../shared/domain/response/created_response");
 const ErrorResponse = require("../../../shared/domain/response/error_response");
 
-exports.updateItem = async (event) => {
+exports.addItem = async (event) => {
   const { pathParameters } = event;
   const bodyRequest = JSON.parse(event.body);
 
