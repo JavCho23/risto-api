@@ -200,6 +200,42 @@ Resources:
       Policies:
         # Give Lambda basic execution Permission to the helloFromLambda
         - AWSLambdaBasicExecutionRole
+  updateLocal:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./
+      Handler: src/delivery/local/handler/local_update.updateLocal
+      Runtime: nodejs10.x
+      MemorySize: 128
+      Timeout: 60
+      Description: This function update local.
+      Policies:
+        # Give Lambda basic execution Permission to the helloFromLambda
+        - AWSLambdaBasicExecutionRole
+  renameLocal:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./
+      Handler: src/delivery/local/handler/local_rename.renameLocal
+      Runtime: nodejs10.x
+      MemorySize: 128
+      Timeout: 60
+      Description: This function update local.
+      Policies:
+        # Give Lambda basic execution Permission to the helloFromLambda
+        - AWSLambdaBasicExecutionRole
+  removeLocal:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./
+      Handler: src/delivery/local/handler/local_remove.removeLocal
+      Runtime: nodejs10.x
+      MemorySize: 128
+      Timeout: 60
+      Description: This function remove local.
+      Policies:
+        # Give Lambda basic execution Permission to the helloFromLambda
+        - AWSLambdaBasicExecutionRole
   authVerifyClient:
     Type: AWS::Serverless::Function
     Properties:
