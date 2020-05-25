@@ -104,6 +104,54 @@ Resources:
       Policies:
         # Give Lambda basic execution Permission to the helloFromLambda
         - AWSLambdaBasicExecutionRole
+  addLocalItem:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./
+      Handler: src/delivery/item/handler/item_add.addItem
+      Runtime: nodejs10.x
+      MemorySize: 128
+      Timeout: 60
+      Description: This function add one item.
+      Policies:
+        # Give Lambda basic execution Permission to the helloFromLambda
+        - AWSLambdaBasicExecutionRole
+  updateItem:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./
+      Handler: src/delivery/item/handler/item_update.updateItem
+      Runtime: nodejs10.x
+      MemorySize: 128
+      Timeout: 60
+      Description: This function update a item.
+      Policies:
+        # Give Lambda basic execution Permission to the helloFromLambda
+        - AWSLambdaBasicExecutionRole
+  removeItem:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./
+      Handler: src/delivery/item/handler/item_remove.removeItem
+      Runtime: nodejs10.x
+      MemorySize: 128
+      Timeout: 60
+      Description: This function remove a item.
+      Policies:
+        # Give Lambda basic execution Permission to the helloFromLambda
+        - AWSLambdaBasicExecutionRole
+  changeAvialableItem:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./
+      Handler: src/delivery/item/handler/item_change_available.changeItemAvailable
+      Runtime: nodejs10.x
+      MemorySize: 128
+      Timeout: 60
+      Description: This function change avialable a item.
+      Policies:
+        # Give Lambda basic execution Permission to the helloFromLambda
+        - AWSLambdaBasicExecutionRole
   getItemViews:
     Type: AWS::Serverless::Function
     Properties:
