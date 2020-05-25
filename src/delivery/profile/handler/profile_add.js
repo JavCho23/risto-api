@@ -6,7 +6,7 @@ const LocationAdder = require("../../location/aplication/");
 const NoContentReponse = require("../../../shared/domain/response/no_content_response");
 const ErrorResponse = require("../../../shared/domain/response/error_response");
 
-exports.updateProfile = async (event) => {
+exports.addProfile = async (event) => {
   const { pathParameters } = event;
   const bodyRequest = JSON.parse(event.body);
   let response;
