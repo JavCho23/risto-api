@@ -140,11 +140,11 @@ Resources:
       Policies:
         # Give Lambda basic execution Permission to the helloFromLambda
         - AWSLambdaBasicExecutionRole
-  authVerifyFunction:
+  authVerifyClient:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ./
-      Handler: src/auth/token/aplication/auth_verify_handler.authVerifyHandler
+      Handler: src/auth/token/handler/auth_verify_client_handler.authVerifyHandler
       Runtime: nodejs10.x
       MemorySize: 128
       Timeout: 60
@@ -153,11 +153,11 @@ Resources:
         # Give Lambda basic execution Permission to the helloFromLambda
         - AWSLambdaBasicExecutionRole
 
-  authLoginFunction:
+  login:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ./
-      Handler: src/auth/token/aplication/auth_login_handler.authLoginHandler
+      Handler: src/auth/token/handler/auth_login_handler.authLoginHandler
       Runtime: nodejs10.x
       MemorySize: 128
       Timeout: 60
