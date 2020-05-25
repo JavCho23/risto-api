@@ -4,7 +4,7 @@ const MySqlLocationRepository = require("../../location/infrastructure/mysql_loc
 const LocationAdder = require("../../location/aplication/add/location_adder");
 const JWT = require("jsonwebtoken");
 
-const NoContentReponse = require("../../../shared/domain/response/no_content_response");
+const CreatedResponse = require("../../../shared/domain/response/created_response");
 const ErrorResponse = require("../../../shared/domain/response/error_response");
 
 exports.addProfile = async (event) => {
@@ -18,7 +18,7 @@ exports.addProfile = async (event) => {
       bodyRequest ,
       new LocationAdder(new MySqlLocationRepository())
     );
-    response = new NoContentReponse();
+    response = new CreatedResponse();
   } catch (error) {
     throw error;
     response = new ErrorResponse(error);
