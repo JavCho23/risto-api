@@ -9,7 +9,7 @@ const SuccessResponse = require("../../../shared/domain/response/success_respons
 const ErrorResponse = require("../../../shared/domain/response/error_response");
 
 exports.listProfilesByUser = async (event) => {
-  const { pathParameters } = event;
+  const { headers } = event;
   let response;
   try {
     const localLister = new LocalLister(new MySqlLocalRepository());
