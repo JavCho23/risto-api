@@ -188,6 +188,18 @@ Resources:
       Policies:
         # Give Lambda basic execution Permission to the helloFromLambda
         - AWSLambdaBasicExecutionRole
+  qualification:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./
+      Handler: src/delivery/product/handler/product_rate.rateProduct
+      Runtime: nodejs10.x
+      MemorySize: 128
+      Timeout: 60
+      Description: This function rate some.
+      Policies:
+        # Give Lambda basic execution Permission to the helloFromLambda
+        - AWSLambdaBasicExecutionRole
   authVerifyClient:
     Type: AWS::Serverless::Function
     Properties:
