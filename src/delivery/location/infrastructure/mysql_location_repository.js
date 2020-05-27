@@ -51,22 +51,22 @@ class MySqlLocationRepository {
     return idLocation;
   }
   async findOrInsertCity(city) {
-    let idCity = await db.doQuery(
+    let data = await db.doQuery(
       `SELECT id_city as idCity, name FROM city WHERE name = ? AND state = 1;`,
       city.value
     );
-    if (city.length == 0) {
-      idCity = new Uuid(uuidv4());
+    let idCity;
+    if (data.length == 0) {
+      idCity = uuidv4();
       await db.doQuery(` INSERT INTO city SET ? `, {
-        id_city: uuidv4(),
+        id_city: idCity,
         name: city.value,
         state: 1,
         created_at: new Date().toLocaleString(),
         modified_at: new Date().toLocaleString(),
       });
-      return idCity;
-    }
-    return new Uuid(idCity[0].idCity);
+    } else idCity = data[0].idCity;
+    return new Uuid(idCity);
   }
 }
 

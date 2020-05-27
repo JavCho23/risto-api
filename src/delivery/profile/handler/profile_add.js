@@ -3,6 +3,7 @@ const ProfileAdder = require("../aplication/add/profile_adder");
 const MySqlLocationRepository = require("../../location/infrastructure/mysql_location_repository");
 const LocationAdder = require("../../location/aplication/add/location_adder");
 const JWT = require("jsonwebtoken");
+const Uuid = require("../../../shared/domain/value/uuid");
 
 const CreatedResponse = require("../../../shared/domain/response/created_response");
 const ErrorResponse = require("../../../shared/domain/response/error_response");

@@ -72,7 +72,7 @@ class MySqlLocalRepository {
     );
   }
   async add(idUser, profile, locationAdder) {
-    const idLocation = locationAdder.call(profile.location);
+    const idLocation = await locationAdder.call(profile.location);
     const customer = await db.doQuery(
       "SELECT id_customer as idCustomer FROM person WHERE id_user = ?",
       idUser.value
