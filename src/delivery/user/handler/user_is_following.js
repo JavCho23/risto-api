@@ -5,7 +5,7 @@ const SuccessResponse = require("../../../shared/domain/response/success_respons
 const ErrorResponse = require("../../../shared/domain/response/error_response");
 const JWT = require("jsonwebtoken");
 
-exports.addPersonal = async (event) => {
+exports.idFollowing = async (event) => {
   const { pathParameters, headers } = event;
   console.log(headers);
   let response;

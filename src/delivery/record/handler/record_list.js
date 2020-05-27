@@ -5,7 +5,7 @@ const RawDouble = require("../../../shared/domain/value/raw_double");
 const SuccessResponse = require("../../../shared/domain/response/success_response");
 const ErrorResponse = require("../../../shared/domain/response/error_response");
 
-exports.findLocal = async (event) => {
+exports.listRecord = async (event) => {
   const { pathParameters, queryStringParameters } = event;
   let response;
   try {

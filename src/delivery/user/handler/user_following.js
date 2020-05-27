@@ -5,7 +5,7 @@ const NoContentReponse = require("../../../shared/domain/response/no_content_res
 const ErrorResponse = require("../../../shared/domain/response/error_response");
 const JWT = require("jsonwebtoken");
 
-exports.addPersonal = async (event) => {
+exports.followLocal = async (event) => {
   const { pathParameters, headers } = event;
   const bodyRequest = JSON.parse(event.body);
   console.log(headers);

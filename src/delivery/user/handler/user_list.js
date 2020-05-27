@@ -5,7 +5,7 @@ const RawString = require("../../../shared/domain/value/raw_string");
 const SuccessResponse = require("../../../shared/domain/response/success_response");
 const ErrorResponse = require("../../../shared/domain/response/error_response");
 
-exports.addPersonal = async (event) => {
+exports.listUser = async (event) => {
   const { pathParameters } = event;
   console.log(headers);
   let response;
