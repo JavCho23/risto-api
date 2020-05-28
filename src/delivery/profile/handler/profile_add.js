@@ -21,7 +21,6 @@ exports.addProfile = async (event) => {
     );
     response = new CreatedResponse();
   } catch (error) {
-    throw error;
     response = new ErrorResponse(error);
   }
   return response.toJson();
