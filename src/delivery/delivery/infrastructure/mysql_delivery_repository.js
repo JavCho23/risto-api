@@ -137,9 +137,9 @@ class MySqlDeliveryRepository {
   async add(
     idDelivery,
     idLocal,
-    idUser,
-    comment,
+    idProfile,
     idPayment,
+    comment,
     price,
     total,
     orders,
@@ -148,24 +148,18 @@ class MySqlDeliveryRepository {
     allPersonalLister,
     tokenDeviceFinder
   ) {
-    const profile = await db.doQuery(
-      `SELECT profile.id_profile as idProfile, id_location as idProfile FROM profile
-    INNER JOIN person ON profile.id_customer = person.id_customer
-    WHERE person.id_user = ?`,
-      idUser.value
-    );
     await db.doQuery("INSERT INTO delivery SET ?", {
       id_delivery: idDelivery.value,
       id_local: idLocal.value,
-      id_profile: profile[0].idProfile,
+      id_profile: idProfile.value,
       id_payment: idPayment.value,
       price: price.value,
       total: total.value,
     });
     await Promise.all(
-      orders.map(
-        async (order) => await orderAdder(idDelivery, Order.fromJson(order))
-      )
+      orders.map(async (order) => {
+        await orderAdder.call(idDelivery, Order.fromJson(order));
+      })
     );
     await deliveryCreatedNotification.call(
       idLocal,

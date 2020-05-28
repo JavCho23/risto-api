@@ -41,7 +41,7 @@ class MySqlOrderRepository {
     );
   }
   async add(idDelivery, order) {
-    await db.doQuery(`INSERT INTO order SET ? `, {
+    await db.doQuery("INSERT INTO `order` SET ? ", {
       id_delivery: idDelivery.value,
       id_product: order.idProduct.value,
       amount: order.amount.value,

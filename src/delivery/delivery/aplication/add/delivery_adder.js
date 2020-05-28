@@ -5,8 +5,9 @@ class DeliveryAdder {
   call(
     idDelivery,
     idLocal,
-    idUser,
+    idProfile,
     idPayment,
+    comment,
     price,
     total,
     orders,
@@ -15,11 +16,13 @@ class DeliveryAdder {
     allPersonalLister,
     tokenDeviceFinder
   ) {
+    console.log(total);
     return this.repository.add(
       idDelivery,
       idLocal,
-      idUser,
+      idProfile,
       idPayment,
+      comment,
       price,
       total,
       orders,
@@ -32,4 +35,3 @@ class DeliveryAdder {
 }
 
 module.exports = DeliveryAdder;
-

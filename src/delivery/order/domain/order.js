@@ -22,6 +22,12 @@ class Order {
   get idProduct() {
     return this._id;
   }
+  get amount(){
+    return this._amount;
+  }
+  get price(){
+    return this._price;
+  }
   toJson() {
     return {
       idProduct: this._id.value,

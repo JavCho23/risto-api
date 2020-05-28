@@ -4,7 +4,7 @@ class OrderAdder {
     this.repository = repository;
   }
   call(idDelivery, order) {
-    return this.repository.add(idDelivery, Order.fromJson(order));
+    return this.repository.add(idDelivery, order);
   }
 }
 

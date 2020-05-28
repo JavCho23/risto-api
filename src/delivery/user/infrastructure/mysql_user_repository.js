@@ -7,9 +7,10 @@ class MySqlUserRepository {
   async findDeviceToken(idUser) {
     const data = await db.doQuery(
       `SELECT user.device_token as deviceToken FROM user 
-      WHERE user.id_user = ?'`,
+      WHERE user.id_user = ?`,
       idUser.value
     );
+
     return new RawString(data[0].deviceToken);
   }
   async list(query) {

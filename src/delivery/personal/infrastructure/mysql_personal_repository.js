@@ -43,7 +43,7 @@ class MySqlPersonalRepository {
     return data.map(
       (personal) =>
         new Personal(
-          new Uuid(personal.idPersonal),
+          new Uuid(personal.id),
           new RawString(personal.name),
           new RawString(personal.email),
           new Uuid(personal.idUser)

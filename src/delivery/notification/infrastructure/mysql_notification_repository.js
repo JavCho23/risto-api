@@ -74,14 +74,14 @@ class MySqlNotificationRepository {
           message: event.message.value,
         });
         await db.doQuery("INSERT INTO report SET ?", {
-          id_status: state.id.value,
+          id_status: state.idState.value,
           id_notification: idNotification,
           id_delivery: idDelivery.value,
           comment: state.comment.value,
         });
       })
     );
-    await this.sendNotification(event, deviceTokens);
+    // await this.sendNotification(event, deviceTokens);
   }
   async createUserNotification(
     idUser,
