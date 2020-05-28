@@ -9,9 +9,9 @@ class Login {
     this._userData = userData;
     this._securityKey = securityKey;
   }
-  async call() {
+  async call(app) {
     const verifyUser = new VerifyUser(new MySqlUserRepository());
-    let user = await verifyUser.call(new User(this._userData));
+    let user = await verifyUser.call(new User(this._userData), app);
     if (!user) {
       const registerUser = new RegisterUser(new MySqlUserRepository());
       user = await registerUser.call(new User(this._userData));

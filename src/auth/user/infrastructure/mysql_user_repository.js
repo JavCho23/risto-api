@@ -1,4 +1,5 @@
 const db = require("../../../shared/domain/db");
+const UnauthorizedError = require("../../../shared/domain/error/unauthorized_error");
 const { v4: uuidv4 } = require("uuid");
 
 class MySqlUserRepository {
@@ -26,6 +27,23 @@ class MySqlUserRepository {
       user.idUser.value
     );
     if (data.length == 0) return false;
+    await db.doQuery(
+      `UPDATE user SET device_token = ? WHERE user.id_user = ?`,
+      [user.deviceToken.value, user.idUser.value]
+    );
+    return {
+      idUser: user.idUser.value,
+      aplication: user.aplication.value,
+    };
+  }
+  async findManager(user) {
+    const data = await db.doQuery(
+      `SELECT user.id_user,person.name, email FROM user
+      INNER JOIN person ON person.id_user = user.id_user
+      WHERE user.id_user = ? AND  (person.id_manager IS NOT NULL OR person.id_manager IS NOT NULL)`,
+      user.idUser.value
+    );
+    if (data.length == 0) throw new UnauthorizedError();
     await db.doQuery(
       `UPDATE user SET device_token = ? WHERE user.id_user = ?`,
       [user.deviceToken.value, user.idUser.value]

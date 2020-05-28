@@ -7,7 +7,7 @@ exports.authLoginHandler = async (event) => {
   let response;
   try {
     const login = new Login(body, keys.dev);
-    const token = await login.call();
+    const token = await login.call(body.aplication);
     response = new SuccessResponse({ token: token });
   } catch (error) {
     response = new ErrorResponse(error);
