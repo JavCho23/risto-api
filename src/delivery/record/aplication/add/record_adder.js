@@ -3,8 +3,8 @@ class RecordAdder {
     this.repository = repository;
     this.idUser = idUser;
   }
-  call(description) {
-    return this.repository.add(this.idUser, description);
+  call(description, idLocal) {
+    return this.repository.add(this.idUser, description, idLocal);
   }
 }
 

@@ -181,8 +181,11 @@ class MySqlDeliveryRepository {
     deliveryProcessNotification,
     deliveryFinishNotification,
     allPersonalLister,
-    tokenDeviceFinder
+    tokenDeviceFinder,
+    recordAdder
   ) {
+    let type;
+    const idLocal = await this.findLocalOwner(idDelivery);
     if (state.value == "process") {
       this.processDelivery(
         idDelivery,
@@ -190,6 +193,7 @@ class MySqlDeliveryRepository {
         deliveryProcessNotification,
         tokenDeviceFinder
       );
+      type = "procesando";
     } else if (state.value == "cancel") {
       this.cancelDelivery(
         idDelivery,
@@ -197,6 +201,7 @@ class MySqlDeliveryRepository {
         allPersonalLister,
         tokenDeviceFinder
       );
+      type = "cancelado";
     } else if (state.value == "finish") {
       this.finishDelivery(
         idDelivery,
@@ -204,8 +209,11 @@ class MySqlDeliveryRepository {
         deliveryFinishNotification,
         tokenDeviceFinder
       );
+      type = "finalizado";
     }
+    recordAdder.call("ha cambiado el estado del delivery a " + type, idLocal);
   }
+
   async processDelivery(
     idDelivery,
     comment,

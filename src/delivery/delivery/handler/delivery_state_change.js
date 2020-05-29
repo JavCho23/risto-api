@@ -8,7 +8,9 @@ const MySqlPersonalRepository = require("../../personal/infrastructure/mysql_per
 const AllPersonalLister = require("../../personal/aplication/list/all_personal_lister");
 const MySqlUserRepository = require("../../user/infrastructure/mysql_user_repository");
 const DeviceTokenFinder = require("../../user/aplication/find/user_device_token_finder");
-
+const RecordAdder = require("../../record/aplication/add/record_adder");
+const MySqlRecordRepository = require("../../record/infrastructure/mysql_record_repository");
+const JWT = require('jsonwebtoken');
 const RawString = require("../../../shared/domain/value/raw_string");
 const Uuid = require("../../../shared/domain/value/uuid");
 const NoContentResponse = require("../../../shared/domain/response/no_content_response");
@@ -34,7 +36,11 @@ exports.changeDeliveryState = async (event) => {
       new DeliveryProcessNotification(new MySqlNotificationRepository()),
       new DeliveryFinishNotification(new MySqlNotificationRepository()),
       new AllPersonalLister(new MySqlPersonalRepository()),
-      new DeviceTokenFinder(new MySqlUserRepository())
+      new DeviceTokenFinder(new MySqlUserRepository()),
+      new RecordAdder(
+        new Uuid(JWT.decode(headers["x-api-key"]).idUser),
+        new MySqlRecordRepository()
+      )
     );
     response = new NoContentResponse();
   } catch (error) {

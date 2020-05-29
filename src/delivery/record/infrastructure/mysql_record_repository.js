@@ -22,11 +22,22 @@ class MySqlRecordRepository {
         )
     );
   }
-  async add(idUser, description) {
-    const data = await db.doQuery(
-      "SELECT id_manager as idManager FROM user INNER JOIN person ON person.id_user = user.id_user WHERE user.id_user = ?",
-      idUser.value
-    );
+  async add(idUser, description, idLocal) {
+    let data;
+    if (idLocal) {
+      data = await db.doQuery(
+        `SELECT person.id_manager as idManager FROM user 
+        INNER JOIN person ON person.id_user = user.id_user 
+        INNER JOIN manager ON manager.id_manager = person.id_manager
+        WHERE user.id_user = ? AND manager.id_local = ?`,
+        [idUser.value, idLocal.value]
+      );
+    } else {
+      data = await db.doQuery(
+        "SELECT id_manager as idManager FROM user INNER JOIN person ON person.id_user = user.id_user WHERE user.id_user = ?",
+        idUser.value
+      );
+    }
     if (data.length == 0) return;
     await db.doQuery(`INSERT INTO record SET ?`, {
       id_report: uuidv4(),

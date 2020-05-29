@@ -9,16 +9,18 @@ class DeliveryStateChanger {
     deliveryProcessNotification,
     deliveryFinishNotification,
     allPersonalLister,
-    tokenDeviceFinder
+    tokenDeviceFinder,
+    recordAdder
   ) {
-    return this.repository.add(
+    return this.repository.changeState(
       state,
       idDelivery,
       deliveryCancelNotification,
       deliveryProcessNotification,
       deliveryFinishNotification,
       allPersonalLister,
-      tokenDeviceFinder
+      tokenDeviceFinder,
+      recordAdder
     );
   }
 }
