@@ -2,6 +2,7 @@ const MySqlItemRepository = require("../infrastructure/mysql_item_repository");
 const ItemAdder = require("../aplication/add/item_adder");
 const MySqlProductRepository = require("../../product/infrastructure/mysql_product_repository");
 const ProductAdder = require("../../product/aplication/add/product_adder");
+const JWT = require("jsonwebtoken");
 
 const Uuid = require("../../../shared/domain/value/uuid");
 const CreatedResponse = require("../../../shared/domain/response/created_response");
@@ -17,7 +18,11 @@ exports.updateItem = async (event) => {
     await itemAdder.call(
       new Uuid(pathParameters.id),
       bodyRequest.base64String,
-      new ProductAdder(new MySqlProductRepository())
+      new ProductAdder(new MySqlProductRepository()),
+      new RecordAdder(
+        new Uuid(JWT.decode(headers["x-api-key"]).idUser),
+        new MySqlRecordRepository()
+      )
     );
     response = new CreatedResponse();
   } catch (error) {

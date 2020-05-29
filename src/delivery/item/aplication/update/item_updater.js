@@ -10,7 +10,8 @@ class ItemUpdater {
     tagLister,
     productUpdater,
     productAdder,
-    productRemover
+    productRemover,
+    recordAdder
   ) {
     return this.repository.update(
       Item.fromJson(item),
@@ -18,7 +19,8 @@ class ItemUpdater {
       tagLister,
       productUpdater,
       productAdder,
-      productRemover
+      productRemover,
+      recordAdder
     );
   }
 }

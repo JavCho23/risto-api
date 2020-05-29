@@ -8,6 +8,7 @@ const Uuid = require("../../../shared/domain/value/uuid");
 const NotFoundError = require("../../../shared/domain/error/no_found_error");
 const ItemFilterUpdateTag = require("./item_filter_update_tag");
 const ItemFilterUpdateProduct = require("./item_filter_update_product");
+
 const columms = require("./persistence/excel_columms.json");
 const tag_categories = require("../../../shared/infrastructure/persistence/tag_categories.json");
 const { v4: uuidv4 } = require("uuid");
@@ -39,7 +40,7 @@ class MySqlItemRepository {
       await productLister.call(idItem)
     );
   }
-  async add(idLocal, item, productAdder) {
+  async add(idLocal, item, productAdder, recordAdder) {
     const local = await db.doQuery(
       "SELECT id_catalog FROM local WHERE id_local = ?",
       idLocal.value
@@ -57,6 +58,7 @@ class MySqlItemRepository {
       )
     );
     await Promise.all(item.tags.map((tag) => this.addTag(idItem, tag)));
+    recordAdder.call("ha agregado un nuevo item: " + item.name.value);
   }
   async addFromExcel(idLocal, base64StringFile, productAdder) {
     const workbook = XLSX.read(base64StringFile, { type: "base64" });
@@ -83,7 +85,8 @@ class MySqlItemRepository {
             tags: data[row][columms.tags].split(","),
             products: products,
           }),
-          productAdder
+          productAdder,
+          recordAdder
         );
       }
     }
@@ -94,7 +97,8 @@ class MySqlItemRepository {
     tagLister,
     productUpdater,
     productAdder,
-    productRemover
+    productRemover,
+    recordAdder
   ) {
     await db.doQuery(" UPDATE item SET ? WHERE id_item = ?", [
       {
@@ -121,6 +125,7 @@ class MySqlItemRepository {
       this.removeTag
     );
     await itemFilterUpdateTag.call();
+    recordAdder.call("ha actualizado el item: " + item.name.value);
   }
   async addTag(idItem, name) {
     console.log(name);
@@ -181,12 +186,18 @@ class MySqlItemRepository {
     );
     return new RawDouble(data[0].views);
   }
-  async remove(idItem) {
+  async remove(idItem, recordAdder) {
+    const data = await db.doQuery(
+      "SELECT name FROM item WHERE item.id_item = ?",
+      idItem.value
+    );
+    if (data.length == 0) throw new NotFoundError();
     await db.doQuery(
       `UPDATE item SET state = 0 
       WHERE id_item = ?`,
-      [idItem.value]
+      idItem.value
     );
+    recordAdder.call("ha eliminado el item: " + data[0].name);
   }
   async changeItemAvialable(idItem) {
     await db.doQuery(

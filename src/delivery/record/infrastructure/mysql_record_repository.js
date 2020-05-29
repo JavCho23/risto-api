@@ -2,7 +2,7 @@ const db = require("../../../shared/domain/db");
 const Record = require("../domain/record");
 const RawString = require("../../../shared/domain/value/raw_string");
 const Uuid = require("../../../shared/domain/value/uuid");
-
+const { v4: uuidv4 } = require("uuid");
 class MySqlRecordRepository {
   async list(idLocal, days) {
     const data = await db.doQuery(
@@ -21,6 +21,18 @@ class MySqlRecordRepository {
           new RawString(record.date)
         )
     );
+  }
+  async add(idUser, description) {
+    const data = await db.doQuery(
+      "SELECT id_manager as idManager FROM user INNER JOIN person ON person.id_user = user.id_user WHERE user.id_user = ?",
+      idUser.value
+    );
+    if (data.length == 0) return;
+    await db.doQuery(`INSERT INTO record SET ?`, {
+      id_report: uuidv4(),
+      id_manager: data[0].idManager,
+      description: description.value,
+    });
   }
 }
 
