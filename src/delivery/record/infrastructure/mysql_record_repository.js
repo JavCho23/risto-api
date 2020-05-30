@@ -40,9 +40,9 @@ class MySqlRecordRepository {
     }
     if (data.length == 0) return;
     await db.doQuery(`INSERT INTO record SET ?`, {
-      id_report: uuidv4(),
+      id_record: uuidv4(),
       id_manager: data[0].idManager,
-      description: description.value,
+      description: description,
     });
   }
 }
