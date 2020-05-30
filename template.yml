@@ -56,6 +56,18 @@ Resources:
       Policies:
         # Give Lambda basic execution Permission to the helloFromLambda
         - AWSLambdaBasicExecutionRole
+  listLocalBySignature:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./
+      Handler: src/delivery/local/handler/local_list_by_signature.listLocalBySignature
+      Runtime: nodejs10.x
+      MemorySize: 128
+      Timeout: 60
+      Description: This function return all locals by signature.
+      Policies:
+        # Give Lambda basic execution Permission to the helloFromLambda
+        - AWSLambdaBasicExecutionRole
   addPersonalToLocal:
     Type: AWS::Serverless::Function
     Properties:
@@ -392,6 +404,7 @@ Resources:
       Policies:
         # Give Lambda basic execution Permission to the helloFromLambda
         - AWSLambdaBasicExecutionRole
+
 
   authVerifyClient:
     Type: AWS::Serverless::Function
