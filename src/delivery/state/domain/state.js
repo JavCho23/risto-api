@@ -11,7 +11,7 @@ class State {
     return this._id;
   }
   get comment() {
-    return this._id;
+    return this._comment;
   }
   toJson() {
     return {
