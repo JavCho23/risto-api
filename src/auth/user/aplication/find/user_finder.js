@@ -2,10 +2,10 @@ class UserFinder {
   constructor(repository) {
     this.repository = repository;
   }
-  call(userId, app) {
-    if (app == "manager") return this.repository.findManager(userId);
+  call(user, app) {
+    if (app == "manager") return this.repository.findManager(user);
 
-    return this.repository.find(userId);
+    return this.repository.find(user);
   }
 }
 
