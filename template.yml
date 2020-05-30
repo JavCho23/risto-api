@@ -332,6 +332,30 @@ Resources:
       Policies:
         # Give Lambda basic execution Permission to the helloFromLambda
         - AWSLambdaBasicExecutionRole
+  listNotifications:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./
+      Handler: src/delivery/notification/handler/notification_list.listNotification
+      Runtime: nodejs10.x
+      MemorySize: 128
+      Timeout: 60
+      Description: This function return a list of notifications by user.
+      Policies:
+        # Give Lambda basic execution Permission to the helloFromLambda
+        - AWSLambdaBasicExecutionRole
+  checkNotification:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./
+      Handler: src/delivery/notification/handler/notification_check.checkNotification
+      Runtime: nodejs10.x
+      MemorySize: 128
+      Timeout: 60
+      Description: This function return a list of notifications by user.
+      Policies:
+        # Give Lambda basic execution Permission to the helloFromLambda
+        - AWSLambdaBasicExecutionRole
   authVerifyClient:
     Type: AWS::Serverless::Function
     Properties:
