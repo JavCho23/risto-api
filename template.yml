@@ -352,10 +352,47 @@ Resources:
       Runtime: nodejs10.x
       MemorySize: 128
       Timeout: 60
-      Description: This function return a list of notifications by user.
+      Description: This function change notification state.
       Policies:
         # Give Lambda basic execution Permission to the helloFromLambda
         - AWSLambdaBasicExecutionRole
+  listClientDeliveries:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./
+      Handler: src/delivery/delivery/handler/delivery_lister_by_client.listDeliveryByClient
+      Runtime: nodejs10.x
+      MemorySize: 128
+      Timeout: 60
+      Description: This function return a list of client orders.
+      Policies:
+        # Give Lambda basic execution Permission to the helloFromLambda
+        - AWSLambdaBasicExecutionRole
+  listLocalDeliveries:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./
+      Handler: src/delivery/delivery/handler/delivery_lister_by_local.listDeliveryByLocal
+      Runtime: nodejs10.x
+      MemorySize: 128
+      Timeout: 60
+      Description: This function return a list of local orders.
+      Policies:
+        # Give Lambda basic execution Permission to the helloFromLambda
+        - AWSLambdaBasicExecutionRole
+  changeDeliveryState:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./
+      Handler: src/delivery/delivery/handler/delivery_state_change.changeDeliveryState
+      Runtime: nodejs10.x
+      MemorySize: 128
+      Timeout: 60
+      Description: This function change delivery state.
+      Policies:
+        # Give Lambda basic execution Permission to the helloFromLambda
+        - AWSLambdaBasicExecutionRole
+
   authVerifyClient:
     Type: AWS::Serverless::Function
     Properties:
@@ -368,7 +405,6 @@ Resources:
       Policies:
         # Give Lambda basic execution Permission to the helloFromLambda
         - AWSLambdaBasicExecutionRole
-
   login:
     Type: AWS::Serverless::Function
     Properties:
