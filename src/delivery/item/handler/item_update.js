@@ -37,7 +37,6 @@ exports.updateItem = async (event) => {
 
     response = new NoContentResponse();
   } catch (error) {
-    throw error;
     response = new ErrorResponse(error);
   }
   return response.toJson();
