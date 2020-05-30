@@ -125,7 +125,7 @@ class MySqlItemRepository {
       this.removeTag
     );
     await itemFilterUpdateTag.call();
-    recordAdder.call("ha actualizado el item: " + item.name.value);
+    await recordAdder.call("ha actualizado el item: " + item.name.value);
   }
   async addTag(idItem, name) {
     console.log(name);
