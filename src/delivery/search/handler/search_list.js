@@ -43,6 +43,7 @@ exports.search = async (event) => {
     );
     response = new SuccessResponse(body.map((result) => result.toJson()));
   } catch (error) {
+    throw error;
     response = new ErrorResponse(error);
   }
   return response.toJson();
