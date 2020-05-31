@@ -9,6 +9,7 @@ const MySqlPaymentRepository = require("../../payment/infrastructure/mysql_payme
 const PaymentLister = require("../../payment/aplication/list_by_local/payment_lister_by_local");
 const Uuid = require("../../../shared/domain/value/uuid");
 const SuccessResponse = require("../../../shared/domain/response/success_response");
+const ForbiddenError = require("../../../shared/domain/error/forbidden_error.js")
 const ErrorResponse = require("../../../shared/domain/response/error_response");
 
 exports.listLocal = async (event) => {
@@ -20,7 +21,7 @@ exports.listLocal = async (event) => {
     const localLister = new LocalLister(new MySqlLocalRepository());
     let body;
     switch (queryStringParameters.criteria) {
-      case near:
+      case 'near':
         const bodyRequest = JSON.parse(event.body);
         body = await localLister.call(
           bodyRequest,
@@ -31,7 +32,8 @@ exports.listLocal = async (event) => {
         );
         break;
 
-      case favorites:
+      case 'favorites':
+        if (!headers["Authorization"]) throw new ForbiddenError(); 
         const JWT = require("jsonwebtoken");
         body = await localLister.call(
           new Uuid(JWT.decode(headers["Authorization"]).idUser),
