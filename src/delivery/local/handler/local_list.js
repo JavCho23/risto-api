@@ -11,7 +11,7 @@ const Uuid = require("../../../shared/domain/value/uuid");
 const SuccessResponse = require("../../../shared/domain/response/success_response");
 const ErrorResponse = require("../../../shared/domain/response/error_response");
 
-exports.listLocalBySignature = async (event) => {
+exports.listLocal = async (event) => {
   const { headers, querySTringParameters } = event;
   let response;
   try {
