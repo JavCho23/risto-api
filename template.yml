@@ -404,7 +404,18 @@ Resources:
       Policies:
         # Give Lambda basic execution Permission to the helloFromLambda
         - AWSLambdaBasicExecutionRole
-
+  addDelivery:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./
+      Handler: src/delivery/delivery/handler/delivery_add.addDelivery
+      Runtime: nodejs10.x
+      MemorySize: 128
+      Timeout: 60
+      Description: This function register one delivery.
+      Policies:
+        # Give Lambda basic execution Permission to the helloFromLambda
+        - AWSLambdaBasicExecutionRole
 
   authVerifyClient:
     Type: AWS::Serverless::Function
