@@ -44,7 +44,7 @@ class MySqlDeliveryRepository {
   }
   async listByClient(idUser, locationFinder, paymentFinder, orderLister) {
     const data = await db.doQuery(
-      "SELECT delivery.id_delivery as idDelivery FROM delivery INNER JOIN `profile` ON `profile`.id_profile = delivery.id_profile INNER JOIN person ON person.id_customer = `profile`.id_customer WHERE person.id_user = ?;",
+      "SELECT delivery.id_delivery as idDelivery FROM delivery INNER JOIN `profile` ON `profile`.id_profile = delivery.id_profile INNER JOIN person ON person.id_customer = `profile`.id_customer WHERE person.id_user = ? AND delivery.state = 1;",
       [idUser.value]
     );
     return await Promise.all(
@@ -226,7 +226,7 @@ class MySqlDeliveryRepository {
       new State(
         new Uuid(states.incoming.id),
         new RawString(states.incoming.name),
-       comment
+        comment
       ),
       tokenDeviceFinder
     );
@@ -266,6 +266,12 @@ class MySqlDeliveryRepository {
       ),
       allPersonalLister,
       tokenDeviceFinder
+    );
+  }
+  async remove(idDelivery) {
+    await db.doQuery(
+      "UPDATE delivery SET state = 0 WHERE id_delivery = ?",
+      idDelivery.value
     );
   }
 }

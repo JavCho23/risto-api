@@ -16,7 +16,6 @@ class DeliveryAdder {
     allPersonalLister,
     tokenDeviceFinder
   ) {
-    console.log(total);
     return this.repository.add(
       idDelivery,
       idLocal,

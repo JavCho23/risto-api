@@ -2,8 +2,6 @@ const MySqlDeliveryRepository = require("../infrastructure/mysql_delivery_reposi
 const DeliveryAdder = require("../aplication/add/delivery_adder");
 const MySqlOrderRepository = require("../../order/infrastructure/mysql_order_repository");
 const OrderAdder = require("../../order/aplication/add/order_adder");
-const CreatedResponse = require("../../../shared/domain/response/created_response");
-const ErrorResponse = require("../../../shared/domain/response/error_response");
 const DeliveryCreatedNotifier = require("../../notification/aplication/deliveryNotifications/delivery_created_notifier");
 const MySqlNotificaionRepository = require("../../notification/infrastructure/mysql_notification_repository");
 const MySqlPersonalRepository = require("../../personal/infrastructure/mysql_personal_repository");
@@ -11,12 +9,12 @@ const AllPersonalLister = require("../../personal/aplication/list/all_personal_l
 const MySqlUserRepository = require("../../user/infrastructure/mysql_user_repository");
 const DeviceTokenFinder = require("../../user/aplication/find/user_device_token_finder");
 
-const JWT = require("jsonwebtoken");
+const CreatedResponse = require("../../../shared/domain/response/created_response");
+const ErrorResponse = require("../../../shared/domain/response/error_response");
 const RawDouble = require("../../../shared/domain/value/raw_double");
 const RawString = require("../../../shared/domain/value/raw_string");
 const Uuid = require("../../../shared/domain/value/uuid");
 exports.addDelivery = async (event) => {
-  const { headers } = event;
   const bodyRequest = JSON.parse(event.body);
   let response;
   try {
@@ -37,7 +35,6 @@ exports.addDelivery = async (event) => {
     );
     response = new CreatedResponse();
   } catch (error) {
-    throw error;
     response = new ErrorResponse(error);
   }
   return response.toJson();
