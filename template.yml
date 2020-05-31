@@ -68,6 +68,18 @@ Resources:
       Policies:
         # Give Lambda basic execution Permission to the helloFromLambda
         - AWSLambdaBasicExecutionRole
+  listLocalByCriteria:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./
+      Handler: src/delivery/local/handler/local_list.listLocal
+      Runtime: nodejs10.x
+      MemorySize: 128
+      Timeout: 60
+      Description: This function return all locals by criteria.
+      Policies:
+        # Give Lambda basic execution Permission to the helloFromLambda
+        - AWSLambdaBasicExecutionRole
   addPersonalToLocal:
     Type: AWS::Serverless::Function
     Properties:
