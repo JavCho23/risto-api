@@ -12,14 +12,14 @@ const SuccessResponse = require("../../../shared/domain/response/success_respons
 const ErrorResponse = require("../../../shared/domain/response/error_response");
 
 exports.listLocal = async (event) => {
-  const { headers, querySTringParameters } = event;
+  const { headers, queryStringParameters } = event;
   let response;
   try {
     const LocalLister = require("../aplication/list/local_lister_" +
       querySTringParameters.criteria);
     const localLister = new LocalLister(new MySqlLocalRepository());
     let body;
-    switch (querySTringParameters.criteria) {
+    switch (queryStringParameters.criteria) {
       case near:
         const bodyRequest = JSON.parse(event.body);
         body = await localLister.call(

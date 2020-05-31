@@ -1,15 +1,15 @@
 const VerifyToken = require("../aplication/verify_manager_token");
 const keys = require("../infrastructure/persitence/securitykey.json");
-
+const Utils =require('../../../shared/domain/utils.js')
 exports.authVerifyHandler = function (event, context, callback) {
   const token = event.authorizationToken;
   const verifyToken = new VerifyToken(token);
   switch (verifyToken.call(keys.dev)) {
     case "allow":
-      callback(null, generatePolicy("manager", "Allow", event.methodArn));
+      callback(null, Utils.generatePolicy("manager", "Allow", event.methodArn));
       break;
     case "deny":
-      callback(null, generatePolicy("manager", "Deny", event.methodArn));
+      callback(null, Utils.generatePolicy("manager", "Deny", event.methodArn));
       break;
     case "unauthorized":
       callback("Unauthorized"); // Return a 401 Unauthorized response
