@@ -16,28 +16,28 @@ const NoContentResponse = require("../../../shared/domain/response/no_content_re
 const ErrorResponse = require("../../../shared/domain/response/error_response");
 
 exports.updateItem = async (event) => {
-  const { pathParameters, headers } = event;
-  const bodyRequest = JSON.parse(event.body);
+    const { pathParameters, headers } = event;
+    const bodyRequest = JSON.parse(event.body);
 
-  let response;
-  try {
-    const itemUpdater = new ItemUpdater(new MySqlItemRepository());
-    await itemUpdater.call(
-      { ...bodyRequest, ...{ idItem: pathParameters.id } },
-      new ProductLister(new MySqlProductRepository()),
-      new TagLister(new MySqlTagRepository()),
-      new ProductUpdater(new MySqlProductRepository()),
-      new ProductAdder(new MySqlProductRepository()),
-      new ProductRemover(new MySqlProductRepository()),
-      new RecordAdder(
-        new Uuid(JWT.decode(headers["Authorization"]).idUser),
-        new MySqlRecordRepository()
-      )
-    );
+    let response;
+    try {
+        const itemUpdater = new ItemUpdater(new MySqlItemRepository());
+        await itemUpdater.call(
+            { ...bodyRequest, ...{ idItem: pathParameters.id } },
+            new ProductLister(new MySqlProductRepository()),
+            new TagLister(new MySqlTagRepository()),
+            new ProductUpdater(new MySqlProductRepository()),
+            new ProductAdder(new MySqlProductRepository()),
+            new ProductRemover(new MySqlProductRepository()),
+            new RecordAdder(
+                new Uuid(JWT.decode(headers["Authorization"]).idUser),
+                new MySqlRecordRepository()
+            )
+        );
 
-    response = new NoContentResponse();
-  } catch (error) {
-    response = new ErrorResponse(error);
-  }
-  return response.toJson();
+        response = new NoContentResponse();
+    } catch (error) {
+        response = new ErrorResponse(error);
+    }
+    return response.toJson();
 };

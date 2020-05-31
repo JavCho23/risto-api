@@ -10,7 +10,7 @@ const MySqlUserRepository = require("../../user/infrastructure/mysql_user_reposi
 const DeviceTokenFinder = require("../../user/aplication/find/user_device_token_finder");
 const RecordAdder = require("../../record/aplication/add/record_adder");
 const MySqlRecordRepository = require("../../record/infrastructure/mysql_record_repository");
-const JWT = require('jsonwebtoken');
+const JWT = require("jsonwebtoken");
 const RawString = require("../../../shared/domain/value/raw_string");
 const Uuid = require("../../../shared/domain/value/uuid");
 const NoContentResponse = require("../../../shared/domain/response/no_content_response");
@@ -18,34 +18,34 @@ const ErrorResponse = require("../../../shared/domain/response/error_response");
 const UnauthorizedError = require("../../../shared/domain/error/unauthorized_error");
 
 exports.changeDeliveryState = async (event) => {
-  const { pathParameters, queryStringPatameters, headers } = event;
-  let response;
-  try {
-    const deliveryStateChanger = new DeliveryStateChanger(
-      new MySqlDeliveryRepository()
-    );
-    if (
-      JWT.decode(headers["Authorization"]).aplication == "client" &&
+    const { pathParameters, queryStringPatameters, headers } = event;
+    let response;
+    try {
+        const deliveryStateChanger = new DeliveryStateChanger(
+            new MySqlDeliveryRepository()
+        );
+        if (
+            JWT.decode(headers["Authorization"]).aplication == "client" &&
       queryStringPatameters.type != "cancel"
-    )
-      throw new UnauthorizedError();
-    await deliveryStateChanger.call(
-      new RawString(queryStringPatameters.type),
-      new Uuid(pathParameters.id),
-      new DeliveryCancelNotification(new MySqlNotificationRepository()),
-      new DeliveryProcessNotification(new MySqlNotificationRepository()),
-      new DeliveryFinishNotification(new MySqlNotificationRepository()),
-      new AllPersonalLister(new MySqlPersonalRepository()),
-      new DeviceTokenFinder(new MySqlUserRepository()),
-      new RecordAdder(
-        new Uuid(JWT.decode(headers["Authorization"]).idUser),
-        new MySqlRecordRepository()
-      )
-    );
-    response = new NoContentResponse();
-  } catch (error) {
-    throw error;
-    response = new ErrorResponse(error);
-  }
-  return response.toJson();
+        )
+            throw new UnauthorizedError();
+        await deliveryStateChanger.call(
+            new RawString(queryStringPatameters.type),
+            new Uuid(pathParameters.id),
+            new DeliveryCancelNotification(new MySqlNotificationRepository()),
+            new DeliveryProcessNotification(new MySqlNotificationRepository()),
+            new DeliveryFinishNotification(new MySqlNotificationRepository()),
+            new AllPersonalLister(new MySqlPersonalRepository()),
+            new DeviceTokenFinder(new MySqlUserRepository()),
+            new RecordAdder(
+                new Uuid(JWT.decode(headers["Authorization"]).idUser),
+                new MySqlRecordRepository()
+            )
+        );
+        response = new NoContentResponse();
+    } catch (error) {
+        throw error;
+        response = new ErrorResponse(error);
+    }
+    return response.toJson();
 };

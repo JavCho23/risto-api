@@ -5,19 +5,19 @@ const CreatedResponse = require("../../../shared/domain/response/created_respons
 const ErrorResponse = require("../../../shared/domain/response/error_response");
 
 exports.addPersonal = async (event) => {
-  const { pathParameters } = event;
-  const bodyRequest = JSON.parse(event.body);
-  let response;
-  try {
-    const personalAdder = new PersonalAdder(new MySqlPersonalRepository());
-    await personalAdder.call(
-      new Uuid(pathParameters.id),
-      new Uuid(bodyRequest.idManager),
-      new Uuid(bodyRequest.idUser)
-    );
-    response = new CreatedResponse();
-  } catch (error) {
-    response = new ErrorResponse(error);
-  }
-  return response.toJson();
+    const { pathParameters } = event;
+    const bodyRequest = JSON.parse(event.body);
+    let response;
+    try {
+        const personalAdder = new PersonalAdder(new MySqlPersonalRepository());
+        await personalAdder.call(
+            new Uuid(pathParameters.id),
+            new Uuid(bodyRequest.idManager),
+            new Uuid(bodyRequest.idUser)
+        );
+        response = new CreatedResponse();
+    } catch (error) {
+        response = new ErrorResponse(error);
+    }
+    return response.toJson();
 };

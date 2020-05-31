@@ -5,14 +5,14 @@ const SuccessResponde = require("../../../shared/domain/response/success_respons
 const ErrorResponse = require("../../../shared/domain/response/error_response");
 
 exports.listPersonal = async (event) => {
-  const { pathParameters } = event;
-  let response;
-  try {
-    const personalLister = new PersonalLister(new MySqlPersonalRepository());
-    const body = await personalLister.call(new Uuid(pathParameters.id));
-    response = new SuccessResponde(body.map((manager) => manager.toJson()));
-  } catch (error) {
-    response = new ErrorResponse(error);
-  }
-  return response.toJson();
+    const { pathParameters } = event;
+    let response;
+    try {
+        const personalLister = new PersonalLister(new MySqlPersonalRepository());
+        const body = await personalLister.call(new Uuid(pathParameters.id));
+        response = new SuccessResponde(body.map((manager) => manager.toJson()));
+    } catch (error) {
+        response = new ErrorResponse(error);
+    }
+    return response.toJson();
 };

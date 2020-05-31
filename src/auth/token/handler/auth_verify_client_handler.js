@@ -1,6 +1,6 @@
 const VerifyToken = require("../aplication/verify_client_token");
-const keys = require('../infrastructure/persitence/securitykey.json')
-const Utils =require('../../../shared/domain/utils.js')
+const keys = require("../infrastructure/persitence/securitykey.json");
+const Utils =require("../../../shared/domain/utils.js");
 
 exports.authVerifyHandler = function (event, context, callback) {
     const token = event.authorizationToken;

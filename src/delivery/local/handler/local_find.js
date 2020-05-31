@@ -13,20 +13,20 @@ const SuccessResponse = require("../../../shared/domain/response/success_respons
 const ErrorResponse = require("../../../shared/domain/response/error_response");
 
 exports.findLocal = async (event) => {
-  const { pathParameters } = event;
-  let response;
-  try {
-    const localFinder = new LocalFinder(new MySqlLocalRepository());
-    const body = await localFinder.call(
-      new Uuid(pathParameters.id),
-      new PhoneLister(new MySqlPhoneRepository()),
-      new LocationFinder(new MySqlLocationRepository()),
-      new ScheduleFinder(new MySqlDayRepository()),
-      new PaymentLister(new MySqlPaymentRepository())
-    );
-    response = new SuccessResponse(body.toJson());
-  } catch (error) {
-    response = new ErrorResponse(error);
-  }
-  return response.toJson();
+    const { pathParameters } = event;
+    let response;
+    try {
+        const localFinder = new LocalFinder(new MySqlLocalRepository());
+        const body = await localFinder.call(
+            new Uuid(pathParameters.id),
+            new PhoneLister(new MySqlPhoneRepository()),
+            new LocationFinder(new MySqlLocationRepository()),
+            new ScheduleFinder(new MySqlDayRepository()),
+            new PaymentLister(new MySqlPaymentRepository())
+        );
+        response = new SuccessResponse(body.toJson());
+    } catch (error) {
+        response = new ErrorResponse(error);
+    }
+    return response.toJson();
 };

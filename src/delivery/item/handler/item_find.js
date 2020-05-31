@@ -10,18 +10,18 @@ const SuccessResponse = require("../../../shared/domain/response/success_respons
 const ErrorResponse = require("../../../shared/domain/response/error_response");
 
 exports.findItem = async (event) => {
-  const { pathParameters } = event;
-  let response;
-  try {
-    const itemFinder = new ItemFinder(new MySqlItemRepository());
-    const body = await itemFinder.call(
-      new Uuid(pathParameters.id),
-      new ProductLister(new MySqlProductRepository()),
-      new TagLister(new MySqlTagRepository())
-    );
-    response = new SuccessResponse(body.toJson());
-  } catch (error) {
-    response = new ErrorResponse(error);
-  }
-  return response.toJson();
+    const { pathParameters } = event;
+    let response;
+    try {
+        const itemFinder = new ItemFinder(new MySqlItemRepository());
+        const body = await itemFinder.call(
+            new Uuid(pathParameters.id),
+            new ProductLister(new MySqlProductRepository()),
+            new TagLister(new MySqlTagRepository())
+        );
+        response = new SuccessResponse(body.toJson());
+    } catch (error) {
+        response = new ErrorResponse(error);
+    }
+    return response.toJson();
 };

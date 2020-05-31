@@ -11,20 +11,20 @@ const SuccessResponse = require("../../../shared/domain/response/success_respons
 const ErrorResponse = require("../../../shared/domain/response/error_response");
 
 exports.listItemsByLocal = async (event) => {
-  const { pathParameters, queryStringParameters } = event;
-  let response;
-  try {
-    const itemLister = new ItemLister(new MySqlItemRepository());
-    const body = await itemLister.call(
-      new Uuid(pathParameters.id),
-      new RawNumber(queryStringParameters.limit),
-      new RawNumber(queryStringParameters.offset),
-      new ProductLister(new MySqlProductRepository()),
-      new TagLister(new MySqlTagRepository())
-    );
-    response = new SuccessResponse(body.map((item) => item.toJson()));
-  } catch (error) {
-    response = new ErrorResponse(error);
-  }
-  return response.toJson();
+    const { pathParameters, queryStringParameters } = event;
+    let response;
+    try {
+        const itemLister = new ItemLister(new MySqlItemRepository());
+        const body = await itemLister.call(
+            new Uuid(pathParameters.id),
+            new RawNumber(queryStringParameters.limit),
+            new RawNumber(queryStringParameters.offset),
+            new ProductLister(new MySqlProductRepository()),
+            new TagLister(new MySqlTagRepository())
+        );
+        response = new SuccessResponse(body.map((item) => item.toJson()));
+    } catch (error) {
+        response = new ErrorResponse(error);
+    }
+    return response.toJson();
 };

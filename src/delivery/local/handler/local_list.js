@@ -9,44 +9,44 @@ const MySqlPaymentRepository = require("../../payment/infrastructure/mysql_payme
 const PaymentLister = require("../../payment/aplication/list_by_local/payment_lister_by_local");
 const Uuid = require("../../../shared/domain/value/uuid");
 const SuccessResponse = require("../../../shared/domain/response/success_response");
-const ForbiddenError = require("../../../shared/domain/error/forbidden_error.js")
+const ForbiddenError = require("../../../shared/domain/error/forbidden_error.js");
 const ErrorResponse = require("../../../shared/domain/response/error_response");
 
 exports.listLocal = async (event) => {
-  const { headers, queryStringParameters } = event;
-  let response;
-  try {
-    const LocalLister = require("../aplication/list/local_lister_" +
+    const { headers, queryStringParameters } = event;
+    let response;
+    try {
+        const LocalLister = require("../aplication/list/local_lister_" +
       queryStringParameters.criteria);
-    const localLister = new LocalLister(new MySqlLocalRepository());
-    let body;
-    switch (queryStringParameters.criteria) {
-      case 'near':
-        const bodyRequest = JSON.parse(event.body);
-        body = await localLister.call(
-          bodyRequest,
-          new PhoneLister(new MySqlPhoneRepository()),
-          new LocationFinder(new MySqlLocationRepository()),
-          new ScheduleFinder(new MySqlDayRepository()),
-          new PaymentLister(new MySqlPaymentRepository())
-        );
-        break;
+        const localLister = new LocalLister(new MySqlLocalRepository());
+        let body;
+        switch (queryStringParameters.criteria) {
+        case "near":
+            const bodyRequest = JSON.parse(event.body);
+            body = await localLister.call(
+                bodyRequest,
+                new PhoneLister(new MySqlPhoneRepository()),
+                new LocationFinder(new MySqlLocationRepository()),
+                new ScheduleFinder(new MySqlDayRepository()),
+                new PaymentLister(new MySqlPaymentRepository())
+            );
+            break;
 
-      case 'favorites':
-        if (!headers["Authorization"]) throw new ForbiddenError(); 
-        const JWT = require("jsonwebtoken");
-        body = await localLister.call(
-          new Uuid(JWT.decode(headers["Authorization"]).idUser),
-          new PhoneLister(new MySqlPhoneRepository()),
-          new LocationFinder(new MySqlLocationRepository()),
-          new ScheduleFinder(new MySqlDayRepository()),
-          new PaymentLister(new MySqlPaymentRepository())
-        );
-        break;
+        case "favorites":
+            if (!headers["Authorization"]) throw new ForbiddenError(); 
+            const JWT = require("jsonwebtoken");
+            body = await localLister.call(
+                new Uuid(JWT.decode(headers["Authorization"]).idUser),
+                new PhoneLister(new MySqlPhoneRepository()),
+                new LocationFinder(new MySqlLocationRepository()),
+                new ScheduleFinder(new MySqlDayRepository()),
+                new PaymentLister(new MySqlPaymentRepository())
+            );
+            break;
+        }
+        response = new SuccessResponse(body.map((local) => local.toJson()));
+    } catch (error) {
+        response = new ErrorResponse(error);
     }
-    response = new SuccessResponse(body.map((local) => local.toJson()));
-  } catch (error) {
-    response = new ErrorResponse(error);
-  }
-  return response.toJson();
+    return response.toJson();
 };

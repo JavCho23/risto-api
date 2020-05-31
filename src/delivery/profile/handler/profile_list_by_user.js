@@ -9,17 +9,17 @@ const SuccessResponse = require("../../../shared/domain/response/success_respons
 const ErrorResponse = require("../../../shared/domain/response/error_response");
 
 exports.listProfilesByUser = async (event) => {
-  const { headers } = event;
-  let response;
-  try {
-    const localLister = new LocalLister(new MySqlLocalRepository());
-    const body = await localLister.call(
-      new Uuid(JWT.decode(headers["x-api-key"]).idUser),
-      new LocationFinder(new MySqlLocationRepository())
-    );
-    response = new SuccessResponse(body.map(local => local.toJson()));
-  } catch (error) {
-    response = new ErrorResponse(error);
-  }
-  return response.toJson();
+    const { headers } = event;
+    let response;
+    try {
+        const localLister = new LocalLister(new MySqlLocalRepository());
+        const body = await localLister.call(
+            new Uuid(JWT.decode(headers["x-api-key"]).idUser),
+            new LocationFinder(new MySqlLocationRepository())
+        );
+        response = new SuccessResponse(body.map(local => local.toJson()));
+    } catch (error) {
+        response = new ErrorResponse(error);
+    }
+    return response.toJson();
 };

@@ -7,19 +7,19 @@ const NoContentReponse = require("../../../shared/domain/response/no_content_res
 const ErrorResponse = require("../../../shared/domain/response/error_response");
 
 exports.updateProfile = async (event) => {
-  const { pathParameters } = event;
-  const bodyRequest = JSON.parse(event.body);
-  let response;
-  try {
-    const profileUpdater = new ProfileUpdater(new MySqlProfileRepository());
-    await profileUpdater.call(
-      { ...bodyRequest, ...{ idProfile: pathParameters.id } },
-      new LocationUpdater(new MySqlLocationRepository())
-    );
-    response = new NoContentReponse();
-  } catch (error) {
-    throw error;
-    response = new ErrorResponse(error);
-  }
-  return response.toJson();
+    const { pathParameters } = event;
+    const bodyRequest = JSON.parse(event.body);
+    let response;
+    try {
+        const profileUpdater = new ProfileUpdater(new MySqlProfileRepository());
+        await profileUpdater.call(
+            { ...bodyRequest, ...{ idProfile: pathParameters.id } },
+            new LocationUpdater(new MySqlLocationRepository())
+        );
+        response = new NoContentReponse();
+    } catch (error) {
+        throw error;
+        response = new ErrorResponse(error);
+    }
+    return response.toJson();
 };

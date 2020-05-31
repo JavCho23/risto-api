@@ -7,18 +7,18 @@ const NoContentReponse = require("../../../shared/domain/response/no_content_res
 const ErrorResponse = require("../../../shared/domain/response/error_response");
 
 exports.renameLocal = async (event) => {
-  const bodyRequest = JSON.parse(event.body);
-  const { pathParameters } = event;
-  let response;
-  try {
-    const localRenamer = new LocalRenamer(new MySqlLocalRepository());
-    await localRenamer.call(
-      new Uuid(pathParameters.id),
-      new RawString(bodyRequest.name)
-    );
-    response = new NoContentReponse();
-  } catch (error) {
-    response = new ErrorResponse(error);
-  }
-  return response.toJson();
+    const bodyRequest = JSON.parse(event.body);
+    const { pathParameters } = event;
+    let response;
+    try {
+        const localRenamer = new LocalRenamer(new MySqlLocalRepository());
+        await localRenamer.call(
+            new Uuid(pathParameters.id),
+            new RawString(bodyRequest.name)
+        );
+        response = new NoContentReponse();
+    } catch (error) {
+        response = new ErrorResponse(error);
+    }
+    return response.toJson();
 };

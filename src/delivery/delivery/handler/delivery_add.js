@@ -15,27 +15,27 @@ const RawDouble = require("../../../shared/domain/value/raw_double");
 const RawString = require("../../../shared/domain/value/raw_string");
 const Uuid = require("../../../shared/domain/value/uuid");
 exports.addDelivery = async (event) => {
-  const bodyRequest = JSON.parse(event.body);
-  let response;
-  try {
-    const deliverAdder = new DeliveryAdder(new MySqlDeliveryRepository());
-    await deliverAdder.call(
-      new Uuid(bodyRequest.idDelivery),
-      new Uuid(bodyRequest.idLocal),
-      new Uuid(bodyRequest.idProfile),
-      new Uuid(bodyRequest.idPayment),
-      new RawString(bodyRequest.comment),
-      new RawDouble(bodyRequest.price),
-      new RawDouble(bodyRequest.total),
-      bodyRequest.products,
-      new OrderAdder(new MySqlOrderRepository()),
-      new DeliveryCreatedNotifier(new MySqlNotificaionRepository()),
-      new AllPersonalLister(new MySqlPersonalRepository()),
-      new DeviceTokenFinder(new MySqlUserRepository())
-    );
-    response = new CreatedResponse();
-  } catch (error) {
-    response = new ErrorResponse(error);
-  }
-  return response.toJson();
+    const bodyRequest = JSON.parse(event.body);
+    let response;
+    try {
+        const deliverAdder = new DeliveryAdder(new MySqlDeliveryRepository());
+        await deliverAdder.call(
+            new Uuid(bodyRequest.idDelivery),
+            new Uuid(bodyRequest.idLocal),
+            new Uuid(bodyRequest.idProfile),
+            new Uuid(bodyRequest.idPayment),
+            new RawString(bodyRequest.comment),
+            new RawDouble(bodyRequest.price),
+            new RawDouble(bodyRequest.total),
+            bodyRequest.products,
+            new OrderAdder(new MySqlOrderRepository()),
+            new DeliveryCreatedNotifier(new MySqlNotificaionRepository()),
+            new AllPersonalLister(new MySqlPersonalRepository()),
+            new DeviceTokenFinder(new MySqlUserRepository())
+        );
+        response = new CreatedResponse();
+    } catch (error) {
+        response = new ErrorResponse(error);
+    }
+    return response.toJson();
 };

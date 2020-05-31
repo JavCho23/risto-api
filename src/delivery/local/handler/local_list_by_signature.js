@@ -13,20 +13,20 @@ const SuccessResponse = require("../../../shared/domain/response/success_respons
 const ErrorResponse = require("../../../shared/domain/response/error_response");
 
 exports.listLocalBySignature = async (event) => {
-  const { pathParameters } = event;
-  let response;
-  try {
-    const localLister = new LocalLister(new MySqlLocalRepository());
-    const body = await localLister.call(
-      new Uuid(pathParameters.id),
-      new PhoneLister(new MySqlPhoneRepository()),
-      new LocationFinder(new MySqlLocationRepository()),
-      new ScheduleFinder(new MySqlDayRepository()),
-      new PaymentLister(new MySqlPaymentRepository())
-    );
-    response = new SuccessResponse(body.map(local => local.toJson()));
-  } catch (error) {
-    response = new ErrorResponse(error);
-  }
-  return response.toJson();
+    const { pathParameters } = event;
+    let response;
+    try {
+        const localLister = new LocalLister(new MySqlLocalRepository());
+        const body = await localLister.call(
+            new Uuid(pathParameters.id),
+            new PhoneLister(new MySqlPhoneRepository()),
+            new LocationFinder(new MySqlLocationRepository()),
+            new ScheduleFinder(new MySqlDayRepository()),
+            new PaymentLister(new MySqlPaymentRepository())
+        );
+        response = new SuccessResponse(body.map(local => local.toJson()));
+    } catch (error) {
+        response = new ErrorResponse(error);
+    }
+    return response.toJson();
 };

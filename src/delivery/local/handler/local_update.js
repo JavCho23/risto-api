@@ -15,24 +15,24 @@ const NoContentReponse = require("../../../shared/domain/response/no_content_res
 const ErrorResponse = require("../../../shared/domain/response/error_response");
 
 exports.updateLocal = async (event) => {
-  const { pathParameters } = event;
-  const bodyRequest = JSON.parse(event.body);
-  let response;
-  try {
-    const localUpdater = new LocalUpdater(new MySqlLocalRepository());
-    await localUpdater.call(
-      { ...bodyRequest, ...{ idLocal: pathParameters.id } },
-      new PhoneLister(new MySqlPhoneRepository()),
-      new PaymentLister(new MySqlPaymentRepository()),
-      new LocationUpdater(new MySqlLocationRepository()),
-      new ScheduleUpdater(new MySqlDayRepository()),
-      new PhoneUpdater(new MySqlPhoneRepository()),
-      new PhoneAdder(new MySqlPhoneRepository()),
-      new PhoneRemover(new MySqlPhoneRepository())
-    );
-    response = new NoContentReponse();
-  } catch (error) {
-    response = new ErrorResponse(error);
-  }
-  return response.toJson();
+    const { pathParameters } = event;
+    const bodyRequest = JSON.parse(event.body);
+    let response;
+    try {
+        const localUpdater = new LocalUpdater(new MySqlLocalRepository());
+        await localUpdater.call(
+            { ...bodyRequest, ...{ idLocal: pathParameters.id } },
+            new PhoneLister(new MySqlPhoneRepository()),
+            new PaymentLister(new MySqlPaymentRepository()),
+            new LocationUpdater(new MySqlLocationRepository()),
+            new ScheduleUpdater(new MySqlDayRepository()),
+            new PhoneUpdater(new MySqlPhoneRepository()),
+            new PhoneAdder(new MySqlPhoneRepository()),
+            new PhoneRemover(new MySqlPhoneRepository())
+        );
+        response = new NoContentReponse();
+    } catch (error) {
+        response = new ErrorResponse(error);
+    }
+    return response.toJson();
 };

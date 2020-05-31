@@ -10,25 +10,25 @@ const CreatedResponse = require("../../../shared/domain/response/created_respons
 const ErrorResponse = require("../../../shared/domain/response/error_response");
 
 exports.addItem = async (event) => {
-  const { pathParameters, headers } = event;
-  const bodyRequest = JSON.parse(event.body);
+    const { pathParameters, headers } = event;
+    const bodyRequest = JSON.parse(event.body);
 
-  let response;
-  try {
-    const itemAdder = new ItemAdder(new MySqlItemRepository());
-    await itemAdder.call(
-      new Uuid(pathParameters.id),
-      bodyRequest,
-      new ProductAdder(new MySqlProductRepository()),
-      new RecordAdder(
-        new Uuid(JWT.decode(headers["Authorization"]).idUser),
-        new MySqlRecordRepository()
-      )
-    );
-    response = new CreatedResponse();
-  } catch (error) {
-    throw error;
-    response = new ErrorResponse(error);
-  }
-  return response.toJson();
+    let response;
+    try {
+        const itemAdder = new ItemAdder(new MySqlItemRepository());
+        await itemAdder.call(
+            new Uuid(pathParameters.id),
+            bodyRequest,
+            new ProductAdder(new MySqlProductRepository()),
+            new RecordAdder(
+                new Uuid(JWT.decode(headers["Authorization"]).idUser),
+                new MySqlRecordRepository()
+            )
+        );
+        response = new CreatedResponse();
+    } catch (error) {
+        throw error;
+        response = new ErrorResponse(error);
+    }
+    return response.toJson();
 };

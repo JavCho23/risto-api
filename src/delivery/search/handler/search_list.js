@@ -23,27 +23,27 @@ const SuccessResponse = require("../../../shared/domain/response/success_respons
 const ErrorResponse = require("../../../shared/domain/response/error_response");
 
 exports.search = async (event) => {
-  const { queryStringParameters } = event;
-  let response;
-  try {
-    const searchLister = new SearchLister(new MySqlSearchRepository());
-    const body = await searchLister.call(
-      new RawString(queryStringParameters.q),
-      queryStringParameters.type,
-      new RawNumber(queryStringParameters.limit),
-      new RawNumber(queryStringParameters.offset),
-      new LocalFinder(new MySqlLocalRepository()),
-      new ItemFinder(new MySqlItemRepository()),
-      new ProductLister(new MySqlProductRepository()),
-      new TagLister(new MySqlTagRepository()),
-      new PhoneLister(new MySqlPhoneRepository()),
-      new LocationFinder(new MySqlLocationRepository()),
-      new ScheduleFinder(new MySqlDayRepository()),
-      new PaymentLister(new MySqlPaymentRepository())
-    );
-    response = new SuccessResponse(body.map((result) => result.toJson()));
-  } catch (error) {
-    response = new ErrorResponse(error);
-  }
-  return response.toJson();
+    const { queryStringParameters } = event;
+    let response;
+    try {
+        const searchLister = new SearchLister(new MySqlSearchRepository());
+        const body = await searchLister.call(
+            new RawString(queryStringParameters.q),
+            queryStringParameters.type,
+            new RawNumber(queryStringParameters.limit),
+            new RawNumber(queryStringParameters.offset),
+            new LocalFinder(new MySqlLocalRepository()),
+            new ItemFinder(new MySqlItemRepository()),
+            new ProductLister(new MySqlProductRepository()),
+            new TagLister(new MySqlTagRepository()),
+            new PhoneLister(new MySqlPhoneRepository()),
+            new LocationFinder(new MySqlLocationRepository()),
+            new ScheduleFinder(new MySqlDayRepository()),
+            new PaymentLister(new MySqlPaymentRepository())
+        );
+        response = new SuccessResponse(body.map((result) => result.toJson()));
+    } catch (error) {
+        response = new ErrorResponse(error);
+    }
+    return response.toJson();
 };

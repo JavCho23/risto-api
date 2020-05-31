@@ -9,19 +9,19 @@ const CreatedResponse = require("../../../shared/domain/response/created_respons
 const ErrorResponse = require("../../../shared/domain/response/error_response");
 
 exports.addProfile = async (event) => {
-  const { headers } = event;
-  const bodyRequest = JSON.parse(event.body);
-  let response;
-  try {
-    const profileAdder = new ProfileAdder(new MySqlProfileRepository());
-    await profileAdder.call(
-      new Uuid(JWT.decode(headers["x-api-key"]).idUser),
-      bodyRequest ,
-      new LocationAdder(new MySqlLocationRepository())
-    );
-    response = new CreatedResponse();
-  } catch (error) {
-    response = new ErrorResponse(error);
-  }
-  return response.toJson();
+    const { headers } = event;
+    const bodyRequest = JSON.parse(event.body);
+    let response;
+    try {
+        const profileAdder = new ProfileAdder(new MySqlProfileRepository());
+        await profileAdder.call(
+            new Uuid(JWT.decode(headers["x-api-key"]).idUser),
+            bodyRequest ,
+            new LocationAdder(new MySqlLocationRepository())
+        );
+        response = new CreatedResponse();
+    } catch (error) {
+        response = new ErrorResponse(error);
+    }
+    return response.toJson();
 };

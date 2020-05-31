@@ -11,19 +11,19 @@ const SuccessResponse = require("../../../shared/domain/response/success_respons
 const ErrorResponse = require("../../../shared/domain/response/error_response");
 
 exports.listDeliveryByClient = async (event) => {
-  const { headers } = event;
-  let response;
-  try {
-    const deliveryLister = new DeliveryLister(new MySqlDeliveryRepository());
-    const body = await deliveryLister.call(
-      new Uuid(JWT.decode(headers["Authorization"]).idUser),
-      new LocationFinder(new MySqlLocationRepository()),
-      new PaymentFinder(new MySqlPaymentRepository()),
-      new OrderLister(new MySqlOrderRepository())
-    );
-    response = new SuccessResponse(body.map((delivery) => delivery.toJson()));
-  } catch (error) {
-    response = new ErrorResponse(error);
-  }
-  return response.toJson();
+    const { headers } = event;
+    let response;
+    try {
+        const deliveryLister = new DeliveryLister(new MySqlDeliveryRepository());
+        const body = await deliveryLister.call(
+            new Uuid(JWT.decode(headers["Authorization"]).idUser),
+            new LocationFinder(new MySqlLocationRepository()),
+            new PaymentFinder(new MySqlPaymentRepository()),
+            new OrderLister(new MySqlOrderRepository())
+        );
+        response = new SuccessResponse(body.map((delivery) => delivery.toJson()));
+    } catch (error) {
+        response = new ErrorResponse(error);
+    }
+    return response.toJson();
 };

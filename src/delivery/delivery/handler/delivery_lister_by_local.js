@@ -13,21 +13,21 @@ const SuccessResponse = require("../../../shared/domain/response/success_respons
 const ErrorResponse = require("../../../shared/domain/response/error_response");
 
 exports.listDeliveryByLocal = async (event) => {
-  const { pathParameters, queryStringParameters } = event;
-  let response;
-  try {
-    const deliveryLister = new DeliveryLister(new MySqlDeliveryRepository());
-    const body = await deliveryLister.call(
-      new Uuid(pathParameters.id),
-      new LocationFinder(new MySqlLocationRepository()),
-      new PaymentFinder(new MySqlPaymentRepository()),
-      new OrderLister(new MySqlOrderRepository()),
-      queryStringParameters.type,
-      new RawNumber(queryStringParameters.days | 7)
-    );
-    response = new SuccessResponse(body.map((delivery) => delivery.toJson()));
-  } catch (error) {
-    response = new ErrorResponse(error);
-  }
-  return response.toJson();
+    const { pathParameters, queryStringParameters } = event;
+    let response;
+    try {
+        const deliveryLister = new DeliveryLister(new MySqlDeliveryRepository());
+        const body = await deliveryLister.call(
+            new Uuid(pathParameters.id),
+            new LocationFinder(new MySqlLocationRepository()),
+            new PaymentFinder(new MySqlPaymentRepository()),
+            new OrderLister(new MySqlOrderRepository()),
+            queryStringParameters.type,
+            new RawNumber(queryStringParameters.days | 7)
+        );
+        response = new SuccessResponse(body.map((delivery) => delivery.toJson()));
+    } catch (error) {
+        response = new ErrorResponse(error);
+    }
+    return response.toJson();
 };

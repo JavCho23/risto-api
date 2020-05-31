@@ -6,14 +6,14 @@ const SuccessResponse = require("../../../shared/domain/response/success_respons
 const ErrorResponse = require("../../../shared/domain/response/error_response");
 
 exports.getItemViews = async (event) => {
-  const { pathParameters } = event;
-  let response;
-  try {
-    const itemGetterViews = new ItemGetterViews(new MySqlItemRepository());
-    const body = await itemGetterViews.call(new Uuid(pathParameters.id));
-    response = new SuccessResponse({ total: body.value });
-  } catch (error) {
-    response = new ErrorResponse(error);
-  }
-  return response.toJson();
+    const { pathParameters } = event;
+    let response;
+    try {
+        const itemGetterViews = new ItemGetterViews(new MySqlItemRepository());
+        const body = await itemGetterViews.call(new Uuid(pathParameters.id));
+        response = new SuccessResponse({ total: body.value });
+    } catch (error) {
+        response = new ErrorResponse(error);
+    }
+    return response.toJson();
 };

@@ -6,16 +6,16 @@ const NoContentResponse = require("../../../shared/domain/response/no_content_re
 const ErrorResponse = require("../../../shared/domain/response/error_response");
 
 exports.changeItemAvailable = async (event) => {
-  const { pathParameters } = event;
-  let response;
-  try {
-    const itemChangeAvialable = new ItemChangeAvialable(
-      new MySqlItemRepository()
-    );
-    await itemChangeAvialable.call(new Uuid(pathParameters.id));
-    response = new NoContentResponse();
-  } catch (error) {
-    response = new ErrorResponse(error);
-  }
-  return response.toJson();
+    const { pathParameters } = event;
+    let response;
+    try {
+        const itemChangeAvialable = new ItemChangeAvialable(
+            new MySqlItemRepository()
+        );
+        await itemChangeAvialable.call(new Uuid(pathParameters.id));
+        response = new NoContentResponse();
+    } catch (error) {
+        response = new ErrorResponse(error);
+    }
+    return response.toJson();
 };

@@ -6,16 +6,16 @@ const SuccessResponse = require("../../../shared/domain/response/success_respons
 const ErrorResponse = require("../../../shared/domain/response/error_response");
 
 exports.listUser = async (event) => {
-  const { pathParameters } = event;
-  console.log(headers);
-  let response;
-  try {
-    const userList = new UserList(new MySqlUserRepository());
-    const body = await userList.call(new RawString(pathParameters.q));
-    response = new SuccessResponse(body);
-  } catch (error) {
-    throw error;
-    response = new ErrorResponse(error);
-  }
-  return response.toJson();
+    const { pathParameters } = event;
+    console.log(headers);
+    let response;
+    try {
+        const userList = new UserList(new MySqlUserRepository());
+        const body = await userList.call(new RawString(pathParameters.q));
+        response = new SuccessResponse(body);
+    } catch (error) {
+        throw error;
+        response = new ErrorResponse(error);
+    }
+    return response.toJson();
 };
