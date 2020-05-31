@@ -16,7 +16,7 @@ exports.listDeliveryByClient = async (event) => {
   try {
     const deliveryLister = new DeliveryLister(new MySqlDeliveryRepository());
     const body = await deliveryLister.call(
-      new Uuid(JWT.decode(headers["x-api-key"]).idUser),
+      new Uuid(JWT.decode(headers["Authorization"]).idUser),
       new LocationFinder(new MySqlLocationRepository()),
       new PaymentFinder(new MySqlPaymentRepository()),
       new OrderLister(new MySqlOrderRepository())

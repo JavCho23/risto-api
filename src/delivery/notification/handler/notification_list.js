@@ -12,7 +12,7 @@ exports.listNotification = async (event) => {
       new MySqlNotificationRepository()
     );
     const body = await notificationLister.call(
-      new Uuid(JWT.decode(headers["x-api-key"]).idUser)
+      new Uuid(JWT.decode(headers["Authorization"]).idUser)
     );
     response = new SuccessResponse(
       body.map((notification) => notification.toJson())

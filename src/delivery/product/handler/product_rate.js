@@ -19,7 +19,7 @@ exports.rateProduct = async (event) => {
     const productRater = new ProductRater(new MySqlProductRepository());
     await productRater.call(
       new Uuid(bodyResquest.idProduct),
-      new Uuid(JWT.decode(headers["x-api-key"]).idUser),
+      new Uuid(JWT.decode(headers["Authorization"]).idUser),
       new RawNumber(bodyResquest.score),
       new ItemRateCalculater(new MySqlItemRepository())
     );

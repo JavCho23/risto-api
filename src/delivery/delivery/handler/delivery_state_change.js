@@ -25,7 +25,7 @@ exports.changeDeliveryState = async (event) => {
       new MySqlDeliveryRepository()
     );
     if (
-      JWT.decode(headers["x-api-key"]).aplication == "client" &&
+      JWT.decode(headers["Authorization"]).aplication == "client" &&
       queryStringPatameters.type != "cancel"
     )
       throw new UnauthorizedError();
@@ -38,7 +38,7 @@ exports.changeDeliveryState = async (event) => {
       new AllPersonalLister(new MySqlPersonalRepository()),
       new DeviceTokenFinder(new MySqlUserRepository()),
       new RecordAdder(
-        new Uuid(JWT.decode(headers["x-api-key"]).idUser),
+        new Uuid(JWT.decode(headers["Authorization"]).idUser),
         new MySqlRecordRepository()
       )
     );

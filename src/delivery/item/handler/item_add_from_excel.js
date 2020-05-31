@@ -20,7 +20,7 @@ exports.updateItem = async (event) => {
       bodyRequest.base64String,
       new ProductAdder(new MySqlProductRepository()),
       new RecordAdder(
-        new Uuid(JWT.decode(headers["x-api-key"]).idUser),
+        new Uuid(JWT.decode(headers["Authorization"]).idUser),
         new MySqlRecordRepository()
       )
     );

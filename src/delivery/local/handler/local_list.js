@@ -34,7 +34,7 @@ exports.listLocal = async (event) => {
       case favorites:
         const JWT = require("jsonwebtoken");
         body = await localLister.call(
-          new Uuid(JWT.decode(headers["x-api-key"]).idUser),
+          new Uuid(JWT.decode(headers["Authorization"]).idUser),
           new PhoneLister(new MySqlPhoneRepository()),
           new LocationFinder(new MySqlLocationRepository()),
           new ScheduleFinder(new MySqlDayRepository()),

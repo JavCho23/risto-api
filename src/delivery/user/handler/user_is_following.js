@@ -13,7 +13,7 @@ exports.idFollowing = async (event) => {
     const userFollow = new UserFollow(new MySqlUserRepository());
     const body = await userFollow.call(
       new Uuid(pathParameters.id),
-      new Uuid(JWT.decode(headers["x-api-key"]).idUser)
+      new Uuid(JWT.decode(headers["Authorization"]).idUser)
     );
     response = new SuccessResponse(body);
   } catch (error) {

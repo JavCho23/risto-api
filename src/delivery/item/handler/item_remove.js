@@ -12,7 +12,7 @@ exports.removeItem = async (event) => {
   try {
     const itemRemover = new ItemRemover(new MySqlItemRepository());
     await itemRemover.call(new Uuid(pathParameters.id), new RecordAdder(
-      new Uuid(JWT.decode(headers["x-api-key"]).idUser),
+      new Uuid(JWT.decode(headers["Authorization"]).idUser),
       new MySqlRecordRepository()
     ));
     response = new NoContentResponse();

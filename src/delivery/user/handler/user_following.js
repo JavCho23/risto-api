@@ -14,7 +14,7 @@ exports.followLocal = async (event) => {
     const userFollow = new UserFollow(new MySqlUserRepository());
     await userFollow.call(
       new Uuid(pathParameters.id),
-      new Uuid(JWT.decode(headers["x-api-key"]).idUser)
+      new Uuid(JWT.decode(headers["Authorization"]).idUser)
     );
     response = new NoContentReponse();
   } catch (error) {
