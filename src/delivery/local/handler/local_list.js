@@ -16,7 +16,7 @@ exports.listLocal = async (event) => {
   let response;
   try {
     const LocalLister = require("../aplication/list/local_lister_" +
-      querySTringParameters.criteria);
+      queryStringParameters.criteria);
     const localLister = new LocalLister(new MySqlLocalRepository());
     let body;
     switch (queryStringParameters.criteria) {
