@@ -167,7 +167,7 @@ class MySqlDeliveryRepository {
       new State(
         new Uuid(states.pending.id),
         new RawString(states.pending.name),
-        new RawString(comment)
+        comment
       ),
       allPersonalLister,
       tokenDeviceFinder
@@ -226,7 +226,7 @@ class MySqlDeliveryRepository {
       new State(
         new Uuid(states.incoming.id),
         new RawString(states.incoming.name),
-        new RawString(comment)
+       comment
       ),
       tokenDeviceFinder
     );
@@ -243,7 +243,7 @@ class MySqlDeliveryRepository {
       new State(
         new Uuid(states.finish.id),
         new RawString(states.finish.name),
-        new RawString(comment)
+        comment
       ),
       tokenDeviceFinder
     );
@@ -262,7 +262,7 @@ class MySqlDeliveryRepository {
       new State(
         new Uuid(states.finish.id),
         new RawString(states.finish.name),
-        new RawString(comment)
+        comment
       ),
       allPersonalLister,
       tokenDeviceFinder
