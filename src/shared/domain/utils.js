@@ -1,6 +1,7 @@
 const XLSX = require("xlsx");
 
 function paginate(array, limit, offset) {
+    if(!limit || !offset) return array;
     return array.filter((x, index) => index >= offset && index < limit);
 }
 function sheet2array(sheet) {
