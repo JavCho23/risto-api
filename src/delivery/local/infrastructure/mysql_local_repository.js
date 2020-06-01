@@ -158,12 +158,13 @@ class MySqlLocalRepository {
     }
     async listFavorites(
         idUser,
+        limit,offset,
         phoneLister,
         locationFinder,
         scheduleFinder,
         paymentLister
     ) {
-        const data = await db.doQuery(
+        let data = await db.doQuery(
             `SELECT local.id_Local as idLocal
       FROM local
       INNER JOIN follow ON follow.id_local = local.id_local
@@ -171,6 +172,8 @@ class MySqlLocalRepository {
       WHERE person.id_user = ?`,
             idUser.value
         );
+        data = Utils.paginate(data, limit.value, offset.value);
+
         return await Promise.all(
             data.map(
                 async (local) =>
@@ -215,13 +218,13 @@ class MySqlLocalRepository {
         locals.sort(function (a, b) {
             if (
                 a.location.getDistance(location.latitude, location.longitude) >
-        b.getDistance(location.latitude, location.longitude)
+        b.location.getDistance(location.latitude, location.longitude)
             ) {
                 return 1;
             }
             if (
-                a.getDistance(location.latitude, location.longitude) <
-        b.getDistance(location.latitude, location.longitude)
+                a.location.getDistance(location.latitude, location.longitude) <
+        b.location.getDistance(location.latitude, location.longitude)
             ) {
                 return -1;
             }

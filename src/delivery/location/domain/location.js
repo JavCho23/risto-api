@@ -12,7 +12,7 @@ class Location {
         return this._address;
     }
     getDistance(latitude, longitude) {
-        radianes = function (x) {
+        const radianes = function (x) {
             return (x * Math.PI) / 180;
         };
         const R = 6378.137;
