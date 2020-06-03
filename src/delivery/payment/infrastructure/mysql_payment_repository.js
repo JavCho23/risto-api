@@ -6,10 +6,11 @@ const Uuid = require("../../../shared/domain/value/uuid");
 class MySqlPaymentRepository {
     async listByLocal(idLocal) {
         const data = await db.doQuery(
-            `SELECT payment.id_payment as idPayment, name, description 
-      FROM payment 
-      INNER JOIN method ON method.id_payment = payment.id_payment 
-      WHERE method.id_local = ? AND payment.state = 1;`,
+            `SELECT payment.id_payment as idPayment, payment.name, payment.description 
+            FROM payment 
+            INNER JOIN method ON method.id_payment = payment.id_payment 
+            INNER JOIN local ON method.id_local = local.id_local
+            WHERE local.id_local = ? AND payment.state = 1;`,
             idLocal.value
         );
 
@@ -25,8 +26,8 @@ class MySqlPaymentRepository {
     async listAll() {
         const data = await db.doQuery(
             `SELECT payment.id_payment as idPayment, name, description 
-      FROM payment 
-      WHERE payment.state = 1;`
+            FROM payment 
+            WHERE payment.state = 1;`
         );
 
         return data.map(
@@ -41,8 +42,8 @@ class MySqlPaymentRepository {
     async find(idPayment) {
         const data = await db.doQuery(
             `SELECT payment.id_payment as idPayment, name, description 
-      FROM payment 
-      WHERE payment.state = 1 AND payment.id_payment = ?;`,
+            FROM payment 
+            WHERE payment.state = 1 AND payment.id_payment = ?;`,
             idPayment.value
         );
         return new Payment(

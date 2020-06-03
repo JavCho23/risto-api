@@ -10,7 +10,7 @@ const states = require("../../state/infrastructure/persistence/states.json");
 class MySqlDeliveryRepository {
     async find(idDelivery, locationFinder, paymentFinder, orderLister, idUser) {
         const data = await db.doQuery(
-            `SELECT delivery.id_delivery as idDelivery, local.id_local as idLocal, status.name as statusName, status.id_status as idStatus, report.coment as statusComent , profile.name, local.name as local, delivery.created_at as date, profile.id_location as idLocation, delivery.price,delivery.total, delivery.id_payment as idPayment
+            `SELECT delivery.id_delivery as idDelivery, local.id_local as idLocal, status.name as statusName, status.id_status as idStatus, report.commment as statusComent , profile.name, local.name as local, delivery.created_at as date, profile.id_location as idLocation, delivery.price,delivery.total, delivery.id_payment as idPayment
       FROM delivery 
       INNER JOIN profile ON profile.id_profile = delivery.id_profile
       INNER JOIN person ON person.id_customer = profile.id_customer
