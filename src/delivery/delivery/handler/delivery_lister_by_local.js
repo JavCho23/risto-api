@@ -3,7 +3,7 @@ const DeliveryLister = require("../aplication/list/delivery_local_lister");
 const MySqlLocationRepository = require("../../location/infrastructure/mysql_location_repository");
 const LocationFinder = require("../../location/aplication/find/location_finder");
 const MySqlOrderRepository = require("../../order/infrastructure/mysql_order_repository");
-const OrderLister = require("../../order/aplication/list/order_local_lister");
+const OrderLister = require("../../order/aplication/list/order_lister");
 const MySqlPaymentRepository = require("../../payment/infrastructure/mysql_payment_repository");
 const PaymentFinder = require("../../payment/aplication/find/payment_finder");
 

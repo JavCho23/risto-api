@@ -8,7 +8,7 @@ const Uuid = require("../../../shared/domain/value/uuid");
 const NotFoundError = require("../../../shared/domain/error/no_found_error");
 const states = require("../../state/infrastructure/persistence/states.json");
 class MySqlDeliveryRepository {
-    async find(idDelivery, locationFinder, paymentFinder, orderLister, idUser) {
+    async find(idDelivery, locationFinder, paymentFinder, orderLister) {
         const data = await db.doQuery(
             `SELECT delivery.id_delivery as idDelivery, local.id_local as idLocal, status.name as statusName, status.id_status as idStatus, report.commment as statusComent , profile.name, local.name as local, delivery.created_at as date, profile.id_location as idLocation, delivery.price,delivery.total, delivery.id_payment as idPayment
       FROM delivery 
@@ -36,7 +36,7 @@ class MySqlDeliveryRepository {
                 new RawString(deliveryInfo.statusComent)
             ),
             await locationFinder.call(idDelivery),
-            await orderLister.call(idDelivery, idUser),
+            await orderLister.call(idDelivery),
             new RawDouble(deliveryInfo.price),
             new RawDouble(deliveryInfo.total),
             await paymentFinder.call(new Uuid(deliveryInfo.idPayment))
@@ -54,8 +54,7 @@ class MySqlDeliveryRepository {
                         new Uuid(delivery.idDelivery),
                         locationFinder,
                         paymentFinder,
-                        orderLister,
-                        idUser
+                        orderLister
                     )
             )
         );
