@@ -6,7 +6,7 @@ const { v4: uuidv4 } = require("uuid");
 class MySqlRecordRepository {
     async list(idLocal, days) {
         const data = await db.doQuery(
-            `SELECT record.id_record as idRecord, person.name,  record.description, record.created_at as date from record 
+            `SELECT record.id_record as idRecord, person.name,  record.description, DATE_SUB(record.created_at, INTERVAL 5 HOUR) as date from record 
       INNER JOIN manager ON manager.id_manager = record.id_manager 
       INNER JOIN person ON person.id_manager = manager.id_manager
       WHERE manager.id_local = ? AND manager.state = 1 AND record.created_at >= DATE_ADD(record.created_at, INTERVAL -? DAY);`,
