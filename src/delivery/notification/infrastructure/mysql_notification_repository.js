@@ -11,7 +11,7 @@ const { v4: uuidv4 } = require("uuid");
 class MySqlNotificationRepository {
     async list(idUser) {
         const data = await db.doQuery(
-            `SELECT id_notification as idNotification, title, message, created_at as date, checked FROM notification
+            `SELECT id_notification as idNotification, title, message, DATE_SUB(created_at, INTERVAL 5 HOUR) as date, checked FROM notification
       WHERE id_user = ?`,
             idUser.value
         );
