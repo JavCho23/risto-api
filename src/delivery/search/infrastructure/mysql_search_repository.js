@@ -2,6 +2,7 @@ const db = require("../../../shared/domain/db");
 const SearchResult = require("../domain/search_result");
 const Utils = require("../../../shared/domain/utils");
 const RawDouble = require("../../../shared/domain/value/raw_double");
+const RawString = require("../../../shared/domain/value/raw_string");
 const Uuid = require("../../../shared/domain/value/uuid");
 
 const InvalidValue = require("../../../shared/domain/error/invalid_value_error");
@@ -36,6 +37,7 @@ class MySqlSearchRepository {
             );
         case "item":
             results = await this.searchItems(query);
+            
             return await this.findItemResults(
                 Utils.paginate(results, limit.value, offset.value),
                 itemFinder,
@@ -72,7 +74,8 @@ class MySqlSearchRepository {
             (searchResult) =>
                 new SearchResult(
                     new Uuid(searchResult.idItem),
-                    new RawDouble(searchResult.score)
+                    new RawDouble(searchResult.score),
+                    new RawString("Item")
                 )
         );
     }
@@ -89,7 +92,8 @@ class MySqlSearchRepository {
             (searchResult) =>
                 new SearchResult(
                     new Uuid(searchResult.idLocal),
-                    new RawDouble(searchResult.score)
+                    new RawDouble(searchResult.score),
+                    new RawString("Local")
                 )
         );
     }
