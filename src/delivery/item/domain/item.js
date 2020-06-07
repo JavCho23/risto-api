@@ -21,7 +21,7 @@ class Item {
         this._description = description;
         this._local = local;
         this._idLocal = idLocal;
-        this._score = score;
+        this._score = score ? score : 0;
         this._aviable = aviable;
         this._city = city;
         this._tags = tags;
