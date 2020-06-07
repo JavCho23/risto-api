@@ -34,7 +34,7 @@ class MySqlItemRepository {
             new RawString(data[0].local),
             new Uuid(data[0].idLocal),
             new RawDouble(data[0].score),
-            new RawBool(data[0].avialable),
+            new RawBool(data[0].available),
             new RawString(data[0].city),
             await tagLister.call(idItem),
             await productLister.call(idItem)
