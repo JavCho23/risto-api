@@ -42,7 +42,7 @@ class MySqlItemRepository {
     }
     async add(idLocal, item, productAdder, recordAdder) {
         const local = await db.doQuery(
-            "SELECT id_catalog FROM local WHERE id_local = ?",
+            "SELECT id_catalog FROM catalog WHERE id_local = ?",
             idLocal.value
         );
         if (local.length == 0) throw new NotFoundError();
@@ -54,10 +54,10 @@ class MySqlItemRepository {
         });
         await Promise.all(
             item.products.map(
-                async (product) => await productAdder.call(idItem, product)
+                async (product) => await productAdder.call(item.idItem, product)
             )
         );
-        await Promise.all(item.tags.map((tag) => this.addTag(idItem, tag)));
+        await Promise.all(item.tags.map((tag) => this.addTag(item.idItem, tag)));
         recordAdder.call("ha agregado un nuevo item: " + item.name.value);
     }
     async addFromExcel(idLocal, base64StringFile, productAdder) {
@@ -128,13 +128,11 @@ class MySqlItemRepository {
         await recordAdder.call("ha actualizado el item: " + item.name.value);
     }
     async addTag(idItem, name) {
-        console.log(name);
         const id = await db.doQuery(
             "SELECT id_tag as idTag FROM tag WHERE name = ?",
             name.value
         );
         let idTag;
-        console.log(id);
         if (id.length == 0) {
             idTag = uuidv4();
             await db.doQuery("INSERT INTO tag SET ?", {
@@ -222,5 +220,9 @@ class MySqlItemRepository {
         ]);
     }
 }
+
+
+
+
 
 module.exports = MySqlItemRepository;
