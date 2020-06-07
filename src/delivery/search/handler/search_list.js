@@ -30,7 +30,7 @@ exports.search = async (event) => {
         const body = await searchLister.call(
             new RawString(queryStringParameters.q),
             queryStringParameters.type,
-            new RawNumber(queryStringParameters.limit + queryStringParameters.offset),
+            new RawNumber(queryStringParameters.limit),
             new RawNumber(queryStringParameters.offset),
             new LocalFinder(new MySqlLocalRepository()),
             new ItemFinder(new MySqlItemRepository()),
