@@ -51,7 +51,6 @@ exports.listLocal = async (event) => {
     }
     response = new SuccessResponse(body.map((local) => local.toJson()));
   } catch (error) {
-    throw error;
     response = new ErrorResponse(error);
   }
   return response.toJson();
