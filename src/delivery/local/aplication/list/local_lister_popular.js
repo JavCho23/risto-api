@@ -1,9 +1,8 @@
-class LocalListerNear {
+class LocalListerPopular {
   constructor(repository) {
     this.repository = repository;
   }
   call(
-    location,
     limit,
     offset,
     phoneLister,
@@ -11,8 +10,7 @@ class LocalListerNear {
     scheduleFinder,
     paymentLister
   ) {
-    return this.repository.listNear(
-      location,
+    return this.repository.listPopular(
       limit,
       offset,
       phoneLister,
@@ -23,4 +21,4 @@ class LocalListerNear {
   }
 }
 
-module.exports = LocalListerNear;
+module.exports = LocalListerPopular;

@@ -48,6 +48,16 @@ exports.listLocal = async (event) => {
           new PaymentLister(new MySqlPaymentRepository())
         );
         break;
+      case "popular":
+        body = await localLister.call(
+          new RawNumber(queryStringParameters.limit),
+          new RawNumber(queryStringParameters.offset),
+          new PhoneLister(new MySqlPhoneRepository()),
+          new LocationFinder(new MySqlLocationRepository()),
+          new ScheduleFinder(new MySqlDayRepository()),
+          new PaymentLister(new MySqlPaymentRepository())
+        );
+        break;
     }
     response = new SuccessResponse(body.map((local) => local.toJson()));
   } catch (error) {
