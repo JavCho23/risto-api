@@ -128,6 +128,18 @@ Resources:
       Policies:
         # Give Lambda basic execution Permission to the helloFromLambda
         - AWSLambdaBasicExecutionRole
+    getLocalDeliveryPrice:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./
+      Handler: src/delivery/local/handler/local_get_delivery_price.getLocalDeliveryPrice
+      Runtime: nodejs10.x
+      MemorySize: 128
+      Timeout: 60
+      Description: This function return price for a local.
+      Policies:
+        # Give Lambda basic execution Permission to the helloFromLambda
+        - AWSLambdaBasicExecutionRole
   listLocalPayments:
     Type: AWS::Serverless::Function
     Properties:
