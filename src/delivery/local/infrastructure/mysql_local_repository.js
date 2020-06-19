@@ -39,7 +39,20 @@ class MySqlLocalRepository {
       await paymentsLister.call(idLocal)
     );
   }
-
+  async getDeliveryPrice(idLocal, paymentsLister) {
+    const data = await db.doQuery(
+      `SELECT delivery_price as price
+      FROM local
+      WHERE id_local = ? AND local.state = 1;`,
+      [idLocal.value]
+    );
+    if (data.length == 0) throw new NotFoundError();
+    const payments = await paymentsLister.call(idLocal);
+    return {
+      price: data[0].price,
+      payments: payments.map(payment=> payment.toJson()),
+    };
+  }
   async update(
     local,
     phoneLister,
@@ -156,16 +169,7 @@ class MySqlLocalRepository {
       )
     );
   }
-  async getDeliveryPrice(idLocal) {
-    const data = await db.doQuery(
-      `SELECT delivery_price as price
-      FROM local
-      WHERE id_local = ? AND local.state = 1;`,
-      [idLocal.value]
-    );
-    if (data.length == 0) throw new NotFoundError();
-    return { price: data[0].price };
-  }
+
   async listFavorites(
     idUser,
     limit,

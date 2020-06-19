@@ -128,11 +128,11 @@ Resources:
       Policies:
         # Give Lambda basic execution Permission to the helloFromLambda
         - AWSLambdaBasicExecutionRole
-  getLocalDeliveryPrice:
+  getLocalDeliveryData:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ./
-      Handler: src/delivery/local/handler/local_get_delivery_price.getLocalDeliveryPrice
+      Handler: src/delivery/local/handler/local_get_delivery_data.getLocalDeliveryData
       Runtime: nodejs10.x
       MemorySize: 128
       Timeout: 60
