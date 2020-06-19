@@ -128,7 +128,7 @@ Resources:
       Policies:
         # Give Lambda basic execution Permission to the helloFromLambda
         - AWSLambdaBasicExecutionRole
-    getLocalDeliveryPrice:
+  getLocalDeliveryPrice:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ./
