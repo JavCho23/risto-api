@@ -1,4 +1,3 @@
-const days = require("../infrastructure/persistence/days.json");
 const RawString = require("../../../shared/domain/value/raw_string");
 const RawDouble = require("../../../shared/domain/value/raw_double");
 class Day {
@@ -25,7 +24,7 @@ class Day {
     }
     toJson() {
         return {
-            day: days[this._day.value],
+            day: this._day.value,
             opening: this._opening.value,
             closing: this._closing.value,
         };
