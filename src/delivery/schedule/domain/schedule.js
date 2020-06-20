@@ -29,7 +29,7 @@ class Schedule {
             return "Por cerrar";
         }
 
-        if (opening.getHours() <= today.getHours() <= closing.getHours()) {
+        if (opening.getHours() <= today.getHours()  && today.getHours()  <= closing.getHours()) {
             return "Abierto ahora";
         }
         return "Cerrado";
