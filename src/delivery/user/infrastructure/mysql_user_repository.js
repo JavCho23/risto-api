@@ -48,7 +48,7 @@ class MySqlUserRepository {
       [idUser.value, idLocal.value]
     );
     if (data.length == 0) await this.addFollow(idLocal, idUser);
-    else await this.removeFollow(idLocal, new Uuid(data[0].idCustumer));
+    else await this.removeFollow(idLocal, new Uuid(data[0].idCustomer));
   }
   async removeFollow(idLocal, idCustumer) {
     const data = await db.doQuery(
