@@ -372,7 +372,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ./
-      Handler: src/delivery/user/handler/user_id_following.isFollowing
+      Handler: src/delivery/user/handler/user_is_following.isFollowing
       Runtime: nodejs10.x
       MemorySize: 128
       Timeout: 60
@@ -380,7 +380,7 @@ Resources:
       Policies:
         # Give Lambda basic execution Permission to the helloFromLambda
         - AWSLambdaBasicExecutionRole
-  FollowLocal:
+  followLocal:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ./
