@@ -6,7 +6,7 @@ const MySqlOrderRepository = require("../../order/infrastructure/mysql_order_rep
 const OrderLister = require("../../order/aplication/list/order_lister");
 const MySqlPaymentRepository = require("../../payment/infrastructure/mysql_payment_repository");
 const PaymentFinder = require("../../payment/aplication/find/payment_finder");
-const Uuid = require("../../../shared/domain/value/uuid");
+const RawString = require("../../../shared/domain/value/raw_string");
 const SuccessResponse = require("../../../shared/domain/response/success_response");
 const ErrorResponse = require("../../../shared/domain/response/error_response");
 
@@ -16,7 +16,7 @@ exports.listDeliveryByClient = async (event) => {
     try {
         const deliveryLister = new DeliveryLister(new MySqlDeliveryRepository());
         const body = await deliveryLister.call(
-            new Uuid(JWT.decode(headers["Authorization"]).idUser),
+            new RawString(JWT.decode(headers["Authorization"]).idUser),
             new LocationFinder(new MySqlLocationRepository()),
             new PaymentFinder(new MySqlPaymentRepository()),
             new OrderLister(new MySqlOrderRepository())

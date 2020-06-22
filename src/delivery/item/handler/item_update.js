@@ -9,11 +9,11 @@ const MySqlTagRepository = require("../../tag/infrastructure/mysql_tag_repositor
 const TagLister = require("../../tag/aplication/list/tag_lister");
 const RecordAdder = require("../../record/aplication/add/record_adder");
 const MySqlRecordRepository = require("../../record/infrastructure/mysql_record_repository");
-
 const JWT = require("jsonwebtoken");
 const Uuid = require("../../../shared/domain/value/uuid");
 const NoContentResponse = require("../../../shared/domain/response/no_content_response");
 const ErrorResponse = require("../../../shared/domain/response/error_response");
+const RawString = require("../../../shared/domain/value/raw_string");
 
 exports.updateItem = async (event) => {
     const { pathParameters, headers } = event;
@@ -30,7 +30,7 @@ exports.updateItem = async (event) => {
             new ProductAdder(new MySqlProductRepository()),
             new ProductRemover(new MySqlProductRepository()),
             new RecordAdder(
-                new Uuid(JWT.decode(headers["Authorization"]).idUser),
+                new RawString(JWT.decode(headers["Authorization"]).idUser),
                 new MySqlRecordRepository()
             )
         );

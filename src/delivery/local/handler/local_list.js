@@ -8,6 +8,7 @@ const ScheduleFinder = require("../../schedule/aplication/find/schedule_finder")
 const MySqlPaymentRepository = require("../../payment/infrastructure/mysql_payment_repository");
 const PaymentLister = require("../../payment/aplication/list_by_local/payment_lister_by_local");
 const Uuid = require("../../../shared/domain/value/uuid");
+const RawString = require("../../../shared/domain/value/raw_string");
 const RawNumber = require("../../../shared/domain/value/raw_double");
 const SuccessResponse = require("../../../shared/domain/response/success_response");
 const ForbiddenError = require("../../../shared/domain/error/forbidden_error.js");
@@ -39,7 +40,7 @@ exports.listLocal = async (event) => {
         if (!headers["Authorization"]) throw new ForbiddenError();
         const JWT = require("jsonwebtoken");
         body = await localLister.call(
-          new Uuid(JWT.decode(headers["Authorization"]).idUser),
+          new RawString(JWT.decode(headers["Authorization"]).idUser),
           new RawNumber(queryStringParameters.limit),
           new RawNumber(queryStringParameters.offset),
           new PhoneLister(new MySqlPhoneRepository()),

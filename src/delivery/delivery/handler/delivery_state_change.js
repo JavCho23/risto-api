@@ -38,7 +38,7 @@ exports.changeDeliveryState = async (event) => {
             new AllPersonalLister(new MySqlPersonalRepository()),
             new DeviceTokenFinder(new MySqlUserRepository()),
             new RecordAdder(
-                new Uuid(JWT.decode(headers["Authorization"]).idUser),
+                new RawString(JWT.decode(headers["Authorization"]).idUser),
                 new MySqlRecordRepository()
             )
         );
